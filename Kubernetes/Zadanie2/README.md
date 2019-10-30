@@ -1,6 +1,6 @@
 # Zadanie 2
 
-```
+```PowerShell
 PS C:\Users\bpelikan> docker images
 REPOSITORY                                             TAG                 IMAGE ID            CREATED             SIZE
 reservationsystem                                      latest              a6456d131bf6        6 days ago          1.87GB
