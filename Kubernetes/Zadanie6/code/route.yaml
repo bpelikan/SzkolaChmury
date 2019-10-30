@@ -1,0 +1,28 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: my-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /srv1
+        backend:
+          serviceName: my-nginx-service-lb
+          servicePort: 80
+      - path: /srv2(.*)
+        backend:
+          serviceName: bb-entrypoint
+          servicePort: 80
+      - path: /srv2/(.*)
+        backend:
+          serviceName: bb-entrypoint
+          servicePort: 80
+      - path: /(.*)
+        backend:
+          serviceName: bb-entrypoint
+          servicePort: 80
