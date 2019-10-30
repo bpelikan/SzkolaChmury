@@ -8,4 +8,6 @@
 
 * [Zadanie 4](./Zadanie4)
 
-* [Zadanie 5](./zadanie5)
+* [Zadanie 5](./Zadanie5)
+
+* [Zadanie 6](./Zadanie6)
