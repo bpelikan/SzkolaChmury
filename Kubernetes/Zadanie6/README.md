@@ -126,7 +126,7 @@ CURRENT   NAME                 CLUSTER          AUTHINFO                        
 
 ## Zadanie 1
 
-#### Utworzenie deploymentu zawierającego pody oraz service typu LoadBalancer
+#### 1.1 Utworzenie deploymentu zawierającego pody oraz service typu LoadBalancer
 
 ```PowerShell
 PS C:\Users\bpelikan> kubectl apply -f depl.yaml
@@ -134,7 +134,7 @@ deployment.apps/my-nginx created
 service/my-nginx-service-lb created
 ```
 
-#### Utworzenie drugiego podobnego deploymentu ale zawierającego inną aplikację 
+#### 1.2 Utworzenie drugiego deploymentu zawierającego inną aplikację 
 
 ```PowerShell
 PS C:\Users\bpelikan> kubectl apply -f depl2.yaml
@@ -182,7 +182,7 @@ my-nginx-service-lb   10.244.0.8:80       4m57s
 ## Zadanie 2
 Uruchomienie Ingress controllera opartego na nginx
 
-#### Stworzenie `ServiceAccount` i `ClusterRole` dla Tillera
+#### 2.1 Stworzenie `ServiceAccount` i `ClusterRole` dla Tillera
 ```PowerShell
 PS C:\Users\bpelikan> kubectl create serviceaccount -n kube-system tiller
 serviceaccount/tiller created
@@ -191,7 +191,7 @@ PS C:\Users\bpelikan> kubectl create clusterrolebinding tiller-cluster-rule --cl
 clusterrolebinding.rbac.authorization.k8s.io/tiller-cluster-rule created
 ```
 
-#### Inicjalizacja Tillera w klastrze
+#### 2.2 Inicjalizacja Tillera w klastrze
 ```PowerShell
 PS C:\Users\bpelikan> helm init --service-account tiller
 ```
@@ -211,7 +211,7 @@ For more information on securing your installation see: https://docs.helm.sh/usi
 
 </details>
 
-#### Instalacja NGINX Ingress Controllera w klastrze
+#### 2.3 Instalacja NGINX Ingress Controllera w klastrze
 ```PowerShell
 PS C:\Users\bpelikan> helm install stable/nginx-ingress --set controller.replicaCount=1 --set controller.nodeSelector."beta\.kubernetes\.io/os"=linux --set defaultBackend.nodeSelector."beta\.kubernetes\.io/os"=linux
 ```
@@ -345,7 +345,7 @@ yodeling-lambkin-nginx-ingress-default-backend   10.244.0.11:8080               
 
 </details>
 
-#### Utworzenie routingu
+#### 2.4 Utworzenie routingu
 
 ```PowerShell
 PS C:\Users\bpelikan> kubectl apply -f route.yaml
