@@ -467,8 +467,34 @@ CURRENT   NAME      CLUSTER   AUTHINFO                              NAMESPACE
 
 </details>
 
-```PowerShell
-az group deployment validate -g $resourceGroupName --template-file template.json --parameters parameters.json
+### 3.10 Instalacja AAD Pod Identity w klastrze
+```bash
+bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie6/code/zad3/deployment-rbac.yaml > deployment-rbac.yaml
+bartosz@Azure:~/code$ kubectl create -f deployment-rbac.yaml
+```
+
+### 3.11 Utworzenie `ServiceAccount` i `ClusterRole` dla Tillera oraz jego inicjalizacja w klastrze
+```bash
+bartosz@Azure:~/code$ kubectl create serviceaccount --namespace kube-system tiller-sa
+bartosz@Azure:~/code$ kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller-sa
+bartosz@Azure:~/code$ helm init --tiller-namespace kube-system --service-account tiller-sa
+```
+
+### 3.12 Dodanie referecnji `AGIC` Helm repository do helma
+```bash
+bartosz@Azure:~/code$ helm repo add application-gateway-kubernetes-ingress https://appgwingress.blob.core.windows.net/ingress-azure-helm-package/
+bartosz@Azure:~/code$ helm repo update
+```
+
+### 3.13 Utworzenie zmiennych
+```bash
+bartosz@Azure:~/code$ applicationGatewayName=$(cat deployment-outputs.json | jq -r ".applicationGatewayName.value")
+bartosz@Azure:~/code$ resourceGroupName=$(cat deployment-outputs.json | jq -r ".resourceGroupName.value")
+bartosz@Azure:~/code$ subscriptionId=$(cat deployment-outputs.json | jq -r ".subscriptionId.value")
+bartosz@Azure:~/code$ identityClientId=$(cat deployment-outputs.json | jq -r ".identityClientId.value")
+bartosz@Azure:~/code$ identityResourceId=$(cat deployment-outputs.json | jq -r ".identityResourceId.value")
+```
+
 ## Wyczyszczenie środowiska
 
 ### Usunięcie AKS
