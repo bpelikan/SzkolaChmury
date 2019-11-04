@@ -515,9 +515,9 @@ sed -i "s|<identityClientId>|${identityClientId}|g" helm-config.yaml
 bartosz@Azure:~/code$ helm install -f helm-config.yaml application-gateway-kubernetes-ingress/ingress-azure
 ```
 
-### 3.17
+### 3.17 Deploy
 ```bash
-bartosz@Azure:~/code$ curl https://gist.githubusercontent.com/bpelikan/c0df08a0efa164cbfa9d782e343ec1ab/raw/e41466a5b986412a99c8262944a3c7b99209ba14/deplall.yaml > deplall.yaml
+bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie6/code/zad3/deplall.yaml > deplall.yaml
 bartosz@Azure:~/code$ kubectl apply -f deplall.yaml
 ```
 
