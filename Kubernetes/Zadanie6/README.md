@@ -5,6 +5,7 @@
 * [Zadanie 2](#zadanie-2)
 * [Czyszczenie środowiska po zadaniach 1,2](#czyszczenie-środowiska-po-zadaniach-12)
 * [Zadanie 3](#zadanie-3)
+* [Wyczyszczenie środowiska po zadaniu 3](#wyczyszczenie-środowiska-po-zadaniu-3)
 
 ## Przygotowanie środowiska
 
@@ -495,17 +496,52 @@ bartosz@Azure:~/code$ identityClientId=$(cat deployment-outputs.json | jq -r ".i
 bartosz@Azure:~/code$ identityResourceId=$(cat deployment-outputs.json | jq -r ".identityResourceId.value")
 ```
 
-## Wyczyszczenie środowiska
+### 3.14 Pobranie pliku yaml dla konfiguracji`AGIC`
+```bash
+bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie6/code/zad3/helm-config.yaml > helm-config.yaml
+```
+
+### 3.15 Edycja pliku helm-config.yaml
+```bash
+sed -i "s|<subscriptionId>|${subscriptionId}|g" helm-config.yaml
+sed -i "s|<resourceGroupName>|${resourceGroupName}|g" helm-config.yaml
+sed -i "s|<applicationGatewayName>|${applicationGatewayName}|g" helm-config.yaml
+sed -i "s|<identityResourceId>|${identityResourceId}|g" helm-config.yaml
+sed -i "s|<identityClientId>|${identityClientId}|g" helm-config.yaml
+```
+
+### 3.16 Instalacja Application Gateway ingress controller package
+```bash
+bartosz@Azure:~/code$ helm install -f helm-config.yaml application-gateway-kubernetes-ingress/ingress-azure
+```
+
+### 3.17
+```bash
+bartosz@Azure:~/code$ curl https://gist.githubusercontent.com/bpelikan/c0df08a0efa164cbfa9d782e343ec1ab/raw/e41466a5b986412a99c8262944a3c7b99209ba14/deplall.yaml > deplall.yaml
+bartosz@Azure:~/code$ kubectl apply -f deplall.yaml
+```
+
+## Wyczyszczenie środowiska po zadaniu 3
 
 ### Usunięcie AKS
 ```bash
 bartosz@Azure:~/code$ az aks delete --resource-group $resourceGroupName --name $aksClusterName
 ```
 
+### Usunięcie Resource group
+```bash
+bartosz@Azure:~/code$ az group delete --name $resourceGroupName --no-wait
 ```
 
+### Usunięcie Service Principal
+```bash
+bartosz@Azure:~/code$ az ad sp delete --id $servicePrincipalClientId
 ```
 
+### Usunięcie pliku
+```bash
+bartosz@Azure:~/code$ rm auth.json
+bartosz@Azure:~/code$ rm deployment-outputs.json
 ```
 
 # Pliki
@@ -521,18 +557,4 @@ bartosz@Azure:~/code$ az aks delete --resource-group $resourceGroupName --name $
 * [template.json](./code/zad3/template.json)
 * [deployment-rbac.yaml](./code/zad3/deployment-rbac.yaml)
 * [helm-config.yaml](./code/zad3/helm-config.yaml)
-
----
-
-<details>
-  <summary><b><i>Sprawdzenie</i></b></summary>
-
-```PowerShell
-
-```
-
-</details>
-
-```PowerShell
-
-```
+* [deplall.yaml](./code/zad3/deplall.yaml)
