@@ -1,5 +1,10 @@
 # Zadanie 6
 
+* [Przygotowanie środowiska](#przygotowanie-środowiska)
+* [Zadanie 1](#zadanie-1)
+* [Zadanie 2](#zadanie-2)
+* [Czyszczenie środowiska po zadaniach 1,2](#czyszczenie-środowiska-po-zadaniach-12)
+
 ## Przygotowanie środowiska
 
 ### Utworzenie Service Principal
@@ -360,6 +365,8 @@ W przypadku aplikacji `Bulletin Board` konieczne było zmodyfikowanie routingu t
 
 ---
 
+## Czyszczenie środowiska po zadaniach 1,2
+
 ### Usunięcie AKS
 ```bash
 bartosz@Azure:~/code$ az aks delete --resource-group $resourceGroup --name $aksName
@@ -383,6 +390,8 @@ bartosz@Azure:~/code$ rm auth.json
 
 
 # Pliki
+
+#### Zadania 1 oraz 2
 
 * [depl.yaml](./code/depl.yaml)
 * [depl2.yaml](./code/depl2.yaml)
