@@ -104,6 +104,14 @@ spec:
   rules:
   - http:
       paths:
+      - path: /srv1*
+        backend:
+          serviceName: my-nginx-service-lb
+          servicePort: 80
+      - path: /srv2*
+        backend:
+          serviceName: bb-entrypoint
+          servicePort: 80
       - path: /
         backend:
           serviceName: aspnetapp
