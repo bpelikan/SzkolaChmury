@@ -1,5 +1,11 @@
 # Zadanie 6
 
+* [Przygotowanie środowiska](#przygotowanie-środowiska)
+* [Zadanie 1](#zadanie-1)
+* [Zadanie 2](#zadanie-2)
+* [Czyszczenie środowiska po zadaniach 1,2](#czyszczenie-środowiska-po-zadaniach-12)
+* [Zadanie 3](#zadanie-3)
+
 ## Przygotowanie środowiska
 
 ### Utworzenie Service Principal
@@ -180,10 +186,10 @@ Uruchomienie Ingress controllera opartego na nginx
 ### 2.1 Stworzenie `ServiceAccount` i `ClusterRole` dla Tillera
 ```bash
 bartosz@Azure:~/code$ kubectl create serviceaccount -n kube-system tiller
-  serviceaccount/tiller created
+serviceaccount/tiller created
 
 bartosz@Azure:~/code$ kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
-  clusterrolebinding.rbac.authorization.k8s.io/tiller-cluster-rule created
+clusterrolebinding.rbac.authorization.k8s.io/tiller-cluster-rule created
 ```
 
 ### 2.2 Inicjalizacja Tillera w klastrze
@@ -360,6 +366,8 @@ W przypadku aplikacji `Bulletin Board` konieczne było zmodyfikowanie routingu t
 
 ---
 
+## Czyszczenie środowiska po zadaniach 1,2
+
 ### Usunięcie AKS
 ```bash
 bartosz@Azure:~/code$ az aks delete --resource-group $resourceGroup --name $aksName
@@ -382,12 +390,60 @@ bartosz@Azure:~/code$ rm auth.json
 
 
 
+# Zadanie 3
+
+### 3.1 Utworzenie Service Principal
+```bash
+bartosz@Azure:~/code$ az ad sp create-for-rbac --skip-assignment -o json > auth.json
+```
+
+### 3.2 Przypisanie zmiennych
+```bash
+bartosz@Azure:~/code$ appId=$(cat auth.json | jq -r ".appId")
+bartosz@Azure:~/code$ password=$(cat auth.json |jq -r ".password")
+bartosz@Azure:~/code$ objectId=$(az ad sp show --id $appId --query "objectId" -o tsv)
+```
+
+### 3.3 Utworzenie pliku z parametrami - parameters.json
+```bash
+bartosz@Azure:~/code$ cat <<EOF > parameters.json
+{
+  "aksServicePrincipalAppId": { "value": "$appId" },
+  "aksServicePrincipalClientSecret": { "value": "$password" },
+  "aksServicePrincipalObjectId": { "value": "$objectId" },
+  "aksEnableRBAC": { "value": false },
+  "kubernetesVersion": { "value": "1.14.8" },
+  "aksAgentCount": { "value": 1 }
+}
+EOF
+```
+
+### 3.4 Przypisanie zmiennych
+```bash
+bartosz@Azure:~/code$ resourceGroupName="szkchm-zadanie6"
+bartosz@Azure:~/code$ location="westeurope"
+bartosz@Azure:~/code$ deploymentName="aks-ingress"
+```
+
+### 3.5 Utworzenie Resource group
+```bash
+bartosz@Azure:~/code$ az group create -n $resourceGroupName -l $location
+```
+```
+
+```
+
 # Pliki
+
+#### Zadania 1 oraz 2
 
 * [depl.yaml](./code/depl.yaml)
 * [depl2.yaml](./code/depl2.yaml)
 * [route.yaml](./code/route.yaml)
 
+#### Zadanie 3
+
+* [template.json](./code/zad3/template.json)
 ---
 
 <details>
