@@ -493,6 +493,7 @@ bartosz@Azure:~/code$ az aks delete --resource-group $resourceGroupName --name $
 #### Zadanie 3
 
 * [template.json](./code/zad3/template.json)
+* [deployment-rbac.yaml](./code/zad3/deployment-rbac.yaml)
 
 ---
 
