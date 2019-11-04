@@ -183,7 +183,7 @@ my-nginx-service-lb   10.244.0.8:80       4m57s
 ## Zadanie 2
 Uruchomienie Ingress controllera opartego na nginx
 
-### 2.1 Stworzenie `ServiceAccount` i `ClusterRole` dla Tillera
+### 2.1 Utworzenie `ServiceAccount` i `ClusterRole` dla Tillera
 ```bash
 bartosz@Azure:~/code$ kubectl create serviceaccount -n kube-system tiller
 serviceaccount/tiller created
@@ -402,6 +402,9 @@ bartosz@Azure:~/code$ az ad sp create-for-rbac --skip-assignment -o json > auth.
 bartosz@Azure:~/code$ appId=$(cat auth.json | jq -r ".appId")
 bartosz@Azure:~/code$ password=$(cat auth.json |jq -r ".password")
 bartosz@Azure:~/code$ objectId=$(az ad sp show --id $appId --query "objectId" -o tsv)
+bartosz@Azure:~/code$ resourceGroupName="szkchm-zadanie6"
+bartosz@Azure:~/code$ location="westeurope"
+bartosz@Azure:~/code$ deploymentName="aks-ingress"
 ```
 
 ### 3.3 Utworzenie pliku z parametrami - parameters.json
@@ -411,24 +414,70 @@ bartosz@Azure:~/code$ cat <<EOF > parameters.json
   "aksServicePrincipalAppId": { "value": "$appId" },
   "aksServicePrincipalClientSecret": { "value": "$password" },
   "aksServicePrincipalObjectId": { "value": "$objectId" },
-  "aksEnableRBAC": { "value": false },
+  "aksEnableRBAC": { "value": true },
   "kubernetesVersion": { "value": "1.14.8" },
-  "aksAgentCount": { "value": 1 }
+  "aksAgentCount": { "value": 1 },
+  "applicationGatewaySku": { "value": "Standard_v2" }
 }
 EOF
 ```
 
-### 3.4 Przypisanie zmiennych
-```bash
-bartosz@Azure:~/code$ resourceGroupName="szkchm-zadanie6"
-bartosz@Azure:~/code$ location="westeurope"
-bartosz@Azure:~/code$ deploymentName="aks-ingress"
-```
-
-### 3.5 Utworzenie Resource group
+### 3.4 Utworzenie Resource group
 ```bash
 bartosz@Azure:~/code$ az group create -n $resourceGroupName -l $location
 ```
+
+### 3.5 Pobranie ARM template dla AKS
+```bash
+bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie6/code/zad3/template.json > template.json
+```
+
+### 3.6 Walidacja ARM template
+```bash
+bartosz@Azure:~/code$ az group deployment validate -g $resourceGroupName --template-file template.json --parameters parameters.json
+```
+
+### 3.7 Utworzenie zasobów za pomocą ARM template
+```bash
+bartosz@Azure:~/code$ az group deployment create -g $resourceGroupName -n $deploymentName --template-file template.json --parameters parameters.json
+```
+
+### 3.8 Pobranie informacji o utworzonych zasobach z deploymentu
+```bash
+bartosz@Azure:~/code$ az group deployment show -g $resourceGroupName -n $deploymentName --query "properties.outputs" -o json > deployment-outputs.json
+
+bartosz@Azure:~/code$ aksClusterName=$(cat deployment-outputs.json | jq -r ".aksClusterName.value")
+bartosz@Azure:~/code$ resourceGroupName=$(cat deployment-outputs.json | jq -r ".resourceGroupName.value")
+```
+
+### 3.9 Pobranie credentials dla aks
+```bash
+bartosz@Azure:~/code$ az aks get-credentials --resource-group $resourceGroupName --name $aksClusterName
+```
+
+<details>
+  <summary><b><i>Sprawdzenie kontekstu</i></b></summary>
+
+```bash
+bartosz@Azure:~/code$ kubectl config get-contexts
+CURRENT   NAME      CLUSTER   AUTHINFO                              NAMESPACE
+          AKSZad6   AKSZad6   clusterUser_szkchm-zadanie6_AKSZad6
+*         aksacc6   aksacc6   clusterUser_szkchm-zadanie6_aksacc6
+```
+
+</details>
+
+```PowerShell
+az group deployment validate -g $resourceGroupName --template-file template.json --parameters parameters.json
+## Wyczyszczenie środowiska
+
+### Usunięcie AKS
+```bash
+bartosz@Azure:~/code$ az aks delete --resource-group $resourceGroupName --name $aksClusterName
+```
+
+```
+
 ```
 
 ```
@@ -444,6 +493,8 @@ bartosz@Azure:~/code$ az group create -n $resourceGroupName -l $location
 #### Zadanie 3
 
 * [template.json](./code/zad3/template.json)
+* [deployment-rbac.yaml](./code/zad3/deployment-rbac.yaml)
+
 ---
 
 <details>
