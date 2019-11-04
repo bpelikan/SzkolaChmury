@@ -441,6 +441,9 @@ bartosz@Azure:~/code$ az group create -n $resourceGroupName -l $location
 * [depl2.yaml](./code/depl2.yaml)
 * [route.yaml](./code/route.yaml)
 
+#### Zadanie 3
+
+* [template.json](./code/zad3/template.json)
 ---
 
 <details>
