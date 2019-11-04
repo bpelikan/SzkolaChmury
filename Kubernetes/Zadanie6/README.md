@@ -520,7 +520,7 @@ bartosz@Azure:~/code$ az aks delete --resource-group $resourceGroupName --name $
 
 * [template.json](./code/zad3/template.json)
 * [deployment-rbac.yaml](./code/zad3/deployment-rbac.yaml)
-* [sample-helm-config.yaml](./code/zad3/sample-helm-config.yaml)
+* [helm-config.yaml](./code/zad3/helm-config.yaml)
 
 ---
 
