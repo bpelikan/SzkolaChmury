@@ -365,6 +365,11 @@ W przypadku aplikacji `Bulletin Board` konieczne było zmodyfikowanie routingu t
 bartosz@Azure:~/code$ az aks delete --resource-group $resourceGroup --name $aksName
 ```
 
+### Usunięcie Resource group
+```bash
+bartosz@Azure:~/code$ az group delete --name $resourceGroup --no-wait
+```
+
 ### Usunięcie Service Principal
 ```bash
 bartosz@Azure:~/code$ az ad sp delete --id $servicePrincipalClientId
