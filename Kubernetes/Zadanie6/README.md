@@ -375,6 +375,11 @@ bartosz@Azure:~/code$ az group delete --name $resourceGroup --no-wait
 bartosz@Azure:~/code$ az ad sp delete --id $servicePrincipalClientId
 ```
 
+### Usunięcie pliku
+```bash
+bartosz@Azure:~/code$ rm auth.json
+```
+
 
 
 # Pliki
