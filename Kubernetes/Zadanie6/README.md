@@ -1,4 +1,4 @@
-# Zadanie 6
+# Praca Domowa nr 6
 
 * [Przygotowanie środowiska](#przygotowanie-środowiska)
 * [Zadanie 1](#zadanie-1)

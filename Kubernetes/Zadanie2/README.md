@@ -1,4 +1,4 @@
-# Zadanie 2
+# Praca Domowa nr 2
 
 ```PowerShell
 PS C:\Users\bpelikan> docker images
