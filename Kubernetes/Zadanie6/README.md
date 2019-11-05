@@ -10,12 +10,12 @@
 
 ## Przygotowanie środowiska
 
-### Utworzenie Service Principal
+#### Utworzenie Service Principal
 ```bash
 bartosz@Azure:~/code$ az ad sp create-for-rbac --skip-assignment -o json > auth.json
 ```
 
-### Przypisanie zmiennych
+#### Przypisanie zmiennych
 ```bash
 bartosz@Azure:~/code$ location="westeurope"
 bartosz@Azure:~/code$ resourceGroup="szkchm-zadanie6"
@@ -24,12 +24,12 @@ bartosz@Azure:~/code$ servicePrincipalClientId=$(jq -r ".appId" auth.json)
 bartosz@Azure:~/code$ servicePrincipalClientSecret=$(jq -r ".password" auth.json)
 ```
 
-### Utworzenie Resource Group
+#### Utworzenie Resource Group
 ```bash
 bartosz@Azure:~/code$ az group create --location $location --name $resourceGroup
 ```
 
-### Utworzenie klastra
+#### Utworzenie klastra
 ```bash
 bartosz@Azure:~/code$ az aks create --generate-ssh-keys -g $resourceGroup -n $aksName --node-count 1 --location $location --service-principal $servicePrincipalClientId --client-secret $servicePrincipalClientSecret 
 ```
@@ -105,7 +105,7 @@ bartosz@Azure:~/code$ az aks create --generate-ssh-keys -g $resourceGroup -n $ak
 </details>
 
 
-### Pobranie credentials dla aks
+#### Pobranie credentials dla aks
 
 ```bash
 bartosz@Azure:~/code$ az aks get-credentials --resource-group $resourceGroup --name $aksName
@@ -125,9 +125,10 @@ CURRENT   NAME                 CLUSTER          AUTHINFO                        
 
 </details>
 
-## Zadanie 1
+# Zadanie 1
+Uruchomienie serwisu typu Load Balancer
 
-### 1.1 Utworzenie deploymentu zawierającego pody oraz service typu LoadBalancer
+#### 1.1 Utworzenie deploymentu zawierającego pody oraz service typu LoadBalancer
 
 ```bash
 bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/zadanie6/Kubernetes/Zadanie6/code/depl.yaml > depl.yaml
@@ -136,7 +137,7 @@ deployment.apps/my-nginx created
 service/my-nginx-service-lb created
 ```
 
-### 1.2 Utworzenie drugiego deploymentu zawierającego inną aplikację 
+#### 1.2 Utworzenie drugiego deploymentu zawierającego inną aplikację 
 
 ```bash
 bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/zadanie6/Kubernetes/Zadanie6/code/depl2.yaml > depl2.yaml
@@ -182,10 +183,10 @@ my-nginx-service-lb   10.244.0.8:80       4m57s
 
 </details>
 
-## Zadanie 2
+# Zadanie 2
 Uruchomienie Ingress controllera opartego na nginx
 
-### 2.1 Utworzenie `ServiceAccount` i `ClusterRole` dla Tillera
+#### 2.1 Utworzenie `ServiceAccount` i `ClusterRole` dla Tillera
 ```bash
 bartosz@Azure:~/code$ kubectl create serviceaccount -n kube-system tiller
 serviceaccount/tiller created
@@ -194,7 +195,7 @@ bartosz@Azure:~/code$ kubectl create clusterrolebinding tiller-cluster-rule --cl
 clusterrolebinding.rbac.authorization.k8s.io/tiller-cluster-rule created
 ```
 
-### 2.2 Inicjalizacja Tillera w klastrze
+#### 2.2 Inicjalizacja Tillera w klastrze
 ```bash
 bartosz@Azure:~/code$ helm init --service-account tiller
 ```
@@ -214,7 +215,7 @@ For more information on securing your installation see: https://docs.helm.sh/usi
 
 </details>
 
-### 2.3 Instalacja NGINX Ingress Controllera w klastrze
+#### 2.3 Instalacja NGINX Ingress Controllera w klastrze
 ```bash
 bartosz@Azure:~/code$ helm install stable/nginx-ingress --set controller.replicaCount=1 --set controller.nodeSelector."beta\.kubernetes\.io/os"=linux --set defaultBackend.nodeSelector."beta\.kubernetes\.io/os"=linux
 ```
@@ -348,7 +349,7 @@ yodeling-lambkin-nginx-ingress-default-backend   10.244.0.11:8080               
 
 </details>
 
-### 2.4 Utworzenie routingu
+#### 2.4 Utworzenie routingu
 
 ```bash
 bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/zadanie6/Kubernetes/Zadanie6/code/route.yaml > route.yaml
@@ -370,36 +371,35 @@ W przypadku aplikacji `Bulletin Board` konieczne było zmodyfikowanie routingu t
 
 ## Czyszczenie środowiska po zadaniach 1,2
 
-### Usunięcie AKS
+#### Usunięcie AKS
 ```bash
 bartosz@Azure:~/code$ az aks delete --resource-group $resourceGroup --name $aksName
 ```
 
-### Usunięcie Resource group
+#### Usunięcie Resource group
 ```bash
 bartosz@Azure:~/code$ az group delete --name $resourceGroup --no-wait
 ```
 
-### Usunięcie Service Principal
+#### Usunięcie Service Principal
 ```bash
 bartosz@Azure:~/code$ az ad sp delete --id $servicePrincipalClientId
 ```
 
-### Usunięcie pliku
+#### Usunięcie pliku
 ```bash
 bartosz@Azure:~/code$ rm auth.json
 ```
 
-
-
 # Zadanie 3
+Uruchomienie Ingress controllera opartego na usłudze Application Load Balancer
 
-### 3.1 Utworzenie Service Principal
+#### 3.1 Utworzenie Service Principal
 ```bash
 bartosz@Azure:~/code$ az ad sp create-for-rbac --skip-assignment -o json > auth.json
 ```
 
-### 3.2 Przypisanie zmiennych
+#### 3.2 Przypisanie zmiennych
 ```bash
 bartosz@Azure:~/code$ appId=$(cat auth.json | jq -r ".appId")
 bartosz@Azure:~/code$ password=$(cat auth.json |jq -r ".password")
@@ -409,7 +409,7 @@ bartosz@Azure:~/code$ location="westeurope"
 bartosz@Azure:~/code$ deploymentName="aks-ingress"
 ```
 
-### 3.3 Utworzenie pliku z parametrami - parameters.json
+#### 3.3 Utworzenie pliku z parametrami - parameters.json
 ```bash
 bartosz@Azure:~/code$ cat <<EOF > parameters.json
 {
@@ -424,27 +424,27 @@ bartosz@Azure:~/code$ cat <<EOF > parameters.json
 EOF
 ```
 
-### 3.4 Utworzenie Resource group
+#### 3.4 Utworzenie Resource group
 ```bash
 bartosz@Azure:~/code$ az group create -n $resourceGroupName -l $location
 ```
 
-### 3.5 Pobranie ARM template dla AKS
+#### 3.5 Pobranie ARM template dla AKS
 ```bash
 bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie6/code/zad3/template.json > template.json
 ```
 
-### 3.6 Walidacja ARM template
+#### 3.6 Walidacja ARM template
 ```bash
 bartosz@Azure:~/code$ az group deployment validate -g $resourceGroupName --template-file template.json --parameters parameters.json
 ```
 
-### 3.7 Utworzenie zasobów za pomocą ARM template
+#### 3.7 Utworzenie zasobów za pomocą ARM template
 ```bash
 bartosz@Azure:~/code$ az group deployment create -g $resourceGroupName -n $deploymentName --template-file template.json --parameters parameters.json
 ```
 
-### 3.8 Pobranie informacji o utworzonych zasobach z deploymentu
+#### 3.8 Pobranie informacji o utworzonych zasobach z deploymentu
 ```bash
 bartosz@Azure:~/code$ az group deployment show -g $resourceGroupName -n $deploymentName --query "properties.outputs" -o json > deployment-outputs.json
 
@@ -452,7 +452,7 @@ bartosz@Azure:~/code$ aksClusterName=$(cat deployment-outputs.json | jq -r ".aks
 bartosz@Azure:~/code$ resourceGroupName=$(cat deployment-outputs.json | jq -r ".resourceGroupName.value")
 ```
 
-### 3.9 Pobranie credentials dla aks
+#### 3.9 Pobranie credentials dla aks
 ```bash
 bartosz@Azure:~/code$ az aks get-credentials --resource-group $resourceGroupName --name $aksClusterName
 ```
@@ -469,26 +469,26 @@ CURRENT   NAME      CLUSTER   AUTHINFO                              NAMESPACE
 
 </details>
 
-### 3.10 Instalacja AAD Pod Identity w klastrze
+#### 3.10 Instalacja AAD Pod Identity w klastrze
 ```bash
 bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie6/code/zad3/deployment-rbac.yaml > deployment-rbac.yaml
 bartosz@Azure:~/code$ kubectl create -f deployment-rbac.yaml
 ```
 
-### 3.11 Utworzenie `ServiceAccount` i `ClusterRole` dla Tillera oraz jego inicjalizacja w klastrze
+#### 3.11 Utworzenie `ServiceAccount` i `ClusterRole` dla Tillera oraz jego inicjalizacja w klastrze
 ```bash
 bartosz@Azure:~/code$ kubectl create serviceaccount --namespace kube-system tiller-sa
 bartosz@Azure:~/code$ kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller-sa
 bartosz@Azure:~/code$ helm init --tiller-namespace kube-system --service-account tiller-sa
 ```
 
-### 3.12 Dodanie referencji `AGIC` Helm repository do helma
+#### 3.12 Dodanie referencji `AGIC` Helm repository do helma
 ```bash
 bartosz@Azure:~/code$ helm repo add application-gateway-kubernetes-ingress https://appgwingress.blob.core.windows.net/ingress-azure-helm-package/
 bartosz@Azure:~/code$ helm repo update
 ```
 
-### 3.13 Utworzenie zmiennych
+#### 3.13 Utworzenie zmiennych
 ```bash
 bartosz@Azure:~/code$ applicationGatewayName=$(cat deployment-outputs.json | jq -r ".applicationGatewayName.value")
 bartosz@Azure:~/code$ resourceGroupName=$(cat deployment-outputs.json | jq -r ".resourceGroupName.value")
@@ -497,12 +497,12 @@ bartosz@Azure:~/code$ identityClientId=$(cat deployment-outputs.json | jq -r ".i
 bartosz@Azure:~/code$ identityResourceId=$(cat deployment-outputs.json | jq -r ".identityResourceId.value")
 ```
 
-### 3.14 Pobranie pliku yaml dla konfiguracji`AGIC`
+#### 3.14 Pobranie pliku yaml dla konfiguracji`AGIC`
 ```bash
 bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie6/code/zad3/helm-config.yaml > helm-config.yaml
 ```
 
-### 3.15 Edycja pliku helm-config.yaml
+#### 3.15 Edycja pliku helm-config.yaml
 ```bash
 sed -i "s|<subscriptionId>|${subscriptionId}|g" helm-config.yaml
 sed -i "s|<resourceGroupName>|${resourceGroupName}|g" helm-config.yaml
@@ -511,7 +511,7 @@ sed -i "s|<identityResourceId>|${identityResourceId}|g" helm-config.yaml
 sed -i "s|<identityClientId>|${identityClientId}|g" helm-config.yaml
 ```
 
-### 3.16 Instalacja Application Gateway ingress controller package
+#### 3.16 Instalacja Application Gateway ingress controller package
 ```bash
 bartosz@Azure:~/code$ helm install -f helm-config.yaml application-gateway-kubernetes-ingress/ingress-azure
 ```
@@ -584,7 +584,7 @@ For more information on AAD-Pod-Identity, please visit https://github.com/Azure/
 
 </details>
 
-### 3.17 Deploy
+#### 3.17 Deploy
 ```bash
 bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie6/code/zad3/deplall.yaml > deplall.yaml
 bartosz@Azure:~/code$ kubectl apply -f deplall.yaml
@@ -635,7 +635,7 @@ my-nginx                        1/1     1            1           91s     my-ngin
 
 </details>
 
-### 3.18 AKS Dashboard
+#### 3.18 AKS Dashboard
 ```bash
 bartosz@Azure:~/code$ kubectl create clusterrolebinding kubernetes-dashboard --clusterrole=cluster-admin --serviceaccount=kube-system:kubernetes-dashboard
 clusterrolebinding.rbac.authorization.k8s.io/kubernetes-dashboard created
@@ -643,25 +643,26 @@ bartosz@Azure:~/code$ az aks browse --resource-group $resourceGroupName --name $
 Merged "aks4a81" as current context in /tmp/tmpzn254kst
 ```
 
+---
 
 ## Wyczyszczenie środowiska po zadaniu 3
 
-### Usunięcie AKS
+#### Usunięcie AKS
 ```bash
 bartosz@Azure:~/code$ az aks delete --resource-group $resourceGroupName --name $aksClusterName --no-wait
 ```
 
-### Usunięcie Resource group
+#### Usunięcie Resource group
 ```bash
 bartosz@Azure:~/code$ az group delete --name $resourceGroupName --no-wait
 ```
 
-### Usunięcie Service Principal
+#### Usunięcie Service Principal
 ```bash
 bartosz@Azure:~/code$ az ad sp delete --id $servicePrincipalClientId
 ```
 
-### Usunięcie plików
+#### Usunięcie plików
 ```bash
 bartosz@Azure:~/code$ rm auth.json deployment-outputs.json parameters.json
 bartosz@Azure:~/code$ rm deplall.yaml deployment-rbac.yaml helm-config.yaml template.json
