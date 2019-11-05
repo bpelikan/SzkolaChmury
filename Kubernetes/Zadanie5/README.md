@@ -1,4 +1,4 @@
-# Zadanie 5
+# Praca Domowa nr 5
 
 # Wynik 1
 

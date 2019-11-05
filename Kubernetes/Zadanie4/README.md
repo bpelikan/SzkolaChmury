@@ -1,4 +1,4 @@
-# Zadanie 4
+# Praca Domowa nr 4
 
 # 1. Uruchomienie Minikube
 
