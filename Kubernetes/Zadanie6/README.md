@@ -358,8 +358,8 @@ ingress.extensions/my-ingress created
 <details>
   <summary><b><i>Sprawdzenie działania routingu w Ingress Controllerze</i></b></summary>
 
-![nginx](./img/20191031001015.jpg "grid")
-![Bulletin Board](./img/20191031001033.jpg "grid")
+![nginx](./img/20191031001015.jpg "nginx")
+![Bulletin Board](./img/20191031001033.jpg "Bulletin Board")
 
 </details>
 
@@ -481,7 +481,7 @@ bartosz@Azure:~/code$ kubectl create clusterrolebinding tiller-cluster-rule --cl
 bartosz@Azure:~/code$ helm init --tiller-namespace kube-system --service-account tiller-sa
 ```
 
-### 3.12 Dodanie referecnji `AGIC` Helm repository do helma
+### 3.12 Dodanie referencji `AGIC` Helm repository do helma
 ```bash
 bartosz@Azure:~/code$ helm repo add application-gateway-kubernetes-ingress https://appgwingress.blob.core.windows.net/ingress-azure-helm-package/
 bartosz@Azure:~/code$ helm repo update
@@ -515,17 +515,139 @@ sed -i "s|<identityClientId>|${identityClientId}|g" helm-config.yaml
 bartosz@Azure:~/code$ helm install -f helm-config.yaml application-gateway-kubernetes-ingress/ingress-azure
 ```
 
+<details>
+  <summary><b><i>Output</i></b></summary>
+
+```bash
+NAME:   exhaling-beetle
+LAST DEPLOYED: Tue Nov  5 18:42:16 2019
+NAMESPACE: default
+STATUS: DEPLOYED
+
+RESOURCES:
+==> v1/AzureIdentity
+NAME                                AGE
+exhaling-beetle-azid-ingress-azure  0s
+
+==> v1/AzureIdentityBinding
+NAME                                       AGE
+exhaling-beetle-azidbinding-ingress-azure  0s
+
+==> v1/ConfigMap
+NAME                              DATA  AGE
+exhaling-beetle-cm-ingress-azure  8     0s
+
+==> v1/Pod(related)
+NAME                                           READY  STATUS             RESTARTS  AGE
+exhaling-beetle-ingress-azure-877bf4464-sms7z  0/1    ContainerCreating  0         0s
+
+==> v1/ServiceAccount
+NAME                              SECRETS  AGE
+exhaling-beetle-sa-ingress-azure  1        0s
+
+==> v1beta1/ClusterRole
+NAME                           AGE
+exhaling-beetle-ingress-azure  0s
+
+==> v1beta1/ClusterRoleBinding
+NAME                           AGE
+exhaling-beetle-ingress-azure  0s
+
+==> v1beta2/Deployment
+NAME                           READY  UP-TO-DATE  AVAILABLE  AGE
+exhaling-beetle-ingress-azure  0/1    1           0          0s
+
+
+NOTES:
+Thank you for installing ingress-azure:0.10.0.
+
+Your release is named exhaling-beetle.
+The controller is deployed in deployment exhaling-beetle-ingress-azure.
+
+Configuration Details:
+----------------------
+ * AzureRM Authentication Method:
+    - Use AAD-Pod-Identity
+ * Application Gateway:
+    - Subscription ID : 616bb79e-0000-0000-0000-000000000000
+    - Resource Group  : szkchm-zadanie6-2
+    - Application Gateway Name : applicationgateway4a81
+ * Kubernetes Ingress Controller:
+    - Watching All Namespaces
+    - Verbosity level: 3
+
+Please make sure the associated aadpodidentity and aadpodidbinding is configured.
+For more information on AAD-Pod-Identity, please visit https://github.com/Azure/aad-pod-identity
+
+```
+
+</details>
+
 ### 3.17 Deploy
 ```bash
 bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie6/code/zad3/deplall.yaml > deplall.yaml
 bartosz@Azure:~/code$ kubectl apply -f deplall.yaml
 ```
 
+<details>
+  <summary><b><i>Sprawdzenie stanu klastra</i></b></summary>
+
+```bash
+bartosz@Azure:~/code$ kubectl get ingress
+NAME        HOSTS   ADDRESS         PORTS   AGE
+aspnetapp   *       51.144.61.198   80      26m
+
+bartosz@Azure:~/code$ kubectl get pod -o wide
+NAME                                            READY   STATUS    RESTARTS   AGE     IP          NODE                       NOMINATED NODE   READINESS GATES
+aspnetapp                                       1/1     Running   0          53s     10.0.0.10   aks-agentpool-35064155-0   <none>           <none>
+bb-demo-6889747444-2fzgn                        1/1     Running   0          53s     10.0.0.28   aks-agentpool-35064155-0   <none>           <none>
+exhaling-beetle-ingress-azure-877bf4464-sms7z   1/1     Running   0          5m58s   10.0.0.19   aks-agentpool-35064155-0   <none>           <none>
+mic-6fdb84dfbb-66cdj                            1/1     Running   0          9m21s   10.0.0.12   aks-agentpool-35064155-0   <none>           <none>
+mic-6fdb84dfbb-9rgqf                            1/1     Running   0          9m21s   10.0.0.20   aks-agentpool-35064155-0   <none>           <none>
+my-nginx-b99d5fcd9-fgl7s                        1/1     Running   0          53s     10.0.0.24   aks-agentpool-35064155-0   <none>           <none>
+nmi-hr957                                       1/1     Running   0          9m21s   10.0.0.4    aks-agentpool-35064155-0   <none>           <none>
+
+bartosz@Azure:~/code$ kubectl get svc -o wide
+NAME                  TYPE           CLUSTER-IP     EXTERNAL-IP      PORT(S)        AGE     SELECTOR
+aspnetapp             ClusterIP      10.2.154.120   <none>           80/TCP         2m13s   app=aspnetapp
+bb-entrypoint         LoadBalancer   10.2.82.202    40.114.228.203   80:30708/TCP   2m13s   bb=web
+kubernetes            ClusterIP      10.2.0.1       <none>           443/TCP        18m     <none>
+my-nginx-service-lb   LoadBalancer   10.2.153.12    13.69.52.173     80:30512/TCP   2m13s   app=my-nginx
+
+bartosz@Azure:~/code$ kubectl get deployment -o wide
+NAME                            READY   UP-TO-DATE   AVAILABLE   AGE     CONTAINERS      IMAGES                                                                  SELECTOR
+bb-demo                         1/1     1            1           90s     bb-site         bpelikan/bulletinboard:1.0                                              bb=web
+exhaling-beetle-ingress-azure   1/1     1            1           6m35s   ingress-azure   mcr.microsoft.com/azure-application-gateway/kubernetes-ingress:0.10.0   app=ingress-azure,release=exhaling-beetle
+mic                             2/2     2            2           9m58s   mic             mcr.microsoft.com/k8s/aad-pod-identity/mic:1.5.3                        app=mic,component=mic
+my-nginx                        1/1     1            1           91s     my-nginx        nginx                                                                   app=my-nginx
+```
+
+</details>
+
+<details>
+  <summary><b><i>Sprawdzenie działania routingu w Ingress Controllerze</i></b></summary>
+
+![Bulletin Board](./img/20191105201729.jpg "Bulletin Board")
+![nginx](./img/20191105202011.jpg "nginx")
+![aspnet](./img/20191105202014.jpg "aspnet")
+
+
+</details>
+
+### 3.18 AKS Dashboard
+```bash
+bartosz@Azure:~/code$ kubectl create clusterrolebinding kubernetes-dashboard --clusterrole=cluster-admin --serviceaccount=kube-system:kubernetes-dashboard
+clusterrolebinding.rbac.authorization.k8s.io/kubernetes-dashboard created
+bartosz@Azure:~/code$ az aks browse --resource-group $resourceGroupName --name $aksClusterName
+Merged "aks4a81" as current context in /tmp/tmpzn254kst
+```
+
+
 ## Wyczyszczenie środowiska po zadaniu 3
 
 ### Usunięcie AKS
 ```bash
-bartosz@Azure:~/code$ az aks delete --resource-group $resourceGroupName --name $aksClusterName
+bartosz@Azure:~/code$ az aks delete --resource-group $resourceGroupName --name $aksClusterName --no-wait
 ```
 
 ### Usunięcie Resource group
@@ -538,10 +660,10 @@ bartosz@Azure:~/code$ az group delete --name $resourceGroupName --no-wait
 bartosz@Azure:~/code$ az ad sp delete --id $servicePrincipalClientId
 ```
 
-### Usunięcie pliku
+### Usunięcie plików
 ```bash
-bartosz@Azure:~/code$ rm auth.json
-bartosz@Azure:~/code$ rm deployment-outputs.json
+bartosz@Azure:~/code$ rm auth.json deployment-outputs.json parameters.json
+bartosz@Azure:~/code$ rm deplall.yaml deployment-rbac.yaml helm-config.yaml template.json
 ```
 
 # Pliki

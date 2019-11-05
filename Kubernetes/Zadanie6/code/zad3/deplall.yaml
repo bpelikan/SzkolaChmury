@@ -110,9 +110,9 @@ spec:
           servicePort: 80
       - path: /azure_srv2*
         backend:
-          serviceName: bb-entrypoint
+          serviceName: aspnetapp
           servicePort: 80
       - path: /
         backend:
-          serviceName: aspnetapp
+          serviceName: bb-entrypoint
           servicePort: 80
