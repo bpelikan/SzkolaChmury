@@ -6,6 +6,7 @@
 * [Czyszczenie środowiska po zadaniach 1,2](#czyszczenie-środowiska-po-zadaniach-12)
 * [Zadanie 3](#zadanie-3)
 * [Wyczyszczenie środowiska po zadaniu 3](#wyczyszczenie-środowiska-po-zadaniu-3)
+* [Pliki](#pliki)
 
 ## Przygotowanie środowiska
 
