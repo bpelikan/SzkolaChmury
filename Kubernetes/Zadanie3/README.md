@@ -1,4 +1,4 @@
-# Zadanie 3
+# Praca Domowa nr 3
 
 https://hub.docker.com/r/bpelikan/szkolachmuryzadanie3
 
