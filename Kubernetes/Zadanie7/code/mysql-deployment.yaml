@@ -31,6 +31,7 @@ metadata:
   name: mysql-pv-claim
 spec:
   storageClassName: azurefile
+  #persistentVolumeReclaimPolicy: Retained
   accessModes:
     - ReadWriteMany
   resources:
@@ -74,4 +75,4 @@ spec:
       volumes:
       - name: mysql-persistent-storage
         persistentVolumeClaim:
-          claimName: azurefile #mysql-pv-claim
+          claimName: mysql-pv-claim #mysql-pv-claim
