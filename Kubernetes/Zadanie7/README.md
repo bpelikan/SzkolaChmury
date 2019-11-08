@@ -2,7 +2,7 @@
 
 
 <details>
-<summary><b><i>Przygotowanie środowiska</i></b></summary>
+  <summary><b><i>Przygotowanie środowiska</i></b></summary>
 
 #### Utworzenie Service Principal
 ```bash
@@ -134,6 +134,8 @@ persistentvolumeclaim/mysql-pv-claim created
 persistentvolumeclaim/wp-pv-claim created
 ```
 
+
+
 ```bash
 kubectl get secrets
 kubectl get pvc
@@ -142,9 +144,10 @@ kubectl get services wordpress
 kubectl get svc -o wide
 #minikube service wordpress --url  http://172.27.166.34:31675
 kubectl delete -k ./
+
+kubectl create clusterrolebinding kubernetes-dashboard --clusterrole=cluster-admin --serviceaccount=kube-system:kubernetes-dashboard
+az aks browse --resource-group $resourceGroup --name $aksName
 ``` 
-
-
 
 
 ---
@@ -169,4 +172,6 @@ bartosz@Azure:~/code$ rm auth.json
 
 </details>
 
-```
+# Linki
+
+[mysql-wordpress-persistent-volume](https://kubernetes.io/docs/tutorials/stateful-application/mysql-wordpress-persistent-volume/)
