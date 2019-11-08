@@ -175,3 +175,5 @@ bartosz@Azure:~/code$ rm auth.json
 # Linki
 
 [mysql-wordpress-persistent-volume](https://kubernetes.io/docs/tutorials/stateful-application/mysql-wordpress-persistent-volume/)
+[azure-files-dynamic-pv](https://docs.microsoft.com/en-us/azure/aks/azure-files-dynamic-pv)
+[operator-best-practices-storage](https://docs.microsoft.com/en-us/azure/aks/operator-best-practices-storage)
