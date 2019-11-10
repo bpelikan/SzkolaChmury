@@ -1,7 +1,7 @@
 # Praca Domowa nr 7
 
 * [Przygotowanie środowiska](#przygotowanie-środowiska)
-* [Część 1](#część-1---azure-disk)
+* [Część 1 - Azure Disk](#część-1---azure-disk)
 
 ---
 
@@ -180,7 +180,7 @@ bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmu
 bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie7/code/AzDisk/wordpress-deployment.yaml > wordpress-deployment.yaml
 ```
 
-#### 1.5 Dodanie deploymentów do kustomization
+#### 1.5 Uzupełnienie kustomization
 ```bash
 bartosz@Azure:~/code$ cat <<EOF >>./kustomization.yaml 
 resources:
@@ -194,6 +194,7 @@ EOF
 #### 1.6 Uruchomienie kustomization
 ```bash
 bartosz@Azure:~/code$ kubectl apply -k ./
+
 secret/mysql-pass-bkkgtkbk46 created
 service/wordpress-mysql created
 service/wordpress created
@@ -203,7 +204,146 @@ persistentvolumeclaim/mysql-pv-claim created
 persistentvolumeclaim/wp-pv-claim created
 ```
 
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
 
+```bash
+bartosz@Azure:~/code/kustomizationDisk$ kubectl get pv
+NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                    STORAGECLASS   REASON   AGE
+pvc-e98d7391-03da-11ea-8c55-7296bb4492f6   20Gi       RWO            Retain           Bound    default/mysql-pv-claim   azuredisk               103s
+pvc-e9958d96-03da-11ea-8c55-7296bb4492f6   20Gi       RWO            Retain           Bound    default/wp-pv-claim      azuredisk               93s
+```
+
+```bash
+bartosz@Azure:~/code/kustomizationDisk$ kubectl get pvc
+NAME             STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+mysql-pv-claim   Bound    pvc-e98d7391-03da-11ea-8c55-7296bb4492f6   20Gi       RWO            azuredisk      107s
+wp-pv-claim      Bound    pvc-e9958d96-03da-11ea-8c55-7296bb4492f6   20Gi       RWO            azuredisk      107s
+```
+
+```bash
+bartosz@Azure:~/code/kustomizationDisk$ kubectl get svc
+NAME              TYPE           CLUSTER-IP   EXTERNAL-IP      PORT(S)        AGE
+kubernetes        ClusterIP      10.0.0.1     <none>           443/TCP        59m
+wordpress         LoadBalancer   10.0.5.87    51.144.190.200   80:31819/TCP   2m16s
+wordpress-mysql   ClusterIP      None         <none>           3306/TCP       2m16s
+```
+
+</details>
+
+#### 1.7 Dodanie wpisu i usunięcie podów
+
+<details>
+  <summary><b><i>Wpis</i></b></summary>
+
+![provider](./img/20191110180046.jpg "provider")
+
+</details>
+
+```bash
+bartosz@Azure:~/code/kustomizationDisk$ kubectl get pod
+NAME                               READY   STATUS    RESTARTS   AGE
+wordpress-5bb45b5d48-zgj5p         1/1     Running   0          17s
+wordpress-mysql-5b5b95db74-cmndf   1/1     Running   0          17s
+
+bartosz@Azure:~/code/kustomizationDisk$ kubectl delete pod --all
+pod "wordpress-5bb45b5d48-zgj5p" deleted
+pod "wordpress-mysql-5b5b95db74-cmndf" deleted
+
+bartosz@Azure:~/code/kustomizationDisk$ kubectl get pod
+NAME                               READY   STATUS    RESTARTS   AGE
+wordpress-5bb45b5d48-wx6fp         1/1     Running   0          10s
+wordpress-mysql-5b5b95db74-ns9hr   1/1     Running   0          10s
+```
+
+<details>
+  <summary><b><i>Sprawdzenie po usunięciu podów</i></b></summary>
+
+![provider](./img/20191110180508.jpg "provider")
+
+</details>
+
+#### 1.8 Utworzenie 2 replik poda z wordpressem
+
+* utworzenie 2 replik poda z tym samy PVC 
+* zalogowanie się do jednego poda
+* utworzenie pliku
+* zalogowanie się do drugiedo poda
+* sprawdzenie czy plik istnieje
+
+```bash
+bartosz@Azure:~/code/kustomizationDisk$ kubectl get pod
+NAME                               READY   STATUS    RESTARTS   AGE
+wordpress-5bb45b5d48-rlvzl         1/1     Running   0          24s
+wordpress-5bb45b5d48-tt4h7         1/1     Running   0          3m10s
+wordpress-mysql-5b5b95db74-4nqxn   1/1     Running   0          3m10s
+
+bartosz@Azure:~/code/kustomizationDisk$ kubectl exec -it wordpress-5bb45b5d48-rlvzl /bin/bash
+root@wordpress-5bb45b5d48-rlvzl:/var/www/html# echo "test" > test.txt
+root@wordpress-5bb45b5d48-rlvzl:/var/www/html# cat test.txt
+test
+root@wordpress-5bb45b5d48-rlvzl:/var/www/html# exit
+exit
+
+bartosz@Azure:~/code/kustomizationDisk$ kubectl exec -it wordpress-5bb45b5d48-tt4h7 /bin/bash
+root@wordpress-5bb45b5d48-tt4h7:/var/www/html# cat test.txt
+test
+root@wordpress-5bb45b5d48-tt4h7:/var/www/html# exit
+exit
+```
+
+#### 1.9 Usunięcie zasobów
+```
+kubectl delete -k ./
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+
+
+
+
+
+
+
+---
+---
+---
+---
 
 ```bash
 kubectl get secrets
@@ -217,7 +357,7 @@ kubectl delete -k ./
 kubectl create clusterrolebinding kubernetes-dashboard --clusterrole=cluster-admin --serviceaccount=kube-system:kubernetes-dashboard
 az aks browse --resource-group $resourceGroup --name $aksName
 ``` 
-
+<!-- 
 kubectl exec -it wordpress-74c4dc55c5-vl9m2 /bin/bash
 kubectl exec -it wordpress-mysql-6975d97df5-5d2lg /bin/bash
 apt update
@@ -302,7 +442,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 KUBERNETES_SERVICE_HOST=10.0.0.1
 WORDPRESS_PORT_80_TCP_ADDR=10.0.224.198
 _=/usr/bin/env
-```
+``` -->
 ---
 
 <details>
