@@ -5,6 +5,7 @@ metadata:
   labels:
     app: wordpress
 spec:
+  storageClassName: azuredisk
   accessModes:
     - ReadWriteOnce
   resources:
