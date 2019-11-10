@@ -303,6 +303,131 @@ kubectl delete -k ./
 
 
 
+## Część 2 - Azure File
+
+#### 1.1 Folder dla kustomization
+```bash
+mkdir kustomizationFile
+cd kustomizationFile
+```
+
+#### 1.2 Utworzenie pliku kustomization oraz dodanie do niego Secret Generatora
+```bash
+bartosz@Azure:~/code$ cat <<EOF >./kustomization.yaml
+secretGenerator:
+- name: mysql-pass
+  literals:
+  - password={YOUR_PASSWORD}
+EOF
+```
+
+#### 1.3 Pobranie plików dla mysql
+```bash
+bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie7/code/AzFile/mysql-pvc-azfile.yaml > mysql-pvc-azfile.yaml
+bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie7/code/AzFile/mysql-deployment.yaml > mysql-deployment.yaml
+```
+
+
+#### 1.4 Pobranie plików dla wordpressa
+```bash
+bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie7/code/AzFile/wordpress-pvc-azfile.yaml > wordpress-pvc-azfile.yaml
+bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie7/code/AzFile/wordpress-deployment.yaml > wordpress-deployment.yaml
+```
+
+#### 1.5 Uzupełnienie kustomization
+```bash
+bartosz@Azure:~/code$ cat <<EOF >>./kustomization.yaml 
+resources:
+  - mysql-pvc-azfile.yaml
+  - mysql-deployment.yaml
+  - wordpress-pvc-azfile.yaml
+  - wordpress-deployment.yaml
+EOF
+```
+
+#### 1.6 Uruchomienie kustomization
+```bash
+bartosz@Azure:~/code$ kubectl apply -k ./
+
+secret/mysql-pass-bkkgtkbk46 created
+service/wordpress-mysql created
+service/wordpress created
+deployment.apps/wordpress-mysql created
+deployment.apps/wordpress created
+persistentvolumeclaim/mysql-pv-claim created
+persistentvolumeclaim/wp-pv-claim created
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+```bash
+bartosz@Azure:~/code/kustomizationFile$ kubectl get pv
+NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS     CLAIM                    STORAGECLASS   REASON   AGE
+pvc-395c2799-03e4-11ea-8c55-7296bb4492f6   20Gi       RWX            Retain           Bound      default/mysql-pv-claim   azurefile               17s
+pvc-396cf2d1-03e4-11ea-8c55-7296bb4492f6   20Gi       RWX            Retain           Bound      default/wp-pv-claim      azurefile               17s
+pvc-88a75e1f-03dd-11ea-8c55-7296bb4492f6   20Gi       RWO            Retain           Released   default/wp-pv-claim      azuredisk               48m
+pvc-e98d7391-03da-11ea-8c55-7296bb4492f6   20Gi       RWO            Retain           Released   default/mysql-pv-claim   azuredisk               67m
+```
+
+```bash
+bartosz@Azure:~/code/kustomizationFile$ kubectl get pvc
+NAME             STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+mysql-pv-claim   Bound    pvc-395c2799-03e4-11ea-8c55-7296bb4492f6   20Gi       RWX            azurefile      60s
+wp-pv-claim      Bound    pvc-396cf2d1-03e4-11ea-8c55-7296bb4492f6   20Gi       RWX            azurefile      60s
+```
+
+```bash
+bartosz@Azure:~/code/kustomizationFile$ kubectl get svc
+NAME              TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
+kubernetes        ClusterIP      10.0.0.1       <none>        443/TCP        124m
+wordpress         LoadBalancer   10.0.103.156   51.144.63.9   80:30483/TCP   73s
+wordpress-mysql   ClusterIP      None           <none>        3306/TCP       73s
+```
+
+</details>
+
+#### 1.7 Dodanie wpisu i usunięcie podów
+
+<details>
+  <summary><b><i>Wpis</i></b></summary>
+
+![provider](./img/20191110190827.jpg "provider")
+
+</details>
+
+```bash
+bartosz@Azure:~/code/kustomizationDisk$ kubectl get pod
+NAME                              READY   STATUS    RESTARTS   AGE
+wordpress-5bb45b5d48-5t9l4        1/1     Running   0          6m32s
+wordpress-mysql-8bb795b5b-ggjbw   1/1     Running   0          6m32s
+
+bartosz@Azure:~/code/kustomizationDisk$ kubectl delete pod --all
+pod "wordpress-5bb45b5d48-5t9l4" deleted
+pod "wordpress-mysql-8bb795b5b-ggjbw" deleted
+
+bartosz@Azure:~/code/kustomizationDisk$ kubectl get pod
+NAME                              READY   STATUS    RESTARTS   AGE
+wordpress-5bb45b5d48-g86v4        1/1     Running   0          12s
+wordpress-mysql-8bb795b5b-7fn7j   1/1     Running   0          12s
+```
+
+<details>
+  <summary><b><i>Sprawdzenie po usunięciu podów</i></b></summary>
+
+![provider](./img/20191110191004.jpg "provider")
+
+</details>
+
+
+#### 1.9 Usunięcie zasobów
+```
+kubectl delete -k ./
+```
+
+
+
+
 
 
 
