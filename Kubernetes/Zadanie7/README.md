@@ -130,13 +130,6 @@ mkdir kustomizationDisk
 cd kustomizationDisk
 ```
 
-<!-- #### Utworzenie PVC
-```bash
-curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie7/code/azure-file-pvc.yaml > azure-file-pvc.yaml
-kubectl apply -f azure-file-pvc.yaml
-kubectl get pvc azurefile
-``` -->
-
 #### 1.2 Utworzenie pliku kustomization oraz dodanie do niego Secret Generatora
 ```bash
 bartosz@Azure:~/code$ cat <<EOF >./kustomization.yaml
@@ -147,22 +140,26 @@ secretGenerator:
 EOF
 ```
 
-#### 1.3 Pobranie pliku deploymentu dla mysql
+#### 1.3 Pobranie plików dla mysql
 ```bash
-bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie7/code/mysql-deployment.yaml > mysql-deployment.yaml
+bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie7/code/AzDisk/mysql-pvc-azdisk.yaml > mysql-pvc-azdisk.yaml
+bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie7/code/AzDisk/mysql-deployment.yaml > mysql-deployment.yaml
 ```
- <!-- curl -LO https://k8s.io/examples/application/wordpress/mysql-deployment.yaml -->
 
-#### 1.4 Pobranie pliku deploymentu dla WordPressa
+
+#### 1.4 Pobranie plików dla wordpressa
 ```bash
-bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie7/code/wordpress-deployment.yaml > wordpress-deployment.yaml
+bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie7/code/AzDisk/wordpress-pvc-azdisk.yaml > wordpress-pvc-azdisk.yaml
+bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie7/code/AzDisk/wordpress-deployment.yaml > wordpress-deployment.yaml
 ```
 
 #### 1.5 Dodanie deploymentów do kustomization
 ```bash
 bartosz@Azure:~/code$ cat <<EOF >>./kustomization.yaml 
 resources:
+  - mysql-pvc-azdisk.yaml
   - mysql-deployment.yaml
+  - wordpress-pvc-azdisk.yaml
   - wordpress-deployment.yaml
 EOF
 ```
