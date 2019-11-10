@@ -2,6 +2,8 @@
 
 * [Przygotowanie środowiska](#przygotowanie-środowiska)
 * [Część 1 - Azure Disk](#część-1---azure-disk)
+* [Część 2 - Azure File](#część-2---azure-file)
+* [Wyczyszczenie środowiska](#wyczyszczenie-środowiska)
 
 ---
 
@@ -305,13 +307,13 @@ kubectl delete -k ./
 
 ## Część 2 - Azure File
 
-#### 1.1 Folder dla kustomization
+#### 2.1 Folder dla kustomization
 ```bash
 mkdir kustomizationFile
 cd kustomizationFile
 ```
 
-#### 1.2 Utworzenie pliku kustomization oraz dodanie do niego Secret Generatora
+#### 2.2 Utworzenie pliku kustomization oraz dodanie do niego Secret Generatora
 ```bash
 bartosz@Azure:~/code$ cat <<EOF >./kustomization.yaml
 secretGenerator:
@@ -321,20 +323,20 @@ secretGenerator:
 EOF
 ```
 
-#### 1.3 Pobranie plików dla mysql
+#### 2.3 Pobranie plików dla mysql
 ```bash
 bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie7/code/AzFile/mysql-pvc-azfile.yaml > mysql-pvc-azfile.yaml
 bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie7/code/AzFile/mysql-deployment.yaml > mysql-deployment.yaml
 ```
 
 
-#### 1.4 Pobranie plików dla wordpressa
+#### 2.4 Pobranie plików dla wordpressa
 ```bash
 bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie7/code/AzFile/wordpress-pvc-azfile.yaml > wordpress-pvc-azfile.yaml
 bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie7/code/AzFile/wordpress-deployment.yaml > wordpress-deployment.yaml
 ```
 
-#### 1.5 Uzupełnienie kustomization
+#### 2.5 Uzupełnienie kustomization
 ```bash
 bartosz@Azure:~/code$ cat <<EOF >>./kustomization.yaml 
 resources:
@@ -345,7 +347,7 @@ resources:
 EOF
 ```
 
-#### 1.6 Uruchomienie kustomization
+#### 2.6 Uruchomienie kustomization
 ```bash
 bartosz@Azure:~/code$ kubectl apply -k ./
 
@@ -364,211 +366,80 @@ persistentvolumeclaim/wp-pv-claim created
 ```bash
 bartosz@Azure:~/code/kustomizationFile$ kubectl get pv
 NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS     CLAIM                    STORAGECLASS   REASON   AGE
-pvc-395c2799-03e4-11ea-8c55-7296bb4492f6   20Gi       RWX            Retain           Bound      default/mysql-pv-claim   azurefile               17s
-pvc-396cf2d1-03e4-11ea-8c55-7296bb4492f6   20Gi       RWX            Retain           Bound      default/wp-pv-claim      azurefile               17s
-pvc-88a75e1f-03dd-11ea-8c55-7296bb4492f6   20Gi       RWO            Retain           Released   default/wp-pv-claim      azuredisk               48m
-pvc-e98d7391-03da-11ea-8c55-7296bb4492f6   20Gi       RWO            Retain           Released   default/mysql-pv-claim   azuredisk               67m
+pvc-88a75e1f-03dd-11ea-8c55-7296bb4492f6   20Gi       RWO            Retain           Released   default/wp-pv-claim      azuredisk               74m
+pvc-e98d7391-03da-11ea-8c55-7296bb4492f6   20Gi       RWO            Retain           Released   default/mysql-pv-claim   azuredisk               93m
+pvc-ebac5eee-03e7-11ea-8c55-7296bb4492f6   20Gi       RWX            Retain           Bound      default/mysql-pv-claim   azurefile               12s
+pvc-ebb267c4-03e7-11ea-8c55-7296bb4492f6   20Gi       RWX            Retain           Bound      default/wp-pv-claim      azurefile               9s
 ```
 
 ```bash
 bartosz@Azure:~/code/kustomizationFile$ kubectl get pvc
 NAME             STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
-mysql-pv-claim   Bound    pvc-395c2799-03e4-11ea-8c55-7296bb4492f6   20Gi       RWX            azurefile      60s
-wp-pv-claim      Bound    pvc-396cf2d1-03e4-11ea-8c55-7296bb4492f6   20Gi       RWX            azurefile      60s
+mysql-pv-claim   Bound    pvc-ebac5eee-03e7-11ea-8c55-7296bb4492f6   20Gi       RWX            azurefile      67s
+wp-pv-claim      Bound    pvc-ebb267c4-03e7-11ea-8c55-7296bb4492f6   20Gi       RWX            azurefile      67s
 ```
 
 ```bash
 bartosz@Azure:~/code/kustomizationFile$ kubectl get svc
-NAME              TYPE           CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
-kubernetes        ClusterIP      10.0.0.1       <none>        443/TCP        124m
-wordpress         LoadBalancer   10.0.103.156   51.144.63.9   80:30483/TCP   73s
-wordpress-mysql   ClusterIP      None           <none>        3306/TCP       73s
+NAME              TYPE           CLUSTER-IP    EXTERNAL-IP      PORT(S)        AGE
+kubernetes        ClusterIP      10.0.0.1      <none>           443/TCP        172m
+wordpress         LoadBalancer   10.0.23.180   51.105.222.162   80:32013/TCP   3m42s
+wordpress-mysql   ClusterIP      None          <none>           3306/TCP       3m42s
 ```
-
 </details>
 
-#### 1.7 Dodanie wpisu i usunięcie podów
-
-<details>
-  <summary><b><i>Wpis</i></b></summary>
-
-![provider](./img/20191110190827.jpg "provider")
-
-</details>
-
+#### 2.7 Błąd połączenia
+W przypadku takiego błędu:
 ```bash
-bartosz@Azure:~/code/kustomizationDisk$ kubectl get pod
+bartosz@Azure:~/code/kustomizationFile$ kubectl get pod
 NAME                              READY   STATUS    RESTARTS   AGE
-wordpress-5bb45b5d48-5t9l4        1/1     Running   0          6m32s
-wordpress-mysql-8bb795b5b-ggjbw   1/1     Running   0          6m32s
+wordpress-5bb45b5d48-v47lq        1/1     Running   0          2m20s
+wordpress-mysql-8bb795b5b-qnsh2   1/1     Running   0          2m20s
 
-bartosz@Azure:~/code/kustomizationDisk$ kubectl delete pod --all
-pod "wordpress-5bb45b5d48-5t9l4" deleted
-pod "wordpress-mysql-8bb795b5b-ggjbw" deleted
-
-bartosz@Azure:~/code/kustomizationDisk$ kubectl get pod
-NAME                              READY   STATUS    RESTARTS   AGE
-wordpress-5bb45b5d48-g86v4        1/1     Running   0          12s
-wordpress-mysql-8bb795b5b-7fn7j   1/1     Running   0          12s
+bartosz@Azure:~/code/kustomizationFile$ kubectl logs wordpress-5bb45b5d48-v47lq
+WordPress not found in /var/www/html - copying now...
+Complete! WordPress has been successfully copied to /var/www/html
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 10.244.0.43. Set the 'ServerName' directive globally to suppress this message
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 10.244.0.43. Set the 'ServerName' directive globally to suppress this message
+[Sun Nov 10 18:49:24.118410 2019] [mpm_prefork:notice] [pid 1] AH00163: Apache/2.4.10 (Debian) PHP/5.6.32 configured -- resuming normal operations
+[Sun Nov 10 18:49:24.118485 2019] [core:notice] [pid 1] AH00094: Command line: 'apache2 -D FOREGROUND'
 ```
 
-<details>
-  <summary><b><i>Sprawdzenie po usunięciu podów</i></b></summary>
+Sprawę rozwiązuje:
+```
+bartosz@Azure:~/code/kustomizationFile$ kubectl exec -it wordpress-5bb45b5d48-v47lq /bin/bash
+root@wordpress-5bb45b5d48-v47lq:/var/www/html# echo "ServerName localhost" > /etc/apache2/conf-available/fqdn.conf
+root@wordpress-5bb45b5d48-v47lq:/var/www/html# exit
+exit
+```
 
-![provider](./img/20191110191004.jpg "provider")
+Jednak czasami otrzymuję inny błąd:
+```bash
+bartosz@Azure:~/code/kustomizationFile$ kubectl get pod
+NAME                               READY   STATUS    RESTARTS   AGE
+wordpress-5f7b756b8c-tqjqd         1/1     Running   3          6m31s
+wordpress-mysql-5b5b95db74-bh6sb   1/1     Running   0          6m31s
 
-</details>
+bartosz@Azure:~/code/kustomizationFile$ kubectl logs wordpress-5f7b756b8c-tqjqd
+WordPress not found in /var/www/html - copying now...
+Complete! WordPress has been successfully copied to /var/www/html
+
+Warning: mysqli::mysqli(): (HY000/2002): Connection refused in - on line 22
+
+MySQL Connection Error: (2002) Connection refused
+
+Warning: mysqli::mysqli(): (HY000/2002): Connection refused in - on line 22
+
+MySQL Connection Error: (2002) Connection refused
+```
 
 
-#### 1.9 Usunięcie zasobów
+#### 2.8 Usunięcie zasobów
 ```
 kubectl delete -k ./
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-
-
-
-
-
-
-
----
----
----
----
-
-```bash
-kubectl get secrets
-kubectl get pvc
-kubectl get pods
-kubectl get services wordpress
-kubectl get svc -o wide
-#minikube service wordpress --url  http://172.27.166.34:31675
-kubectl delete -k ./
-
-kubectl create clusterrolebinding kubernetes-dashboard --clusterrole=cluster-admin --serviceaccount=kube-system:kubernetes-dashboard
-az aks browse --resource-group $resourceGroup --name $aksName
-``` 
-<!-- 
-kubectl exec -it wordpress-74c4dc55c5-vl9m2 /bin/bash
-kubectl exec -it wordpress-mysql-6975d97df5-5d2lg /bin/bash
-apt update
-apt install cifs-utils
-`kubectl exec -it <PodName>/bin/bash`
-
-kubectl exec -it wordpress-76fb7887cc-fwlc8 /bin/bash
-
-```
-root@wordpress-76fb7887cc-fwlc8:/var/www/html# env
-HOSTNAME=wordpress-76fb7887cc-fwlc8
-KUBERNETES_PORT=tcp://10.0.0.1:443
-KUBERNETES_PORT_443_TCP_PORT=443
-TERM=xterm
-PHP_INI_DIR=/usr/local/etc/php
-PHP_ASC_URL=https://secure.php.net/get/php-5.6.32.tar.xz.asc/from/this/mirror
-WORDPRESS_SERVICE_HOST=10.0.224.198
-KUBERNETES_SERVICE_PORT=443
-WORDPRESS_DB_PASSWORD=P@ssw0rdT#st!23
-KUBERNETES_SERVICE_HOST=10.0.0.1
-PHP_CFLAGS=-fstack-protector-strong -fpic -fpie -O2
-WORDPRESS_PORT_80_TCP_PROTO=tcp
-PHP_MD5=
-PHPIZE_DEPS=autoconf            dpkg-dev                file            g++             gcc             libc-dev                libpcre3-dev            make            pkg-config              re2c
-PHP_URL=https://secure.php.net/get/php-5.6.32.tar.xz/from/this/mirror
-WORDPRESS_PORT_80_TCP_ADDR=10.0.224.198
-WORDPRESS_DB_HOST=wordpress-mysql
-WORDPRESS_VERSION=4.8.3
-PHP_LDFLAGS=-Wl,-O1 -Wl,--hash-style=both -pie
-APACHE_ENVVARS=/etc/apache2/envvars
-WORDPRESS_PORT_80_TCP=tcp://10.0.224.198:80
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-GPG_KEYS=0BD78B5F97500D450838F95DFE857D9A90D90EC1 6E4F6AB321FDC07F2C332E3AC2BF0BC433CFC8B3
-PHP_CPPFLAGS=-fstack-protector-strong -fpic -fpie -O2
-PWD=/var/www/html
-WORDPRESS_PORT=tcp://10.0.224.198:80
-WORDPRESS_PORT_80_TCP_PORT=80
-SHLVL=1
-HOME=/root
-PHP_SHA256=8c2b4f721c7475fb9eabda2495209e91ea933082e6f34299d11cba88cd76e64b
-WORDPRESS_SHA1=8efc0b9f6146e143ed419b5419d7bb8400a696fc
-KUBERNETES_PORT_443_TCP_PROTO=tcp
-APACHE_CONFDIR=/etc/apache2
-KUBERNETES_SERVICE_PORT_HTTPS=443
-PHP_EXTRA_BUILD_DEPS=apache2-dev
-KUBERNETES_PORT_443_TCP_ADDR=10.0.0.1
-KUBERNETES_PORT_443_TCP=tcp://10.0.0.1:443
-PHP_VERSION=5.6.32
-WORDPRESS_SERVICE_PORT=80
-PHP_EXTRA_CONFIGURE_ARGS=--with-apxs2
-_=/usr/bin/env
-```
-
-
-kubectl exec -it wordpress-mysql-7cf8b8647c-sgwcq /bin/bash
-kubectl exec -it wordpress-mysql-6975d97df5-j2x5k /bin/bash
-```
-root@wordpress-mysql-6975d97df5-j2x5k:/# env
-WORDPRESS_SERVICE_PORT=80
-HOSTNAME=wordpress-mysql-6975d97df5-j2x5k
-WORDPRESS_PORT_80_TCP_PROTO=tcp
-WORDPRESS_PORT_80_TCP_PORT=80
-WORDPRESS_PORT=tcp://10.0.224.198:80
-KUBERNETES_PORT_443_TCP_PROTO=tcp
-KUBERNETES_PORT_443_TCP_ADDR=10.0.0.1
-MYSQL_ROOT_PASSWORD=P@ssw0rdT#st!23
-KUBERNETES_PORT=tcp://10.0.0.1:443
-PWD=/
-HOME=/root
-MYSQL_MAJOR=5.6
-GOSU_VERSION=1.7
-KUBERNETES_SERVICE_PORT_HTTPS=443
-KUBERNETES_PORT_443_TCP_PORT=443
-MYSQL_VERSION=5.6.46-1debian9
-KUBERNETES_PORT_443_TCP=tcp://10.0.0.1:443
-TERM=xterm
-SHLVL=1
-KUBERNETES_SERVICE_PORT=443
-WORDPRESS_PORT_80_TCP=tcp://10.0.224.198:80
-WORDPRESS_SERVICE_HOST=10.0.224.198
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-KUBERNETES_SERVICE_HOST=10.0.0.1
-WORDPRESS_PORT_80_TCP_ADDR=10.0.224.198
-_=/usr/bin/env
-``` -->
----
+# Wyczyszczenie środowiska
 
 <details>
   <summary><b><i>Wyczyszczenie środowiska</i></b></summary>
@@ -585,7 +456,7 @@ bartosz@Azure:~/code$ az ad sp delete --id $servicePrincipalClientId
 
 #### Usunięcie pliku
 ```bash
-bartosz@Azure:~/code$ rm auth.json
+bartosz@Azure:~/code$ rm ../auth.json
 ```
 
 </details>
