@@ -8,6 +8,8 @@
 * [Wyczyszczenie środowiska po zadaniu 3](#wyczyszczenie-środowiska-po-zadaniu-3)
 * [Pliki](#pliki)
 
+---
+
 ## Przygotowanie środowiska
 
 #### Utworzenie Service Principal
