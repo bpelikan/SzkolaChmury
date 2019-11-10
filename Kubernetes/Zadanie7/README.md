@@ -64,6 +64,12 @@ Microsoft.Storage  RegistrationRequired  Registered
 
 </details>
 
+#### Utworzenie Storage Class dla Azure Disk
+```bash
+bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie7/code/azure-disk-sc.yaml > azure-disk-sc.yaml
+bartosz@Azure:~/code$ kubectl apply -f azure-disk-sc.yaml
+```
+
 #### Utworzenie Storage Class dla Azure File
 ```bash
 bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie7/code/azure-file-sc.yaml > azure-file-sc.yaml
@@ -75,11 +81,30 @@ bartosz@Azure:~/code$ kubectl apply -f azure-file-sc.yaml
 
 ```bash
 bartosz@Azure:~/code$ kubectl get sc
-NAME                PROVISIONER                AGE
-azurefile           kubernetes.io/azure-file   6s
-default (default)   kubernetes.io/azure-disk   37m
-managed-premium     kubernetes.io/azure-disk   37m
 
+NAME                PROVISIONER                AGE
+azuredisk           kubernetes.io/azure-disk   6s
+azurefile           kubernetes.io/azure-file   21m
+default (default)   kubernetes.io/azure-disk   46m
+managed-premium     kubernetes.io/azure-disk   46m
+```
+
+```bash
+bartosz@Azure:~/code$ kubectl describe sc azuredisk
+Name:            azuredisk
+IsDefaultClass:  No
+Annotations:     kubectl.kubernetes.io/last-applied-configuration={"apiVersion":"storage.k8s.io/v1","kind":"StorageClass","metadata":{"annotations":{},"name":"azuredisk"},"parameters":{"location":"westeurope","skuName":"Standard_LRS"},"provisioner":"kubernetes.io/azure-disk","reclaimPolicy":"Retain"}
+
+Provisioner:           kubernetes.io/azure-disk
+Parameters:            location=westeurope,skuName=Standard_LRS
+AllowVolumeExpansion:  <unset>
+MountOptions:          <none>
+ReclaimPolicy:         Retain
+VolumeBindingMode:     Immediate
+Events:                <none>
+```
+
+```bash
 bartosz@Azure:~/code$ kubectl describe sc/azurefile
 Name:            azurefile
 IsDefaultClass:  No
@@ -99,7 +124,9 @@ MountOptions:
 ReclaimPolicy:      Retain
 VolumeBindingMode:  Immediate
 Events:             <none>
+```
 
+```bash
 bartosz@Azure:~/code$ kubectl describe sc/default
 Name:            default
 IsDefaultClass:  Yes
