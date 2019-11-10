@@ -4,6 +4,7 @@
 * [Część 1 - Azure Disk](#część-1---azure-disk)
 * [Część 2 - Azure File](#część-2---azure-file)
 * [Wyczyszczenie środowiska](#wyczyszczenie-środowiska)
+* [Pliki](#pliki)
 
 ---
 
@@ -461,9 +462,23 @@ bartosz@Azure:~/code$ rm ../auth.json
 
 </details>
 
-# Linki
+# Pliki
 
-* [mysql-wordpress-persistent-volume](https://kubernetes.io/docs/tutorials/stateful-application/mysql-wordpress-persistent-volume/)
-* [azure-files-dynamic-pv](https://docs.microsoft.com/en-us/azure/aks/azure-files-dynamic-pv)
-* [operator-best-practices-storage](https://docs.microsoft.com/en-us/azure/aks/operator-best-practices-storage)
-* [storage-classes](https://kubernetes.io/docs/concepts/storage/storage-classes/)
+* [azure-disk-sc.yaml](./code/azure-disk-sc.yaml)
+* [azure-file-sc.yaml](./code/azure-file-sc.yaml)
+* [azure-pvc-roles.yaml](./code/azure-pvc-roles.yaml)
+
+#### Azure Disk
+
+* [mysql-pvc-azdisk.yaml](./code/AzDisk/mysql-pvc-azdisk.yaml)
+* [mysql-deployment.yaml](./code/AzDisk/mysql-deployment.yaml)
+* [wordpress-pvc-azdisk.yaml](./code/AzDisk/wordpress-pvc-azdisk.yaml)
+* [wordpress-deployment.yaml](./code/AzDisk/wordpress-deployment.yaml)
+
+#### Azure File
+
+* [mysql-pvc-azfile.yaml](./code/AzFile/mysql-pvc-azfile.yaml)
+* [mysql-deployment.yaml](./code/AzFile/mysql-deployment.yaml)
+* [wordpress-pvc-azfile.yaml](./code/AzFile/wordpress-pvc-azfile.yaml)
+* [wordpress-deployment.yaml](./code/AzFile/wordpress-deployment.yaml)
+
