@@ -25,7 +25,7 @@ CURRENT   NAME                 CLUSTER          AUTHINFO                        
 
 # Zadanie 1
 
-#### 1. Wykonanie deploymentu
+#### 1.1 Wykonanie deploymentu
 ```PowerShell
 PS C:\Users\bpelikan> kubectl apply -f depl.yaml
 deployment.apps/nginx-deployment created
@@ -34,27 +34,27 @@ deployment.apps/nginx-deployment created
 <details>
   <summary><b><i>Sprawdzenie deploymentu</i></b></summary>
 
-#### 1.1 Sprawdzenie deploymentu
+#### 1.1.1 Sprawdzenie deploymentu
 ```PowerShell
 PS C:\Users\bpelikan> kubectl get deployments
 NAME               READY   UP-TO-DATE   AVAILABLE   AGE
 nginx-deployment   3/3     3            3           94s
 ```
 
-#### 1.2 Sprawdzenie statusu deploymentu
+#### 1.1.2 Sprawdzenie statusu deploymentu
 ```PowerShell
 PS C:\Users\bpelikan> kubectl rollout status deployment nginx-deployment
 deployment "nginx-deployment" successfully rolled out
 ```
 
-#### 1.3 Sprawdzenie ReplicaSetu
+#### 1.1.3 Sprawdzenie ReplicaSetu
 ```PowerShell
 PS C:\Users\bpelikan> kubectl get rs
 NAME                          DESIRED   CURRENT   READY   AGE
 nginx-deployment-54f57cf6bf   3         3         3       4m37s
 ```
 
-#### 1.4 Przejrzenie labeli utworzonych dla podów
+#### 1.1.4 Przejrzenie labeli utworzonych dla podów
 ```PowerShell
 PS C:\Users\bpelikan> kubectl get pods --show-labels
 NAME                                READY   STATUS    RESTARTS   AGE     LABELS
@@ -67,7 +67,7 @@ nginx-deployment-54f57cf6bf-sfcvg   1/1     Running   0          6m32s   app=ngi
 
 # Zadanie 2
 
-#### 2. Wystawienie portu kontenera na zewnątrz
+#### 2.1 Wystawienie portu kontenera na zewnątrz
 Wystawienie portu 80 kontenera na zewnątrz za pomocą portu 8080
 ```PowerShell
 PS C:\Users\bpelikan> kubectl port-forward nginx-deployment-54f57cf6bf-8zt4j 8080:80
@@ -75,11 +75,8 @@ Forwarding from 127.0.0.1:8080 -> 80
 Forwarding from [::1]:8080 -> 80
 ```
 
-<details>
-  <summary><b><i>Sprawdzenie</i></b></summary>
-
-#### 2.1 Sprawdzenie nagłówków
-```PowerShell
+#### 2.2 Sprawdzenie nagłówków
+```bash
 PS C:\Users\bpelikan> bash
 ubpelikan@DESKTOP:/mnt/c/Users/bpelikan$ curl -I -X GET http://localhost:8080
 HTTP/1.1 200 OK
@@ -93,34 +90,169 @@ ETag: "54999765-264"
 Accept-Ranges: bytes
 ```
 
+<details>
+  <summary><b><i>Sprawdzenie w przeglądarce</i></b></summary>
+
 ![nginx](./img/20191116234548.jpg "nginx")
 
 </details>
 
+# Zadanie 3
+
+#### 3.1 Zaktualizowanie wersji nginx
+```PowerShell
+PS C:\Users\bpelikan> kubectl --record deployment.apps/nginx-deployment set image deployment.v1.apps/nginx-deployment nginx=nginx:1.9.1
+deployment.apps/nginx-deployment image updated
+deployment.apps/nginx-deployment image updated
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+#### 3.1.1 Sprawdzenie statusu deploymentu
+```PowerShell
+PS C:\Users\bpelikan> kubectl rollout status deployment.v1.apps/nginx-deployment
+deployment "nginx-deployment" successfully rolled out
+```
+
+#### 3.1.2 ReplicaSet
+```PowerShell
+PS C:\Users\bpelikan> kubectl get rs
+NAME                          DESIRED   CURRENT   READY   AGE
+nginx-deployment-54f57cf6bf   0         0         0       22m
+nginx-deployment-56f8998dbc   3         3         3       96s
+```
+
+#### 3.1.3 Pody
+```PowerShell
+PS C:\Users\bpelikan> kubectl get pod
+NAME                                READY   STATUS    RESTARTS   AGE
+nginx-deployment-56f8998dbc-9nkts   1/1     Running   0          3m23s
+nginx-deployment-56f8998dbc-j927w   1/1     Running   0          3m25s
+nginx-deployment-56f8998dbc-tdt9f   1/1     Running   0          3m27s
+```
+
+</details>
+
+#### 3.2 Wystawienie portu kontenera na zewnątrz
+```PowerShell
+PS C:\Users\bpelikan> kubectl port-forward nginx-deployment-56f8998dbc-9nkts 8080:80
+Forwarding from 127.0.0.1:8080 -> 80
+Forwarding from [::1]:8080 -> 80
+```
+
+#### 3.3 Sprawdzenie nagłówków
+```bash
+ubpelikan@DESKTOP:/mnt/c/Users/bpelikan$ curl -I -X GET http://localhost:8080
+HTTP/1.1 200 OK
+Server: nginx/1.9.1
+Date: Sat, 16 Nov 2019 22:59:31 GMT
+Content-Type: text/html
+Content-Length: 612
+Last-Modified: Tue, 26 May 2015 15:02:09 GMT
+Connection: keep-alive
+ETag: "55648af1-264"
+Accept-Ranges: bytes
+```
+
+#### 3.4 Edycja pliku deploymentu
+
+* Zwiększenie replik do 5
+* Zmiana wersji nginx na 1.17.3
+* Dodanie strategii wdrażania **RollingUpdate**
+* Dodanie annotacji o zmianach w pliku
+
+#### 3.5 Update deploymentu
+```PowerShell
+PS C:\Users\bpelikan> kubectl apply -f depl2.yaml
+deployment.apps/nginx-deployment configured
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+#### 3.5.1 Sprawdzenie
+```PowerShell
+PS C:\Users\bpelikan> kubectl get pod
+NAME                               READY   STATUS    RESTARTS   AGE
+nginx-deployment-c5ddbdb9d-b48x9   1/1     Running   0          13s
+nginx-deployment-c5ddbdb9d-dfpb5   1/1     Running   0          34s
+nginx-deployment-c5ddbdb9d-k2w86   1/1     Running   0          13s
+nginx-deployment-c5ddbdb9d-nr4gw   1/1     Running   0          34s
+nginx-deployment-c5ddbdb9d-w2h72   1/1     Running   0          15s
+```
+
+```PowerShell
+PS C:\Users\bpelikan> kubectl get rs
+NAME                          DESIRED   CURRENT   READY   AGE
+nginx-deployment-54f57cf6bf   0         0         0       33m
+nginx-deployment-56f8998dbc   0         0         0       12m
+nginx-deployment-c5ddbdb9d    5         5         5       89s
+```
+
+```PowerShell
+PS C:\Users\bpelikan> kubectl describe deployment nginx-deployment
+Name:                   nginx-deployment
+Namespace:              homework8
+CreationTimestamp:      Sat, 16 Nov 2019 23:33:43 +0100
+Labels:                 app=nginx
+Annotations:            deployment.kubernetes.io/revision: 3
+                        kubectl.kubernetes.io/last-applied-configuration:
+                          {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{"kubernetes.io/change-cause":"Image change"},"labels":{"app":"nginx...
+                        kubernetes.io/change-cause: Image change
+Selector:               app=nginx
+Replicas:               5 desired | 5 updated | 5 total | 5 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  1 max unavailable, 1 max surge
+Pod Template:
+  Labels:  app=nginx
+  Containers:
+   nginx:
+    Image:        nginx:1.17.3
+    Port:         80/TCP
+    Host Port:    0/TCP
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  <none>
+NewReplicaSet:   nginx-deployment-c5ddbdb9d (5/5 replicas created)
+Events:
+  Type    Reason             Age                  From                   Message
+  ----    ------             ----                 ----                   -------
+  Normal  ScalingReplicaSet  33m                  deployment-controller  Scaled up replica set nginx-deployment-54f57cf6bf to 3
+  Normal  ScalingReplicaSet  12m                  deployment-controller  Scaled up replica set nginx-deployment-56f8998dbc to 1
+  Normal  ScalingReplicaSet  12m                  deployment-controller  Scaled up replica set nginx-deployment-56f8998dbc to 2
+  Normal  ScalingReplicaSet  12m                  deployment-controller  Scaled down replica set nginx-deployment-54f57cf6bf to 2
+  Normal  ScalingReplicaSet  12m                  deployment-controller  Scaled down replica set nginx-deployment-54f57cf6bf to 1
+  Normal  ScalingReplicaSet  12m                  deployment-controller  Scaled up replica set nginx-deployment-56f8998dbc to 3
+  Normal  ScalingReplicaSet  12m                  deployment-controller  Scaled down replica set nginx-deployment-54f57cf6bf to 0
+  Normal  ScalingReplicaSet  2m8s                 deployment-controller  Scaled up replica set nginx-deployment-c5ddbdb9d to 2
+  Normal  ScalingReplicaSet  2m8s                 deployment-controller  Scaled up replica set nginx-deployment-56f8998dbc to 5
+  Normal  ScalingReplicaSet  2m8s                 deployment-controller  Scaled down replica set nginx-deployment-56f8998dbc to 4
+  Normal  ScalingReplicaSet  2m8s                 deployment-controller  Scaled up replica set nginx-deployment-c5ddbdb9d to 1
+  Normal  ScalingReplicaSet  110s                 deployment-controller  Scaled down replica set nginx-deployment-56f8998dbc to 3
+  Normal  ScalingReplicaSet  109s                 deployment-controller  Scaled up replica set nginx-deployment-c5ddbdb9d to 3
+  Normal  ScalingReplicaSet  107s                 deployment-controller  Scaled down replica set nginx-deployment-56f8998dbc to 2
+  Normal  ScalingReplicaSet  107s                 deployment-controller  Scaled up replica set nginx-deployment-c5ddbdb9d to 4
+  Normal  ScalingReplicaSet  107s                 deployment-controller  Scaled down replica set nginx-deployment-56f8998dbc to 1
+  Normal  ScalingReplicaSet  104s (x2 over 107s)  deployment-controller  (combined from similar events): Scaled down replica set nginx-deployment-56f8998dbc to 0
+```
+
+</details>
+
+
+
 
 #### 
 ```PowerShell
 
 ```
-
-#### 
-```PowerShell
-
-```
-
-
-
-
-
-#### 
-```PowerShell
-
-```
-
-
-
-
-
 
 
 # Pliki
