@@ -1,7 +1,15 @@
 # Praca Domowa nr 8
 
+* [Zadanie1](#zadanie-1)
+* [Zadanie2](#zadanie-2)
+* [Zadanie3](#zadanie-3)
+* [Zadanie4](#zadanie-4)
+* [Pliki](#pliki)
+
+---
+
 <details>
-  <summary><b><i>Przygotowanie contextu oraz namespace</i></b></summary>
+  <summary><b><i>Przygotowanie kontekstu oraz namespace</i></b></summary>
 
 #### Utworzenie namespace
 ```PowerShell
@@ -25,7 +33,7 @@ CURRENT   NAME                 CLUSTER          AUTHINFO                        
 
 # Zadanie 1
 
-#### 1.1 Wykonanie deploymentu
+### 1.1 Wykonanie deploymentu
 ```PowerShell
 PS C:\Users\bpelikan> kubectl apply -f depl.yaml
 deployment.apps/nginx-deployment created
@@ -34,20 +42,20 @@ deployment.apps/nginx-deployment created
 <details>
   <summary><b><i>Sprawdzenie deploymentu</i></b></summary>
 
-#### 1.1.1 Sprawdzenie deploymentu
+#### 1.1.1 Deployment
 ```PowerShell
 PS C:\Users\bpelikan> kubectl get deployments
 NAME               READY   UP-TO-DATE   AVAILABLE   AGE
 nginx-deployment   3/3     3            3           94s
 ```
 
-#### 1.1.2 Sprawdzenie statusu deploymentu
+#### 1.1.2 Status deploymentu
 ```PowerShell
 PS C:\Users\bpelikan> kubectl rollout status deployment nginx-deployment
 deployment "nginx-deployment" successfully rolled out
 ```
 
-#### 1.1.3 Sprawdzenie ReplicaSetu
+#### 1.1.3 ReplicaSet
 ```PowerShell
 PS C:\Users\bpelikan> kubectl get rs
 NAME                          DESIRED   CURRENT   READY   AGE
@@ -67,7 +75,7 @@ nginx-deployment-54f57cf6bf-sfcvg   1/1     Running   0          6m32s   app=ngi
 
 # Zadanie 2
 
-#### 2.1 Wystawienie portu kontenera na zewnątrz
+### 2.1 Wystawienie portu kontenera na zewnątrz
 Wystawienie portu 80 kontenera na zewnątrz za pomocą portu 8080
 ```PowerShell
 PS C:\Users\bpelikan> kubectl port-forward nginx-deployment-54f57cf6bf-8zt4j 8080:80
@@ -75,7 +83,7 @@ Forwarding from 127.0.0.1:8080 -> 80
 Forwarding from [::1]:8080 -> 80
 ```
 
-#### 2.2 Sprawdzenie nagłówków
+### 2.2 Sprawdzenie nagłówków
 ```bash
 PS C:\Users\bpelikan> bash
 ubpelikan@DESKTOP:/mnt/c/Users/bpelikan$ curl -I -X GET http://localhost:8080
@@ -99,7 +107,7 @@ Accept-Ranges: bytes
 
 # Zadanie 3
 
-#### 3.1 Zaktualizowanie wersji nginx
+### 3.1 Zaktualizowanie wersji nginx
 ```PowerShell
 PS C:\Users\bpelikan> kubectl --record deployment.apps/nginx-deployment set image deployment.v1.apps/nginx-deployment nginx=nginx:1.9.1
 deployment.apps/nginx-deployment image updated
@@ -109,7 +117,7 @@ deployment.apps/nginx-deployment image updated
 <details>
   <summary><b><i>Sprawdzenie</i></b></summary>
 
-#### 3.1.1 Sprawdzenie statusu deploymentu
+#### 3.1.1 Status deploymentu
 ```PowerShell
 PS C:\Users\bpelikan> kubectl rollout status deployment.v1.apps/nginx-deployment
 deployment "nginx-deployment" successfully rolled out
@@ -134,14 +142,14 @@ nginx-deployment-56f8998dbc-tdt9f   1/1     Running   0          3m27s
 
 </details>
 
-#### 3.2 Wystawienie portu kontenera na zewnątrz
+### 3.2 Wystawienie portu kontenera na zewnątrz
 ```PowerShell
 PS C:\Users\bpelikan> kubectl port-forward nginx-deployment-56f8998dbc-9nkts 8080:80
 Forwarding from 127.0.0.1:8080 -> 80
 Forwarding from [::1]:8080 -> 80
 ```
 
-#### 3.3 Sprawdzenie nagłówków
+### 3.3 Sprawdzenie nagłówków
 ```bash
 ubpelikan@DESKTOP:/mnt/c/Users/bpelikan$ curl -I -X GET http://localhost:8080
 HTTP/1.1 200 OK
@@ -155,14 +163,14 @@ ETag: "55648af1-264"
 Accept-Ranges: bytes
 ```
 
-#### 3.4 Edycja pliku deploymentu
+### 3.4 Edycja pliku deploymentu
 
 * Zwiększenie replik do 5
 * Zmiana wersji nginx na 1.17.3
 * Dodanie strategii wdrażania **RollingUpdate**
 * Dodanie annotacji o zmianach w pliku
 
-#### 3.5 Update deploymentu
+### 3.5 Update deploymentu
 ```PowerShell
 PS C:\Users\bpelikan> kubectl apply -f depl2.yaml
 deployment.apps/nginx-deployment configured
@@ -249,7 +257,7 @@ Events:
 
 # Zadanie 4
 
-#### 4.1 Historia deploymentów
+### 4.1 Historia deploymentów
 ```PowerShell
 PS C:\Users\bpelikan> kubectl rollout history deployment nginx-deployment
 deployment.apps/nginx-deployment
@@ -317,13 +325,13 @@ Pod Template:
 
 </details>
 
-#### 4.2 Wycofanie ostatniego rolloutu
+### 4.2 Wycofanie ostatniego rolloutu
 ```PowerShell
 PS C:\Users\bpelikan> kubectl rollout undo deployments nginx-deployment
 deployment.apps/nginx-deployment rolled back
 ```
 
-#### 4.3 Historia
+### 4.3 Historia
 ```PowerShell
 PS C:\Users\bpelikan> kubectl rollout history deployment nginx-deployment
 deployment.apps/nginx-deployment
@@ -333,13 +341,13 @@ REVISION  CHANGE-CAUSE
 4         kubectl.exe deployment.apps/nginx-deployment set image deployment.v1.apps/nginx-deployment nginx=nginx:1.9.1 --record=true
 ```
 
-#### 4.4 Rollback do rewizji 3
+### 4.4 Rollback do rewizji 3
 ```PowerShell
 PS C:\Users\bpelikan> kubectl rollout undo deployments nginx-deployment --to-revision=3
 deployment.apps/nginx-deployment rolled back
 ```
 
-#### 4.5 Historia
+### 4.5 Historia
 ```PowerShell
 PS C:\Users\bpelikan> kubectl rollout history deployment nginx-deployment
 deployment.apps/nginx-deployment
@@ -349,7 +357,7 @@ REVISION  CHANGE-CAUSE
 5         Image change
 ```
 
-#### 4.6 Usunięcie deploymentu
+### 4.6 Usunięcie deploymentu
 ```PowerShell
 PS C:\Users\bpelikan> kubectl delete deployment nginx-deployment
 deployment.apps "nginx-deployment" deleted
