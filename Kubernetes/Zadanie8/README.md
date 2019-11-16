@@ -5,16 +5,16 @@
 
 #### Utworzenie namespace
 ```PowerShell
-PS C:\WINDOWS\system32> kubectl create namespace homework8
+PS C:\Users\bpelikan> kubectl create namespace homework8
 namespace/homework8 created
 ```
 
 #### Zmiana contextu na utworzony namepsace
 ```PowerShell
-PS C:\WINDOWS\system32> kubectl config set-context --current --namespace=homework8
+PS C:\Users\bpelikan> kubectl config set-context --current --namespace=homework8
 Context "minikube" modified.
 
-PS C:\WINDOWS\system32> kubectl config get-contexts
+PS C:\Users\bpelikan> kubectl config get-contexts
 CURRENT   NAME                 CLUSTER          AUTHINFO                              NAMESPACE
           docker-desktop       docker-desktop   docker-desktop
           docker-for-desktop   docker-desktop   docker-desktop
@@ -22,6 +22,8 @@ CURRENT   NAME                 CLUSTER          AUTHINFO                        
 ```
 
 </details>
+
+# Zadanie 1
 
 #### 1. Wykonanie deploymentu
 ```PowerShell
@@ -63,6 +65,8 @@ nginx-deployment-54f57cf6bf-sfcvg   1/1     Running   0          6m32s   app=ngi
 
 </details>
 
+# Zadanie 2
+
 #### 2. Wystawienie portu kontenera na zewnątrz
 Wystawienie portu 80 kontenera na zewnątrz za pomocą portu 8080
 ```PowerShell
@@ -73,6 +77,21 @@ Forwarding from [::1]:8080 -> 80
 
 <details>
   <summary><b><i>Sprawdzenie</i></b></summary>
+
+#### 2.1 Sprawdzenie nagłówków
+```PowerShell
+PS C:\Users\bpelikan> bash
+ubpelikan@DESKTOP:/mnt/c/Users/bpelikan$ curl -I -X GET http://localhost:8080
+HTTP/1.1 200 OK
+Server: nginx/1.7.9
+Date: Sat, 16 Nov 2019 22:48:51 GMT
+Content-Type: text/html
+Content-Length: 612
+Last-Modified: Tue, 23 Dec 2014 16:25:09 GMT
+Connection: keep-alive
+ETag: "54999765-264"
+Accept-Ranges: bytes
+```
 
 ![nginx](./img/20191116234548.jpg "nginx")
 
