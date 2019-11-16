@@ -247,13 +247,113 @@ Events:
 </details>
 
 
+# Zadanie 4
 
-
-#### 
+#### 4.1 Historia deploymentów
 ```PowerShell
-
+PS C:\Users\bpelikan> kubectl rollout history deployment nginx-deployment
+deployment.apps/nginx-deployment
+REVISION  CHANGE-CAUSE
+1         <none>
+2         kubectl.exe deployment.apps/nginx-deployment set image deployment.v1.apps/nginx-deployment nginx=nginx:1.9.1 --record=true
+3         Image change
 ```
 
+<details>
+  <summary><b><i>Szczegóły</i></b></summary>
+
+#### 4.1.1 Szczegóły rolloutów
+
+```PowerShell
+PS C:\Users\bpelikan> kubectl rollout history deployment nginx-deployment --revision=1
+deployment.apps/nginx-deployment with revision #1
+Pod Template:
+  Labels:       app=nginx
+        pod-template-hash=54f57cf6bf
+  Containers:
+   nginx:
+    Image:      nginx:1.7.9
+    Port:       80/TCP
+    Host Port:  0/TCP
+    Environment:        <none>
+    Mounts:     <none>
+  Volumes:      <none>
+```
+
+```PowerShell
+PS C:\Users\bpelikan> kubectl rollout history deployment nginx-deployment --revision=2
+deployment.apps/nginx-deployment with revision #2
+Pod Template:
+  Labels:       app=nginx
+        pod-template-hash=56f8998dbc
+  Annotations:  kubernetes.io/change-cause:
+          kubectl.exe deployment.apps/nginx-deployment set image deployment.v1.apps/nginx-deployment nginx=nginx:1.9.1 --record=true
+  Containers:
+   nginx:
+    Image:      nginx:1.9.1
+    Port:       80/TCP
+    Host Port:  0/TCP
+    Environment:        <none>
+    Mounts:     <none>
+  Volumes:      <none>
+```
+
+```PowerShell
+PS C:\Users\bpelikan> kubectl rollout history deployment nginx-deployment --revision=3
+deployment.apps/nginx-deployment with revision #3
+Pod Template:
+  Labels:       app=nginx
+        pod-template-hash=c5ddbdb9d
+  Annotations:  kubernetes.io/change-cause: Image change
+  Containers:
+   nginx:
+    Image:      nginx:1.17.3
+    Port:       80/TCP
+    Host Port:  0/TCP
+    Environment:        <none>
+    Mounts:     <none>
+  Volumes:      <none>
+```
+
+</details>
+
+#### 4.2 Wycofanie ostatniego rolloutu
+```PowerShell
+PS C:\Users\bpelikan> kubectl rollout undo deployments nginx-deployment
+deployment.apps/nginx-deployment rolled back
+```
+
+#### 4.3 Historia
+```PowerShell
+PS C:\Users\bpelikan> kubectl rollout history deployment nginx-deployment
+deployment.apps/nginx-deployment
+REVISION  CHANGE-CAUSE
+1         <none>
+3         Image change
+4         kubectl.exe deployment.apps/nginx-deployment set image deployment.v1.apps/nginx-deployment nginx=nginx:1.9.1 --record=true
+```
+
+#### 4.4 Rollback do rewizji 3
+```PowerShell
+PS C:\Users\bpelikan> kubectl rollout undo deployments nginx-deployment --to-revision=3
+deployment.apps/nginx-deployment rolled back
+```
+
+#### 4.5 Historia
+```PowerShell
+PS C:\Users\bpelikan> kubectl rollout history deployment nginx-deployment
+deployment.apps/nginx-deployment
+REVISION  CHANGE-CAUSE
+1         <none>
+4         kubectl.exe deployment.apps/nginx-deployment set image deployment.v1.apps/nginx-deployment nginx=nginx:1.9.1 --record=true
+5         Image change
+```
+
+#### 4.6 Usunięcie deploymentu
+```PowerShell
+PS C:\Users\bpelikan> kubectl delete deployment nginx-deployment
+deployment.apps "nginx-deployment" deleted
+```
 
 # Pliki
 
