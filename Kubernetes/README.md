@@ -13,3 +13,5 @@
 * [Zadanie 6](./Zadanie6)
 
 * [Zadanie 7](./Zadanie7)
+
+* [Zadanie 8](./Zadanie8)
