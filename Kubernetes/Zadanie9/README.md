@@ -3,7 +3,7 @@
 ## Przygotowanie środowiska
 
 <details>
-  <summary><b><i>Przygotowanie środowiska</i></b></summary>
+  <summary><b><i>Przygotowanie AKS</i></b></summary>
 
 #### Utworzenie Service Principal
 ```bash
@@ -36,3 +36,44 @@ bartosz@Azure:~/code$ az aks get-credentials --resource-group $resourceGroup --n
 ```
 
 </details>
+
+#### Utworzenie deploymentu
+```bash
+bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie9/code/depl.yaml > depl.yaml
+bartosz@Azure:~/code$ kubectl apply -f depl.yaml
+```
+
+
+
+# 1. Stworzenie Horizontal Pod Autoscaler
+```
+bartosz@Azure:~/code$ kubectl autoscale deployment web --cpu-percent=80 --min=1 --max=10
+horizontalpodautoscaler.autoscaling/web autoscaled
+```
+
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+  
+```bash
+bartosz@Azure:~/code$ kubectl get hpa
+NAME   REFERENCE        TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
+web    Deployment/web   0%/80%    1         10        1          16s
+```
+</details>
+
+
+
+
+---
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+
+
+</details>
+
+
+# Pliki
+
+* [pod.yaml](./code/pod.yaml)
