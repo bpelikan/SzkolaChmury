@@ -192,14 +192,27 @@ Events:
 ```
 
 
----
+# Wyczyszczenie środowiska
+
 <details>
-  <summary><b><i>Sprawdzenie</i></b></summary>
+  <summary><b><i>Wyczyszczenie środowiska</i></b></summary>
 
+#### Usunięcie Resource group
+```bash
+bartosz@Azure:~/code$ az group delete --name $resourceGroup --no-wait
+```
 
+#### Usunięcie Service Principal
+```bash
+bartosz@Azure:~/code$ az ad sp delete --id $servicePrincipalClientId
+```
+
+#### Usunięcie pliku
+```bash
+bartosz@Azure:~/code$ rm auth.json
+```
 
 </details>
-
 
 # Pliki
 
