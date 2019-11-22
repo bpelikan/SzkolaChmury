@@ -134,6 +134,62 @@ web-5658897b65-82gk8   1/1     Running   0          25m
 </details>
 
 
+# 3. Zadanie Dodatkowe
+
+#### 3.1 HPA z symulacji nr 1
+```
+PS C:\WINDOWS\system32> kubectl describe hpa web
+Name:                                                  web
+Namespace:                                             default
+Labels:                                                <none>
+Annotations:                                           <none>
+CreationTimestamp:                                     Fri, 22 Nov 2019 22:11:24 +0100
+Reference:                                             Deployment/web
+Metrics:                                               ( current / target )
+  resource cpu on pods  (as a percentage of request):  0% (0) / 80%
+Min replicas:                                          1
+Max replicas:                                          10
+Deployment pods:                                       4 current / 4 desired
+Conditions:
+  Type            Status  Reason               Message
+  ----            ------  ------               -------
+  AbleToScale     True    ScaleDownStabilized  recent recommendations were higher than current one, applying the highest recent recommendation
+  ScalingActive   True    ValidMetricFound     the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)
+  ScalingLimited  False   DesiredWithinRange   the desired count is within the acceptable range
+Events:
+  Type    Reason             Age    From                       Message
+  ----    ------             ----   ----                       -------
+  Normal  SuccessfulRescale  8m37s  horizontal-pod-autoscaler  New size: 3; reason: cpu resource utilization (percentage of request) above target
+  Normal  SuccessfulRescale  7m36s  horizontal-pod-autoscaler  New size: 4; reason: cpu resource utilization (percentage of request) above target
+```
+
+
+#### 3.2 HPA z symulacji nr 2
+```
+PS C:\WINDOWS\system32> kubectl describe hpa web
+Name:                                                  web
+Namespace:                                             default
+Labels:                                                <none>
+Annotations:                                           <none>
+CreationTimestamp:                                     Fri, 22 Nov 2019 22:40:53 +0100
+Reference:                                             Deployment/web
+Metrics:                                               ( current / target )
+  resource cpu on pods  (as a percentage of request):  0% (0) / 80%
+Min replicas:                                          1
+Max replicas:                                          10
+Deployment pods:                                       1 current / 1 desired
+Conditions:
+  Type            Status  Reason            Message
+  ----            ------  ------            -------
+  AbleToScale     True    ReadyForNewScale  recommended size matches current size
+  ScalingActive   True    ValidMetricFound  the HPA was able to successfully calculate a replica count from cpu resource utilization (percentage of request)
+  ScalingLimited  True    TooFewReplicas    the desired replica count is increasing faster than the maximum scale rate
+Events:
+  Type    Reason             Age   From                       Message
+  ----    ------             ----  ----                       -------
+  Normal  SuccessfulRescale  14m   horizontal-pod-autoscaler  New size: 4; reason: cpu resource utilization (percentage of request) above target
+  Normal  SuccessfulRescale  23s   horizontal-pod-autoscaler  New size: 1; reason: All metrics below target
+```
 
 
 ---
