@@ -79,6 +79,60 @@ root@web-5658897b65-82gk8:/# apt-get install stress
 root@web-5658897b65-82gk8:/# stress -c 5
 ```
 
+<details>
+  <summary><b><i>Przed symulacją</i></b></summary>
+
+```PowerShell
+PS C:\WINDOWS\system32> kubectl get hpa -w
+NAME   REFERENCE        TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
+web    Deployment/web   0%/80%    1         10        1          9m38s
+
+PS C:\WINDOWS\system32> kubectl get pod
+NAME                   READY   STATUS    RESTARTS   AGE
+web-5658897b65-82gk8   1/1     Running   0          13m
+```
+</details>
+
+<details>
+  <summary><b><i>W trakcie symulacji</i></b></summary>
+
+```PowerShell
+PS C:\WINDOWS\system32> kubectl get hpa -w
+NAME   REFERENCE        TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
+web    Deployment/web   0%/80%    1         10        1          11m
+web    Deployment/web   236%/80%   1         10        1          11m
+web    Deployment/web   236%/80%   1         10        3          12m
+web    Deployment/web   150%/80%   1         10        3          12m
+web    Deployment/web   150%/80%   1         10        4          13m
+web    Deployment/web   74%/80%    1         10        4          13m 
+
+PS C:\WINDOWS\system32> kubectl get pod
+NAME                   READY   STATUS    RESTARTS   AGE
+web-5658897b65-82gk8   1/1     Running   0          16m
+web-5658897b65-d9xgj   1/1     Running   0          2m50s
+web-5658897b65-fkqhw   1/1     Running   0          110s
+web-5658897b65-qw7h5   1/1     Running   0          2m50s
+```
+</details>
+
+
+<details>
+  <summary><b><i>Po zakończeniu symulacji</i></b></summary>
+
+```PowerShell
+PS C:\WINDOWS\system32> kubectl get hpa -w
+NAME   REFERENCE        TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
+web    Deployment/web   75%/80%   1         10        4          17m
+web    Deployment/web   0%/80%    1         10        4          17m
+web    Deployment/web   0%/80%    1         10        4          22m
+web    Deployment/web   0%/80%    1         10        1          22m
+
+PS C:\WINDOWS\system32> kubectl get pod
+NAME                   READY   STATUS    RESTARTS   AGE
+web-5658897b65-82gk8   1/1     Running   0          25m
+```
+</details>
+
 
 
 
