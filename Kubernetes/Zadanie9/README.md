@@ -1,5 +1,11 @@
 # Praca Domowa nr 9
 
+* [Przygotowanie środowiska](#przygotowanie-środowiska)
+* [Zadanie 1](#zadanie-1)
+* [Zadanie 2](#zadanie-2)
+* [Zadanie Dodatkowe](#3-zadanie-dodatkowe)
+* [Pliki](#pliki)
+
 ## Przygotowanie środowiska
 
 <details>
