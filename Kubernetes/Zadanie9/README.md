@@ -2,7 +2,7 @@
 
 * [Przygotowanie środowiska](#przygotowanie-środowiska)
 * [Zadanie](#1-zadanie)
-* [Zadanie Dodatkowe](#3-zadanie-dodatkowe)
+* [Zadanie Dodatkowe](#2-zadanie-dodatkowe)
 * [Pliki](#pliki)
 
 ## Przygotowanie środowiska
@@ -138,6 +138,13 @@ web-5658897b65-82gk8   1/1     Running   0          25m
 ```
 </details>
 
+<details>
+  <summary><b><i>Metryki</i></b></summary>
+
+![metryki](./img/20191122224641.jpg "metryki")
+![metryki](./img/20191122224955.jpg "metryki")
+![metryki](./img/20191122225018.jpg "metryki")
+</details>
 
 # 2. Zadanie Dodatkowe
 
