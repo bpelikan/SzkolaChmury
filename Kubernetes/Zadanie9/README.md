@@ -1,8 +1,7 @@
 # Praca Domowa nr 9
 
 * [Przygotowanie środowiska](#przygotowanie-środowiska)
-* [Zadanie 1](#zadanie-1)
-* [Zadanie 2](#zadanie-2)
+* [Zadanie](#1-zadanie)
 * [Zadanie Dodatkowe](#3-zadanie-dodatkowe)
 * [Pliki](#pliki)
 
@@ -49,7 +48,7 @@ bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmu
 bartosz@Azure:~/code$ kubectl apply -f depl.yaml
 ```
 
-# Zadanie 1
+# 1. Zadanie
 
 ### 1.1 Stworzenie Horizontal Pod Autoscaler
 ```
@@ -140,9 +139,9 @@ web-5658897b65-82gk8   1/1     Running   0          25m
 </details>
 
 
-# 3. Zadanie Dodatkowe
+# 2. Zadanie Dodatkowe
 
-#### 3.1 HPA z symulacji nr 1
+#### 2.1 HPA z symulacji nr 1
 ```
 PS C:\WINDOWS\system32> kubectl describe hpa web
 Name:                                                  web
@@ -170,7 +169,7 @@ Events:
 ```
 
 
-#### 3.2 HPA z symulacji nr 2
+#### 2.2 HPA z symulacji nr 2
 ```
 PS C:\WINDOWS\system32> kubectl describe hpa web
 Name:                                                  web
@@ -222,4 +221,4 @@ bartosz@Azure:~/code$ rm auth.json
 
 # Pliki
 
-* [pod.yaml](./code/pod.yaml)
+* [depl.yaml](./code/depl.yaml)
