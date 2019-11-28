@@ -17,3 +17,6 @@
 * [Zadanie 8](./Zadanie8)
 
 * [Zadanie 9](./Zadanie9)
+
+* [Lekcja 84](./Lekcja84)
+
