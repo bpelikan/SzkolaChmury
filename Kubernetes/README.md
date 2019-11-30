@@ -18,5 +18,5 @@
 
 * [Zadanie 9](./Zadanie9)
 
-* [Lekcja 84](./Lekcja84)
+* [Lekcja 84 - połączenie z Azure Key Vault](./Lekcja84)
 
