@@ -1,6 +1,6 @@
 # Praca Domowa nr 10
 
-* [Przygotowanie środowiska](#przygotowanie-środowiska)
+* [Przygotowanie środowiska](#1-przygotowanie-środowiska)
 * [Zadanie](#1-zadanie)
 * [Pliki](#pliki)
 
@@ -9,36 +9,6 @@
 <details>
   <summary><b><i>Przygotowanie środowiska</i></b></summary>
 
-<!-- 
-#### Utworzenie Service Principal
-```bash
-bartosz@Azure:~/code$ az ad sp create-for-rbac --skip-assignment -o json > auth.json
-```
-
-#### Przypisanie zmiennych
-```bash
-bartosz@Azure:~/code$ location="westeurope"
-bartosz@Azure:~/code$ resourceGroup="szkchm-zadanie10"
-bartosz@Azure:~/code$ aksName="AKSZad10"
-bartosz@Azure:~/code$ servicePrincipalClientId=$(jq -r ".appId" auth.json)
-bartosz@Azure:~/code$ servicePrincipalClientSecret=$(jq -r ".password" auth.json)
-```
-
-#### Utworzenie Resource Group
-```bash
-bartosz@Azure:~/code$ az group create --location $location --name $resourceGroup
-```
-
-#### Utworzenie klastra
-```bash
-bartosz@Azure:~/code$ az aks create --generate-ssh-keys -g $resourceGroup -n $aksName --node-count 1 --location $location --service-principal $servicePrincipalClientId --client-secret $servicePrincipalClientSecret 
-```
-
-#### Pobranie credentials dla aks
-
-```bash
-bartosz@Azure:~/code$ az aks get-credentials --resource-group $resourceGroup --name $aksName
-``` -->
 #### 1.0 Przygotowanie folderu oraz zmiennych
 ```bash
 mkdir code
@@ -152,13 +122,11 @@ az ad app permission grant --id $clientApplicationId --api $serverApplicationId
 ```bash
 az group create --location $location --name $resourceGroup
 ```
-
 #### 1.3.2 Pobranie Tenant ID
 ```bash
 az account show -o json > accountInfo.json
 tenantId=$(jq -r ".tenantId" accountInfo.json)
 ```
-
 
 #### 1.3.3 Utworzenie Service Principal
 ```bash
@@ -173,7 +141,6 @@ az aks create --generate-ssh-keys -g $resourceGroup -n $aksName --node-count 1 -
 ```
 
 #### 1.3.5 Pobranie credentials dla AKS
-
 ```bash
 az aks get-credentials --resource-group $resourceGroup --name $aksName --admin
 ```
