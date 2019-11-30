@@ -124,3 +124,8 @@ az ad sp delete --id $servicePrincipalClientId
 * [01_aadpi.yaml](./code/01_aadpi.yaml)
 * [02_binding.yaml](./code/02_binding.yaml)
 * [03_deployment.yaml](./code/03_deployment.yaml)
+
+# Dodatkowe materiały
+
+* [Key Vault FlexVolume](https://github.com/Azure/kubernetes-keyvault-flexvol)
+* [AAD Pod Identity](https://github.com/Azure/aad-pod-identity)
