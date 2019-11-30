@@ -160,6 +160,9 @@ kubectl apply -f basic-azure-ad-binding.yaml
 
 ## 2. Zapoznanie się z RBAC
 
+<details>
+  <summary><b><i>Portal</i></b></summary>
+
 #### 2.1 Pobranie AKS ID
 ```bash
 az aks show --resource-group $resourceGroup --name $aksName -o json > aksInfo.json
@@ -332,6 +335,8 @@ Error from server (Forbidden): pods is forbidden: User "akssre@<...>.onmicrosoft
 PS C:\WINDOWS\system32> kubectl run --generator=run-pod/v1 nginx-sre --image=nginx --namespace dev
 Error from server (Forbidden): pods is forbidden: User "akssre@<...>.onmicrosoft.com" cannot create resource "pods" in API group "" in the namespace "dev"
 ```
+
+</details>
 
 ## 3. Zadanie
 
@@ -513,16 +518,16 @@ bartosz@Azure:~/code$ az group delete --name $resourceGroup --no-wait
 
 #### Usunięcie utworzonych użytkowników
 ```bash
-az ad user delete --id $AKSDEV_ID
-az ad user delete --id $AKSSRE_ID
-az ad user delete --id $USER3_NAME
-az ad user delete --id $USER4_NAME
+bartosz@Azure:~/code$ az ad user delete --id $AKSDEV_ID
+bartosz@Azure:~/code$ az ad user delete --id $AKSSRE_ID
+bartosz@Azure:~/code$ az ad user delete --id $USER3_NAME
+bartosz@Azure:~/code$ az ad user delete --id $USER4_NAME
 ```
 
 #### Usunięcie utworzonych grup w AD
 ```bash
-az ad group delete --group appdev
-az ad group delete --group opssre
+bartosz@Azure:~/code$ az ad group delete --group appdev
+bartosz@Azure:~/code$ az ad group delete --group opssre
 ```
 
 #### Usunięcie Service Principal
@@ -535,7 +540,7 @@ bartosz@Azure:~/code$ az ad sp delete --id $servicePrincipalClientId
 #### Usunięcie plików
 ```bash
 bartosz@Azure:~/code$ cd ..
-bartosz@Azure:~/code$ rm -rf ./code
+bartosz@Azure:~$ rm -rf ./code
 ```
 
 </details>
@@ -543,12 +548,11 @@ bartosz@Azure:~/code$ rm -rf ./code
 # Pliki
 
 * [basic-azure-ad-binding.yaml](./code/basic-azure-ad-binding.yaml)
-* [depl.yaml](./code/depl.yaml)
-* [depl.yaml](./code/depl.yaml)
-* [depl.yaml](./code/depl.yaml)
-
-
-
-
-basic-azure-ad-binding
-
+* [cluster-role-reader.yaml.yaml](./code/cluster-role-reader.yaml.yaml)
+* [clusterrolebinding-reader.yaml.yaml](./code/clusterrolebinding-reader.yaml.yaml)
+* [role-dev-namespace.yaml.yaml](./code/role-dev-namespace.yaml.yaml)
+* [role-pod-reader.yaml.yaml](./code/role-pod-reader.yaml.yaml)
+* [role-sre-namespace.yaml.yaml](./code/role-sre-namespace.yaml.yaml)
+* [rolebinding-dev-namespace.yaml.yaml](./code/rolebinding-dev-namespace.yaml.yaml)
+* [rolebinding-pod-reader.yaml.yaml](./code/rolebinding-pod-reader.yaml.yaml)
+* [rolebinding-sre-namespace.yaml.yaml](./code/rolebinding-sre-namespace.yaml.yaml)
