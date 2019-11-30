@@ -145,6 +145,15 @@ az aks create --generate-ssh-keys -g $resourceGroup -n $aksName --node-count 1 -
 az aks get-credentials --resource-group $resourceGroup --name $aksName --admin
 ```
 
+#### 1.3.6 Dodanie obecnie zalogowanego użytkownika jako Cluster Admin
+```bash
+az ad signed-in-user show -o json > signedUser.json
+userPrincipalName=$(jq -r ".userPrincipalName" signedUser.json)
+
+curl LINK > basic-azure-ad-binding.yaml
+sed -i "s|<userPrincipalName>|${userPrincipalName}|g" basic-azure-ad-binding.yaml
+kubectl apply -f basic-azure-ad-binding.yaml
+```
 </details>
 
 ---
