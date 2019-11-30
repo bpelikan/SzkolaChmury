@@ -2,7 +2,7 @@
 
 * [Przygotowanie środowiska](#1-przygotowanie-środowiska)
 * [Zapoznanie się z RBAC](#2-zapoznanie-się-z-rbac)
-* [Zadanie](#1-zadanie)
+* [Zadanie](#3-zadanie)
 * [Pliki](#pliki)
 
 ## 1. Przygotowanie środowiska
@@ -332,13 +332,167 @@ PS C:\WINDOWS\system32> kubectl run --generator=run-pod/v1 nginx-sre --image=ngi
 Error from server (Forbidden): pods is forbidden: User "akssre@<...>.onmicrosoft.com" cannot create resource "pods" in API group "" in the namespace "dev"
 ```
 
+## 3. Zadanie
+
+#### 3.1 Utworzenie nowych użytkowników
+```bash
+az ad user create --display-name "Test user 1" --user-principal-name "testuser1@${domainName}" --password $defaultUserPassword -o json > user3.json
+az ad user create --display-name "Test user 2" --user-principal-name "testuser2@${domainName}" --password $defaultUserPassword -o json > user4.json
+
+USER3_NAME=$(jq -r ".userPrincipalName" user3.json)
+USER4_NAME=$(jq -r ".userPrincipalName" user4.json)
 ```
 
-#### 2.4 Utworzenie grupy ops w AD
+#### 3.2 Utworzenie roli `pod reader`
 ```bash
-opsGroupName="opssre"
-az ad group create --display-name $opsGroupName --mail-nickname $opsGroupName -o json > opssre.json
-OPSSRE_ID=$(jq -r ".objectId" opssre.json)
+curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie10/code/role-pod-reader.yaml > role-pod-reader.yaml
+kubectl apply -f role-pod-reader.yaml
+```
+
+<details> 
+  <summary><b><i>Sprawdzenie</i></b></summary> 
+  
+```bash
+bartosz@Azure:~/code$ kubectl get role -A
+NAMESPACE     NAME                                             AGE
+default       pod-reader                                       8m33s
+dev           dev-user-full-access                             46m
+kube-public   system:controller:bootstrap-signer               159m
+kube-system   extension-apiserver-authentication-reader        159m
+kube-system   kubernetes-dashboard-minimal                     158m
+kube-system   system::leader-locking-kube-controller-manager   159m
+kube-system   system::leader-locking-kube-scheduler            159m
+kube-system   system:controller:bootstrap-signer               159m
+kube-system   system:controller:cloud-provider                 159m
+kube-system   system:controller:token-cleaner                  159m
+sre           sre-user-full-access                             38m
+```
+</details> 
+
+#### 3.3 Utworzenie roli `cluster reader`
+```bash
+curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie10/code/cluster-role-reader.yaml > cluster-role-reader.yaml
+kubectl apply -f cluster-role-reader.yaml
+```
+
+<details> 
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+```bash
+bartosz@Azure:~/code$ kubectl get clusterrole
+NAME                                                                   AGE
+admin                                                                  159m
+cluster-admin                                                          159m
+cluster-reader                                                         17s
+container-health-log-reader                                            159m
+edit                                                                   159m
+(...)
+view                                                                   159m
+```
+</details> 
+
+### 3.4 Binding
+
+#### 3.4.1 `Pod reader role binding`
+```bash
+curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie10/code/rolebinding-pod-reader.yaml > rolebinding-pod-reader.yaml
+sed -i "s|<UserName>|${USER3_NAME}|g" rolebinding-pod-reader.yaml
+kubectl apply -f rolebinding-pod-reader.yaml
+```
+
+<details> 
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+```bash
+bartosz@Azure:~/code$ kubectl get RoleBinding -A
+NAMESPACE     NAME                                             AGE
+default       read-pods                                        6s
+dev           dev-user-access                                  48m
+kube-public   system:controller:bootstrap-signer               166m
+kube-system   kubernetes-dashboard-minimal                     166m
+kube-system   metrics-server-auth-reader                       166m
+kube-system   node-view                                        166m
+kube-system   system::leader-locking-kube-controller-manager   166m
+kube-system   system::leader-locking-kube-scheduler            166m
+kube-system   system:controller:bootstrap-signer               166m
+kube-system   system:controller:cloud-provider                 166m
+kube-system   system:controller:token-cleaner                  166m
+kube-system   tunnelfront                                      166m
+sre           sre-user-access                                  44m
+```
+</details> 
+
+
+#### 3.4.2 `Cluster role reader binding`
+```bash
+curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie10/code/clusterrolebinding-reader.yaml > clusterrolebinding-reader.yaml
+sed -i "s|<UserName>|${USER4_NAME}|g" clusterrolebinding-reader.yaml
+kubectl apply -f clusterrolebinding-reader.yaml
+```
+
+<details> 
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+```bash
+bartosz@Azure:~/code$ kubectl get ClusterRoleBinding
+NAME                                                   AGE
+aks-cluster-admin-binding                              168m
+cluster-admin                                          168m
+cluster-reader                                         20s
+container-health-read-logs-global                      168m
+contoso-cluster-admins                                 122m
+metrics-server:system:auth-delegator                   168m
+system:aks-client-node-proxier                         167m
+```
+</details> 
+
+
+#### 3.5 Zalogowanie się na `testuser1` - sprawdzenie dozwolonych operacji
+```bash
+PS C:\WINDOWS\system32> az aks get-credentials --resource-group $resourceGroup --name $aksName --overwrite-existing
+PS C:\WINDOWS\system32> kubectl get pod
+To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code CYR7A4U6B to authenticate.
+No resources found.
+
+PS C:\WINDOWS\system32> kubectl get pod -n default
+No resources found.
+
+PS C:\WINDOWS\system32> kubectl get svc
+Error from server (Forbidden): services is forbidden: User "testuser1@<...>.onmicrosoft.com" cannot list resource "services" in API group "" in the namespace "default"
+
+PS C:\WINDOWS\system32> kubectl run --generator=run-pod/v1 nginx-sre --image=nginx
+Error from server (Forbidden): pods is forbidden: User "testuser1@<...>.onmicrosoft.com" cannot create resource "pods" in API group "" in the namespace "default"
+
+PS C:\WINDOWS\system32> kubectl get pod -A
+Error from server (Forbidden): pods is forbidden: User "testuser1@<...>.onmicrosoft.com" cannot list resource "pods" in API group "" at the cluster scope
+```
+
+
+#### 3.6 Zalogowanie się na `testuser2` - sprawdzenie dozwolonych operacji
+```bash
+PS C:\WINDOWS\system32> az aks get-credentials --resource-group $resourceGroup --name $aksName --overwrite-existing
+PS C:\WINDOWS\system32> kubectl get pod
+To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code CSPRFQLCH to authenticate.
+No resources found.
+
+PS C:\WINDOWS\system32> kubectl get svc
+NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+kubernetes   ClusterIP   10.0.0.1     <none>        443/TCP   172m
+
+PS C:\WINDOWS\system32> kubectl get pod -A
+NAMESPACE     NAME                                    READY   STATUS    RESTARTS   AGE
+dev           nginx-dev                               1/1     Running   0          39m
+kube-system   coredns-866fc6b6c8-ph8dm                1/1     Running   0          168m
+kube-system   coredns-866fc6b6c8-xlbsx                1/1     Running   0          172m
+kube-system   coredns-autoscaler-5d5695b54f-x9xm8     1/1     Running   0          172m
+kube-system   kube-proxy-mnfx7                        1/1     Running   0          168m
+kube-system   kubernetes-dashboard-6f697bd9f5-lthnb   1/1     Running   0          172m
+kube-system   metrics-server-566bd9b4f7-p5n5c         1/1     Running   0          172m
+kube-system   tunnelfront-5c47554cbf-zvhg4            1/1     Running   0          172m
+sre           nginx-sre                               1/1     Running   0          34m
+
+PS C:\WINDOWS\system32> kubectl run --generator=run-pod/v1 nginx-sre --image=nginx
+Error from server (Forbidden): pods is forbidden: User "testuser2@<...>.onmicrosoft.com" cannot create resource "pods" in API group "" in the namespace "default"
 ```
 
 #### 2.5 Przypisanie roli dla grupy ops
