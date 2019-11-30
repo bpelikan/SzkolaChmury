@@ -3,6 +3,7 @@
 * [Przygotowanie środowiska](#1-przygotowanie-środowiska)
 * [Zapoznanie się z RBAC](#2-zapoznanie-się-z-rbac)
 * [Zadanie](#3-zadanie)
+* [Clean up](#4-wyczyszczenie-środowiska)
 * [Pliki](#pliki)
 
 ## 1. Przygotowanie środowiska
@@ -351,7 +352,7 @@ kubectl apply -f role-pod-reader.yaml
 
 <details> 
   <summary><b><i>Sprawdzenie</i></b></summary> 
-  
+
 ```bash
 bartosz@Azure:~/code$ kubectl get role -A
 NAMESPACE     NAME                                             AGE
@@ -495,57 +496,59 @@ PS C:\WINDOWS\system32> kubectl run --generator=run-pod/v1 nginx-sre --image=ngi
 Error from server (Forbidden): pods is forbidden: User "testuser2@<...>.onmicrosoft.com" cannot create resource "pods" in API group "" in the namespace "default"
 ```
 
-#### 2.5 Przypisanie roli dla grupy ops
-```bash
-az role assignment create --assignee $OPSSRE_ID --role "Azure Kubernetes Service Cluster User Role" --scope $AKS_ID
-```
 
 
 
 
 
-
-
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-
----
-
-## Wyczyszczenie środowiska
+## 4. Wyczyszczenie środowiska
 
 <details>
-  <summary><b><i>Wyczyszczenie środowiska</i></b></summary>
+  <summary><b><i>Clean up</i></b></summary>
 
-#### Usunięcie Resource group
+#### Usunięcie Resource groupy
 ```bash
 bartosz@Azure:~/code$ az group delete --name $resourceGroup --no-wait
 ```
 
+#### Usunięcie utworzonych użytkowników
+```bash
+az ad user delete --id $AKSDEV_ID
+az ad user delete --id $AKSSRE_ID
+az ad user delete --id $USER3_NAME
+az ad user delete --id $USER4_NAME
+```
+
+#### Usunięcie utworzonych grup w AD
+```bash
+az ad group delete --group appdev
+az ad group delete --group opssre
+```
+
 #### Usunięcie Service Principal
 ```bash
+bartosz@Azure:~/code$ az ad app delete --id $serverApplicationId
+bartosz@Azure:~/code$ az ad app delete --id $clientApplicationId
 bartosz@Azure:~/code$ az ad sp delete --id $servicePrincipalClientId
 ```
 
-#### Usunięcie pliku
+#### Usunięcie plików
 ```bash
-bartosz@Azure:~/code$ rm auth.json
+bartosz@Azure:~/code$ cd ..
+bartosz@Azure:~/code$ rm -rf ./code
 ```
 
 </details>
 
 # Pliki
 
+* [basic-azure-ad-binding.yaml](./code/basic-azure-ad-binding.yaml)
 * [depl.yaml](./code/depl.yaml)
+* [depl.yaml](./code/depl.yaml)
+* [depl.yaml](./code/depl.yaml)
+
+
+
+
+basic-azure-ad-binding
+
