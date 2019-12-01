@@ -1,4 +1,4 @@
-# Praca Domowa nr 10
+# Praca Domowa nr 10 - Role i uprawnienia
 
 * [Przygotowanie środowiska](#1-przygotowanie-środowiska)
 * [Zapoznanie się z RBAC](#2-zapoznanie-się-z-rbac)

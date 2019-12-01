@@ -20,6 +20,6 @@
 
 * [Lekcja 84 - połączenie z Azure Key Vault](./Lekcja84)
 
-* [Zadanie 10 - Integracja z Azure AD](./Zadanie10)
+* [Zadanie 10 - Integracja z Azure AD - Role i uprawnienia](./Zadanie10)
 
 
