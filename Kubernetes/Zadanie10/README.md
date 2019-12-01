@@ -3,10 +3,10 @@
 * [Przygotowanie środowiska](#1-przygotowanie-środowiska)
 * [Zapoznanie się z RBAC](#2-zapoznanie-się-z-rbac)
 * [Zadanie](#3-zadanie)
-* [Clean up](#4-wyczyszczenie-środowiska)
+* [Wyczyszczenie środowiska](#4-wyczyszczenie-środowiska)
 * [Pliki](#pliki)
 
-## 1. Przygotowanie środowiska
+## 1. [Przygotowanie środowiska](https://docs.microsoft.com/en-us/azure/aks/azure-ad-integration-cli)
 
 <details>
   <summary><b><i>Przygotowanie środowiska</i></b></summary>
@@ -21,9 +21,9 @@ resourceGroup="szkchm-zadanie10"
 aksName="akszad10"
 ```
 
-### 1.1 Azure AD application dla serwera
+### 1.1 `Azure AD Application` dla serwera
 
-#### 1.1.1 Utworzenie Azure AD application dla serwera
+#### 1.1.1 Utworzenie `Azure AD Application` dla serwera
 ```bash
 az ad app create --display-name "${aksName}Server" --identifier-uris "https://${aksName}Server" -o json > serverapp.json
 serverApplicationId=$(jq -r ".appId" serverapp.json)
@@ -34,22 +34,23 @@ serverApplicationId=$(jq -r ".appId" serverapp.json)
 ![portal](./img/20191130155206.jpg "portal")
 </details>
 
-#### 1.1.2 Aktualizacja application group memebership claims
+#### 1.1.2 Aktualizacja `Application Group Memebership Claims`
 ```bash
 az ad app update --id $serverApplicationId --set groupMembershipClaims=All
 ```
 <details>
   <summary><b><i>Portal</i></b></summary>
 
+Na zmianę w portalu trzeba chwilkę poczekać
 ![portal](./img/20191130155505.jpg "portal")
 </details>
 
-#### 1.1.3 Utworzenie Service Principal
+#### 1.1.3 Utworzenie `Service Principal` dla aplikacji serwera
 ```bash
 az ad sp create --id $serverApplicationId
 ```
 
-#### 1.1.4 Pobranie sekretu z utworzonego Service Principal
+#### 1.1.4 Pobranie sekretu z utworzonego `Service Principal`
 ```bash
 az ad sp credential reset --name $serverApplicationId --credential-description "AKSPassword" -o json > serverSPsecret.json
 serverApplicationSecret=$(jq -r ".password" serverSPsecret.json)
@@ -68,17 +69,19 @@ az ad app permission add --id $serverApplicationId --api 00000003-0000-0000-c000
 #### 1.1.6 Przyznanie uprawnień
 ```bash
 az ad app permission grant --id $serverApplicationId --api 00000003-0000-0000-c000-000000000000
-az ad app permission admin-consent --id  $serverApplicationId
+az ad app permission admin-consent --id $serverApplicationId
 ```
+Niestety nie znalazłem listy z opisem Guidów z `--api-permissions`. Na GitHubie w chwili obecnej jest otwarty [Issue](https://github.com/Azure/azure-cli/issues/11354).
+Dodatkowo polecenie `az ad app permission admin-consent --id` w chwili obecnej nie działa w Cloud Shell, należy wykorzystać lokalne CLI lub wyklikać w Portalu ([Issue](https://github.com/Azure/azure-cli/issues/8912)).
 <details>
   <summary><b><i>Portal</i></b></summary>
 
 ![portal](./img/20191130163838.jpg "portal")
 </details>
 
-### 1.2 Azure AD application dla klienta
+### 1.2 `Azure AD Application` dla klienta
 
-#### 1.2.1 Utworzenie Azure AD application dla klienta
+#### 1.2.1 Utworzenie `Azure AD Application` dla klienta
 ```bash
 az ad app create --display-name "${aksName}Client" --native-app --reply-urls "https://${aksName}Client" -o json > clientapp.json
 clientApplicationId=$(jq -r ".appId" clientapp.json)
@@ -90,19 +93,19 @@ clientApplicationId=$(jq -r ".appId" clientapp.json)
 ![portal](./img/20191130164750.jpg "portal")
 </details>
 
-#### 1.2.2 Utworzenie Service Principal
+#### 1.2.2 Utworzenie `Service Principal` dla klienta
 ```bash
 az ad sp create --id $clientApplicationId
 ```
 
-#### 1.2.3 Pobranie oAuth2 ID z Azure AD application serwera
+#### 1.2.3 Pobranie `oAuth2 ID` z `Azure AD Application` serwera
 ```bash
 az ad app show --id $serverApplicationId -o json > clientSP.json
 oAuthPermissionId=$(jq -r ".oauth2Permissions[0].id" clientSP.json)
 ```
 
 #### 1.2.4 Dodanie uprawnień dla klienta
-Dodanie uprawnień dla klienta do komunikacji z serwerem z wykorzystaniem `oAuth2 communication flow`.
+Dodanie uprawnień dla klienta do komunikacji (z wykorzystaniem `oAuth2 communication flow`) z serwerem .
 ```bash
 az ad app permission add --id $clientApplicationId --api $serverApplicationId --api-permissions $oAuthPermissionId=Scope
 ```
@@ -130,7 +133,7 @@ az account show -o json > accountInfo.json
 tenantId=$(jq -r ".tenantId" accountInfo.json)
 ```
 
-#### 1.3.3 Utworzenie Service Principal
+#### 1.3.3 Utworzenie `Service Principal`
 ```bash
 az ad sp create-for-rbac --skip-assignment -o json > auth.json
 servicePrincipalClientId=$(jq -r ".appId" auth.json)
@@ -158,10 +161,10 @@ kubectl apply -f basic-azure-ad-binding.yaml
 ```
 </details>
 
-## 2. Zapoznanie się z RBAC
+## 2. [Zapoznanie się z RBAC](https://docs.microsoft.com/en-us/azure/aks/azure-ad-rbac)
 
 <details>
-  <summary><b><i>Portal</i></b></summary>
+  <summary><b><i>Zapoznanie się z RBAC</i></b></summary>
 
 #### 2.1 Pobranie AKS ID
 ```bash
@@ -169,7 +172,7 @@ az aks show --resource-group $resourceGroup --name $aksName -o json > aksInfo.js
 AKS_ID=$(jq -r ".id" aksInfo.json)
 ```
 
-#### 2.2 Utworzenie grup `dev` oraz `ops` w AD
+#### 2.2 Utworzenie grup `dev` oraz `ops` w AAD
 ```bash
 devGroupName="appdev"
 az ad group create --display-name $devGroupName --mail-nickname $devGroupName -o json > appdev.json
@@ -180,7 +183,7 @@ az ad group create --display-name $opsGroupName --mail-nickname $opsGroupName -o
 OPSSRE_ID=$(jq -r ".objectId" opssre.json)
 ```
 
-#### 2.3 Przypisanie ról dla grup
+#### 2.3 Przypisanie ról do grup
 Przypisanie ról do grup dev oraz ops w celu umożliwienia korzystania z AKS
 ```bash
 az role assignment create --assignee $APPDEV_ID --role "Azure Kubernetes Service Cluster User Role" --scope $AKS_ID
@@ -190,7 +193,7 @@ az role assignment create --assignee $OPSSRE_ID --role "Azure Kubernetes Service
 
 #### 2.4 Utworzenie kont
 ```bash
-domainName="<Nawa domeny>"
+domainName="<Nawa domeny>" #należy wpisać nazwę swojej domeny AAD, można ją znaleźć wchodząc w Azure Active Directory -> w zakładce Manage: Custom domain names
 defaultUserPassword="<Domyślne hasło>"
 
 az ad user create --display-name "AKS Dev" --user-principal-name "aksdev@${domainName}" --password $defaultUserPassword -o json > user1.json
@@ -286,7 +289,7 @@ sre           sre-user-access                                  4s
 ```
 </details>
 
-#### 2.9 Zalogowanie się na `aksdev`
+#### 2.9 Zalogowanie się na użytkownika `aksdev`
 ```bash
 PS C:\WINDOWS\system32> az aks get-credentials --resource-group $resourceGroup --name $aksName --overwrite-existing
 PS C:\WINDOWS\system32> kubectl run --generator=run-pod/v1 nginx-dev --image=nginx --namespace dev
@@ -294,7 +297,7 @@ PS C:\WINDOWS\system32> kubectl run --generator=run-pod/v1 nginx-dev --image=ngi
 To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code CAUH6PZEZ to authenticate.
 ```
 
-> Zalogowanie się na `aksdev` i sprawdzenie jakie operacje może wykonać.
+> Zalogowanie się na użytkownika `aksdev` i sprawdzenie jakie operacje może wykonać.
 
 ```bash
 PS C:\WINDOWS\system32> kubectl run --generator=run-pod/v1 nginx-dev --image=nginx --namespace dev
@@ -313,16 +316,17 @@ Error from server (Forbidden): pods is forbidden: User "aksdev@<...>.onmicrosoft
 PS C:\WINDOWS\system32> kubectl run --generator=run-pod/v1 nginx-dev --image=nginx --namespace sre
 Error from server (Forbidden): pods is forbidden: User "aksdev@<...>.onmicrosoft.com" cannot create resource "pods" in API group "" in the namespace "sre"
 ```
+Jak można zauważyć użytkownik ten może wykonywać operacje tylko w namespace `dev`.
 
 
-#### 2.10 Zalogowanie się na `akssre`
+#### 2.10 Zalogowanie się na użytkownika `akssre`
 ```bash
 PS C:\WINDOWS\system32> az aks get-credentials --resource-group $resourceGroup --name $aksName --overwrite-existing
 PS C:\WINDOWS\system32> kubectl run --generator=run-pod/v1 nginx-sre --image=nginx --namespace sre
 To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code CDKFUSJUW to authenticate.
 pod/nginx-sre created
 ```
-> Zalogowanie się na `akssre` i sprawdzenie jakie operacje może wykonać.
+> Zalogowanie się na użytkownika `akssre` i sprawdzenie jakie operacje może wykonać.
 
 ```bash
 PS C:\WINDOWS\system32> kubectl get pods --namespace sre
@@ -335,10 +339,14 @@ Error from server (Forbidden): pods is forbidden: User "akssre@<...>.onmicrosoft
 PS C:\WINDOWS\system32> kubectl run --generator=run-pod/v1 nginx-sre --image=nginx --namespace dev
 Error from server (Forbidden): pods is forbidden: User "akssre@<...>.onmicrosoft.com" cannot create resource "pods" in API group "" in the namespace "dev"
 ```
+Jak widać użytkownik nie ma uprawnień do wykonywania operacji na innym namespace niż `sre`.
 
 </details>
 
 ## 3. Zadanie
+
+<details>
+  <summary><b><i>Zadanie</i></b></summary>
 
 #### 3.1 Utworzenie nowych użytkowników
 ```bash
@@ -349,7 +357,7 @@ USER3_NAME=$(jq -r ".userPrincipalName" user3.json)
 USER4_NAME=$(jq -r ".userPrincipalName" user4.json)
 ```
 
-#### 3.2 Utworzenie roli `pod reader`
+#### 3.2 Utworzenie roli `pod reader` w namespace `default`
 ```bash
 curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie10/code/role-pod-reader.yaml > role-pod-reader.yaml
 kubectl apply -f role-pod-reader.yaml
@@ -453,7 +461,7 @@ system:aks-client-node-proxier                         167m
 </details> 
 
 
-#### 3.5 Zalogowanie się na `testuser1` - sprawdzenie dozwolonych operacji
+#### 3.5 Zalogowanie się na użytkownika `testuser1` - sprawdzenie dozwolonych operacji
 ```bash
 PS C:\WINDOWS\system32> az aks get-credentials --resource-group $resourceGroup --name $aksName --overwrite-existing
 PS C:\WINDOWS\system32> kubectl get pod
@@ -472,9 +480,10 @@ Error from server (Forbidden): pods is forbidden: User "testuser1@<...>.onmicros
 PS C:\WINDOWS\system32> kubectl get pod -A
 Error from server (Forbidden): pods is forbidden: User "testuser1@<...>.onmicrosoft.com" cannot list resource "pods" in API group "" at the cluster scope
 ```
+Użytkownik `testuser1` ma dostęp tylko do odczytu podów w namespace `default`.
 
 
-#### 3.6 Zalogowanie się na `testuser2` - sprawdzenie dozwolonych operacji
+#### 3.6 Zalogowanie się na użytkownika `testuser2` - sprawdzenie dozwolonych operacji
 ```bash
 PS C:\WINDOWS\system32> az aks get-credentials --resource-group $resourceGroup --name $aksName --overwrite-existing
 PS C:\WINDOWS\system32> kubectl get pod
@@ -500,23 +509,21 @@ sre           nginx-sre                               1/1     Running   0       
 PS C:\WINDOWS\system32> kubectl run --generator=run-pod/v1 nginx-sre --image=nginx
 Error from server (Forbidden): pods is forbidden: User "testuser2@<...>.onmicrosoft.com" cannot create resource "pods" in API group "" in the namespace "default"
 ```
+Użytkownik `testuser2` ma dostęp do odczytu wszystkich obiektów w klastrze AKS, nie ma uprawnień do tworzenia obiektów.
 
-
-
-
-
+</details>
 
 ## 4. Wyczyszczenie środowiska
 
 <details>
-  <summary><b><i>Clean up</i></b></summary>
+  <summary><b><i>Wyczyszczenie środowiska</i></b></summary>
 
 #### Usunięcie Resource groupy
 ```bash
 bartosz@Azure:~/code$ az group delete --name $resourceGroup --no-wait
 ```
 
-#### Usunięcie utworzonych użytkowników
+#### Usunięcie użytkowników
 ```bash
 bartosz@Azure:~/code$ az ad user delete --id $AKSDEV_ID
 bartosz@Azure:~/code$ az ad user delete --id $AKSSRE_ID
@@ -545,7 +552,7 @@ bartosz@Azure:~$ rm -rf ./code
 
 </details>
 
-# Pliki
+## Pliki
 
 * [basic-azure-ad-binding.yaml](./code/basic-azure-ad-binding.yaml)
 * [cluster-role-reader.yaml.yaml](./code/cluster-role-reader.yaml.yaml)
