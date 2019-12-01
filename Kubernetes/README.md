@@ -20,3 +20,6 @@
 
 * [Lekcja 84 - połączenie z Azure Key Vault](./Lekcja84)
 
+* [Zadanie 10](./Zadanie10)
+
+
