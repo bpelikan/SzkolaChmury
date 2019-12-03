@@ -394,7 +394,7 @@ bartosz@Azure:~/code$ rm auth.json
 ```
 
 # Zadanie 3
-Uruchomienie Ingress controllera opartego na usłudze Application Load Balancer
+Uruchomienie Ingress controllera opartego o usługę Application Load Balancer
 
 #### 3.1 Utworzenie Service Principal
 ```bash
