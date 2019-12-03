@@ -71,7 +71,7 @@ az ad app permission add --id $serverApplicationId --api 00000003-0000-0000-c000
 az ad app permission grant --id $serverApplicationId --api 00000003-0000-0000-c000-000000000000
 az ad app permission admin-consent --id $serverApplicationId
 ```
-Niestety nie znalazłem listy z opisem Guidów z `--api-permissions`. Na GitHubie w chwili obecnej jest otwarty [Issue](https://github.com/Azure/azure-cli/issues/11354).
+Niestety nie znalazłem listy z opisem Guidów z `--api-permissions`. Obecnie na GitHubie jest otwarty [Issue](https://github.com/Azure/azure-cli/issues/11354).
 Dodatkowo polecenie `az ad app permission admin-consent --id` w chwili obecnej nie działa w Cloud Shell, należy wykorzystać lokalne CLI lub wyklikać w Portalu ([Issue](https://github.com/Azure/azure-cli/issues/8912)).
 <details>
   <summary><b><i>Portal</i></b></summary>
@@ -105,7 +105,7 @@ oAuthPermissionId=$(jq -r ".oauth2Permissions[0].id" clientSP.json)
 ```
 
 #### 1.2.4 Dodanie uprawnień dla klienta
-Dodanie uprawnień dla klienta do komunikacji (z wykorzystaniem `oAuth2 communication flow`) z serwerem .
+Dodanie uprawnień dla klienta do komunikacji (z wykorzystaniem `oAuth2 communication flow`) z serwerem.
 ```bash
 az ad app permission add --id $clientApplicationId --api $serverApplicationId --api-permissions $oAuthPermissionId=Scope
 ```
@@ -555,11 +555,11 @@ bartosz@Azure:~$ rm -rf ./code
 ## Pliki
 
 * [basic-azure-ad-binding.yaml](./code/basic-azure-ad-binding.yaml)
-* [cluster-role-reader.yaml.yaml](./code/cluster-role-reader.yaml.yaml)
-* [clusterrolebinding-reader.yaml.yaml](./code/clusterrolebinding-reader.yaml.yaml)
-* [role-dev-namespace.yaml.yaml](./code/role-dev-namespace.yaml.yaml)
-* [role-pod-reader.yaml.yaml](./code/role-pod-reader.yaml.yaml)
-* [role-sre-namespace.yaml.yaml](./code/role-sre-namespace.yaml.yaml)
-* [rolebinding-dev-namespace.yaml.yaml](./code/rolebinding-dev-namespace.yaml.yaml)
-* [rolebinding-pod-reader.yaml.yaml](./code/rolebinding-pod-reader.yaml.yaml)
-* [rolebinding-sre-namespace.yaml.yaml](./code/rolebinding-sre-namespace.yaml.yaml)
+* [cluster-role-reader.yaml](./code/cluster-role-reader.yaml)
+* [clusterrolebinding-reader.yaml](./code/clusterrolebinding-reader.yaml)
+* [role-dev-namespace.yaml](./code/role-dev-namespace.yaml)
+* [role-pod-reader.yaml](./code/role-pod-reader.yaml)
+* [role-sre-namespace.yaml](./code/role-sre-namespace.yaml)
+* [rolebinding-dev-namespace.yaml](./code/rolebinding-dev-namespace.yaml)
+* [rolebinding-pod-reader.yaml](./code/rolebinding-pod-reader.yaml)
+* [rolebinding-sre-namespace.yaml](./code/rolebinding-sre-namespace.yaml)
