@@ -286,3 +286,51 @@ clusterrole.rbac.authorization.k8s.io/containerHealth-log-reader created
 clusterrolebinding.rbac.authorization.k8s.io/containerHealth-read-logs-global created
 ```
 
+#### 3. Dodanie `helm charts repository`
+```bash
+bartosz@Azure:~/code$ helm repo add stable https://kubernetes-charts.storage.googleapis.com
+"stable" has been added to your repositories
+```
+
+#### 4. Instalacja `Prometheusa`
+```bash
+bartosz@Azure:~/code$ helm install prometheus stable/prometheus --version 9.0.0
+```
+
+<details>
+    <summary><b><i>Output</i></b></summary>
+
+```bash
+NAME: prometheus
+LAST DEPLOYED: Wed Dec  4 20:04:20 2019
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+The Prometheus server can be accessed via port 80 on the following DNS name from within your cluster:
+prometheus-server.default.svc.cluster.local
+
+Get the Prometheus server URL by running these commands in the same shell:
+  export POD_NAME=$(kubectl get pods --namespace default -l "app=prometheus,component=server" -o jsonpath="{.items[0].metadata.name}")
+  kubectl --namespace default port-forward $POD_NAME 9090
+
+The Prometheus alertmanager can be accessed via port 80 on the following DNS name from within your cluster:
+prometheus-alertmanager.default.svc.cluster.local
+
+Get the Alertmanager URL by running these commands in the same shell:
+  export POD_NAME=$(kubectl get pods --namespace default -l "app=prometheus,component=alertmanager" -o jsonpath="{.items[0].metadata.name}")
+  kubectl --namespace default port-forward $POD_NAME 9093
+
+The Prometheus PushGateway can be accessed via port 9091 on the following DNS name from within your cluster:
+prometheus-pushgateway.default.svc.cluster.local
+
+Get the PushGateway URL by running these commands in the same shell:
+  export POD_NAME=$(kubectl get pods --namespace default -l "app=prometheus,component=pushgateway" -o jsonpath="{.items[0].metadata.name}")
+  kubectl --namespace default port-forward $POD_NAME 9091
+
+For more information on running Prometheus, visit:
+https://prometheus.io/
+```
+</details>
+
