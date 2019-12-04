@@ -399,3 +399,4 @@ Forwarding from 127.0.0.1:3000 -> 3000
 Forwarding from [::1]:3000 -> 3000
 ```
 
+Utworzenie HPA i wykonanie testu obciążeniowego z [zadania 9](../Zadanie9)
