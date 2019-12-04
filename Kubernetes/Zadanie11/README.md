@@ -441,4 +441,7 @@ bartosz@Azure:~/code$ cd ..
 bartosz@Azure:~/code$ rm -rf ./code
 ```
 </details>
-
+
+# Pliki
+
+* [rbac.yaml](./code/rbac.yaml)
