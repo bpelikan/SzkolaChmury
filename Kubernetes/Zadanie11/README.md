@@ -348,3 +348,40 @@ Forwarding from [::1]:9090 -> 9090
 ![Prometheus](./img/20191204211023.jpg "Prometheus")
 </details>
 
+#### 6. Instalacja `Grafany`
+```bash
+bartosz@Azure:~/code$ helm install grafana stable/grafana
+```
+
+<details>
+    <summary><b><i>Output</i></b></summary>
+
+```bash
+NAME: grafana
+LAST DEPLOYED: Wed Dec  4 20:10:55 2019
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+NOTES:
+1. Get your 'admin' user password by running:
+
+   kubectl get secret --namespace default grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+
+2. The Grafana server can be accessed via port 80 on the following DNS name from within your cluster:
+
+   grafana.default.svc.cluster.local
+
+   Get the Grafana URL to visit by running these commands in the same shell:
+
+     export POD_NAME=$(kubectl get pods --namespace default -l "app=grafana,release=grafana" -o jsonpath="{.items[0].metadata.name}")
+     kubectl --namespace default port-forward $POD_NAME 3000
+
+3. Login with the password from step 1 and the username: admin
+#################################################################################
+######   WARNING: Persistence is disabled!!! You will lose your data when   #####
+######            the Grafana pod is terminated.                            #####
+#################################################################################
+```
+</details>
+
+
