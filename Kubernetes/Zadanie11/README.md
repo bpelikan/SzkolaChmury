@@ -1,6 +1,9 @@
 # Praca Domowa nr 11
 
 * [Przygotowanie środowiska](#przygotowanie-środowiska)
+* [Zadanie](#zadanie)
+* [Wyczyszczenie środowiska](#wyczyszczenie-środowiska)
+* [Pliki](#wynik)
 
 ## Przygotowanie środowiska
 
@@ -39,8 +42,6 @@ bartosz@Azure:~/code$ az aks get-credentials --resource-group $resourceGroup --n
 
 <details>
   <summary><b><i>Sprawdzenie środowiska</i></b></summary>
-
-#### Sprawdzenie monitoringu
 
 ```bash
 bartosz@Azure:~/code$ kubectl get pod -A
@@ -334,7 +335,7 @@ https://prometheus.io/
 ```
 </details>
 
-#### 5. Połączenie się z serwerem `Prometheus`
+#### 5. Połączenie się z serwerem `Prometheusa`
 ```PowerShell
 PS C:\WINDOWS\system32> $POD_NAME=$(kubectl get pods --namespace default -l "app=prometheus,component=server" -o jsonpath="{.items[0].metadata.name}")
 PS C:\WINDOWS\system32> kubectl --namespace default port-forward $POD_NAME 9090
@@ -399,9 +400,9 @@ Forwarding from 127.0.0.1:3000 -> 3000
 Forwarding from [::1]:3000 -> 3000
 ```
 
-> Utworzenie HPA i wykonanie testu obciążeniowego z [zadania 9](../Zadanie9).
+#### 9. Utworzenie HPA i wykonanie testu obciążeniowego z [zadania 9](../Zadanie9).
 
-## Wynik
+#### 10. Przegląd logów
 
 <details>
     <summary><b><i>Grafana</i></b></summary>
