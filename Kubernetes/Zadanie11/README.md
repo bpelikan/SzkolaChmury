@@ -278,3 +278,11 @@ bartosz@Azure:~/code$ kubectl run nginx --image nginx --restart Never
 pod/nginx created
 ```
 
+#### 2. Utworzenie `ClusterRole` dla `Live Data`
+```bash
+bartosz@Azure:~/code$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie11/code/rbac.yaml > rbac.yaml
+bartosz@Azure:~/code$ kubectl apply -f rbac.yaml
+clusterrole.rbac.authorization.k8s.io/containerHealth-log-reader created
+clusterrolebinding.rbac.authorization.k8s.io/containerHealth-read-logs-global created
+```
+
