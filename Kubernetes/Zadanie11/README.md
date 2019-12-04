@@ -334,3 +334,17 @@ https://prometheus.io/
 ```
 </details>
 
+#### 5. Połączenie się z serwerem `Prometheus`
+```PowerShell
+PS C:\WINDOWS\system32> $POD_NAME=$(kubectl get pods --namespace default -l "app=prometheus,component=server" -o jsonpath="{.items[0].metadata.name}")
+PS C:\WINDOWS\system32> kubectl --namespace default port-forward $POD_NAME 9090
+Forwarding from 127.0.0.1:9090 -> 9090
+Forwarding from [::1]:9090 -> 9090
+```
+
+<details>
+    <summary><b><i>Podgląd</i></b></summary>
+
+![Prometheus](./img/20191204211023.jpg "Prometheus")
+</details>
+
