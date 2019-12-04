@@ -420,3 +420,25 @@ Forwarding from [::1]:3000 -> 3000
 ![Azure Monitor](./img/20191204215352.jpg "Azure Monitor")
 </details>
 
+## Wyczyszczenie środowiska
+
+<details>
+  <summary><b><i>Wyczyszczenie środowiska</i></b></summary>
+
+#### Usunięcie Resource group
+```bash
+bartosz@Azure:~/code$ az group delete --name $resourceGroup --no-wait
+```
+
+#### Usunięcie Service Principal
+```bash
+bartosz@Azure:~/code$ az ad sp delete --id $servicePrincipalClientId
+```
+
+#### Usunięcie pliku
+```bash
+bartosz@Azure:~/code$ cd ..
+bartosz@Azure:~/code$ rm -rf ./code
+```
+</details>
+
