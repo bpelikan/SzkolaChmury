@@ -399,4 +399,24 @@ Forwarding from 127.0.0.1:3000 -> 3000
 Forwarding from [::1]:3000 -> 3000
 ```
 
-Utworzenie HPA i wykonanie testu obciążeniowego z [zadania 9](../Zadanie9)
+> Utworzenie HPA i wykonanie testu obciążeniowego z [zadania 9](../Zadanie9).
+
+## Wynik
+
+<details>
+    <summary><b><i>Grafana</i></b></summary>
+
+![Grafana](./img/20191204215053.jpg "Grafana")
+</details>
+
+<details>
+    <summary><b><i>Azure Monitor</i></b></summary>
+
+![Azure Monitor](./img/20191204215232.jpg "Azure Monitor")
+![Azure Monitor](./img/20191204215336.jpg "Azure Monitor")
+![Azure Monitor](./img/20191204215340.jpg "Azure Monitor")
+![Azure Monitor](./img/20191204215343.jpg "Azure Monitor")
+![Azure Monitor](./img/20191204215347.jpg "Azure Monitor")
+![Azure Monitor](./img/20191204215352.jpg "Azure Monitor")
+</details>
+
