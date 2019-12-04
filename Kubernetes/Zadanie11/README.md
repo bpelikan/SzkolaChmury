@@ -385,3 +385,17 @@ NOTES:
 </details>
 
 
+#### 7. Pobranie hasła do `Grafany`
+```bash
+bartosz@Azure:~/code$ kubectl get secret --namespace default grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+FIiH0OHlVnjd7KuDKipehz7mzemvSmMmQ1QO3kSA
+```
+
+#### 8. Połączenie się z `Grafaną`
+```PowerShell
+PS C:\WINDOWS\system32> $POD_NAME=$(kubectl get pods --namespace default -l "app=grafana,release=grafana" -o jsonpath="{.items[0].metadata.name}")
+PS C:\WINDOWS\system32> kubectl --namespace default port-forward $POD_NAME 3000
+Forwarding from 127.0.0.1:3000 -> 3000
+Forwarding from [::1]:3000 -> 3000
+```
+
