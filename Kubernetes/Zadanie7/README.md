@@ -271,7 +271,7 @@ wordpress-mysql-5b5b95db74-ns9hr   1/1     Running   0          10s
 * utworzenie 2 replik poda z tym samy PVC 
 * zalogowanie się do jednego poda
 * utworzenie pliku
-* zalogowanie się do drugiedo poda
+* zalogowanie się do drugiego poda
 * sprawdzenie czy plik istnieje
 
 ```bash

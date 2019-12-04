@@ -22,4 +22,6 @@
 
 * [Zadanie 10 - Integracja z Azure AD - Role i uprawnienia](./Zadanie10)
 
+* [Zadanie 11](./Zadanie11)
+
 
