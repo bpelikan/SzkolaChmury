@@ -270,5 +270,11 @@ omsagent-rs   1/1     1            1           12m
 
 </details>
 
+# Zadanie
 
+#### 1. Uruchomienie `nginx`
+```bash
+bartosz@Azure:~/code$ kubectl run nginx --image nginx --restart Never
+pod/nginx created
+```
 
