@@ -57,4 +57,18 @@
 ![Compute Engine](./img/20191208194255.jpg "Compute Engine")
 ![Compute Engine](./img/20191208194713.jpg "Compute Engine")
 ![Compute Engine](./img/20191208194821.jpg "Compute Engine")
-</details>
+</details>
+
+## 3.2 Odłączenie dysku startowego
+
+<details>
+  <summary><b><i>Pokaż</i></b></summary>
+
+![Compute Engine](./img/20191208195218.jpg "Compute Engine")
+![Compute Engine](./img/20191208195232.jpg "Compute Engine")
+![Compute Engine](./img/20191208195408.jpg "Compute Engine")
+</details>
+
+![Compute Engine](./img/20191208195218.jpg "Compute Engine")
+![Compute Engine](./img/20191208195232.jpg "Compute Engine")
+![Compute Engine](./img/20191208195408.jpg "Compute Engine")
