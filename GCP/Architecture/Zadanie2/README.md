@@ -20,4 +20,17 @@
 ![Billing export](./img/20191208185404.jpg "Billing export")
 ![Billing export](./img/20191208185448.jpg "Billing export")
 </details>
+
+## 2. Eksport danych rozliczeniowych do pliku
+
+#### 2.1 Utworzenie Bucketa w Cloud Storage
+
+<details>
+  <summary><b><i>Pokaż</i></b></summary>
+
+![Cloud Storage](./img/20191208192059.jpg "Cloud Storage")
+![Cloud Storage](./img/20191208192350.jpg "Cloud Storage")
+![Cloud Storage](./img/20191208192457.jpg "Cloud Storage")
+![Cloud Storage](./img/20191208192434.jpg "Cloud Storage")
+</details>
 
