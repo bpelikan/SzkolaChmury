@@ -83,7 +83,6 @@
 <details>
   <summary><b><i>Pokaż</i></b></summary>
 
-![ComputeEngine](./img/20191208200523.jpg "ComputeEngine")
 ![ComputeEngine](./img/20191208200614.jpg "ComputeEngine")
 ![ComputeEngine](./img/20191208200703.jpg "ComputeEngine")
 </details>
