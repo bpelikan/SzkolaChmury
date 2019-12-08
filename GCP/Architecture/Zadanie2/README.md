@@ -78,4 +78,14 @@
 ![Compute Engine](./img/20191208195456.jpg "Compute Engine")
 ![Compute Engine](./img/20191208195520.jpg "Compute Engine")
 </details>
-
+
+
+## 3.4 Snapshot dysku
+
+<details>
+  <summary><b><i>Pokaż</i></b></summary>
+
+![Compute Engine](./img/20191208200523.jpg "Compute Engine")
+![Compute Engine](./img/20191208200614.jpg "Compute Engine")
+![Compute Engine](./img/20191208200703.jpg "Compute Engine")
+</details>
