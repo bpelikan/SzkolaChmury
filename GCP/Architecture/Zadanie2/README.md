@@ -47,7 +47,7 @@
 </details>
 
 
-## Compute Engine
+# Compute Engine
 
 ### 3.1 Utworzenie oraz uruchamianie instancji
 
@@ -119,7 +119,7 @@ snapshot-1  10            europe-west3-b/disks/instance-1  READY
 
 Sprawdzenie listy dostępnych zone:
 ```
-bartoszpelikan@cloudshell:~ (resonant-idea-261413)$ gcloud compute zones list
+bartosz@cloudshell:~ (resonant-idea-261413)$ gcloud compute zones list
 NAME                       REGION                   STATUS  NEXT_MAINTENANCE  TURNDOWN_DATE
 asia-northeast2-a          asia-northeast2          UP
 ```
