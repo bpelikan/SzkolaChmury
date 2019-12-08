@@ -33,4 +33,14 @@
 ![Cloud Storage](./img/20191208192457.jpg "Cloud Storage")
 ![Cloud Storage](./img/20191208192434.jpg "Cloud Storage")
 </details>
+
+#### 2.1 Eksport danych do pliku CSV
+
+<details>
+  <summary><b><i>Pokaż</i></b></summary>
+
+![Cloud Storage](./img/20191208192726.jpg "Cloud Storage")
+![Cloud Storage](./img/20191208192928.jpg "Cloud Storage")
+![Cloud Storage](./img/20191208192936.jpg "Cloud Storage")
+</details>
 
