@@ -47,7 +47,7 @@
 </details>
 
 
-## Compute Engine
+# Compute Engine
 
 ### 3.1 Utworzenie oraz uruchamianie instancji
 
