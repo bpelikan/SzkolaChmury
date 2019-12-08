@@ -69,6 +69,13 @@
 ![Compute Engine](./img/20191208195408.jpg "Compute Engine")
 </details>
 
-![Compute Engine](./img/20191208195218.jpg "Compute Engine")
-![Compute Engine](./img/20191208195232.jpg "Compute Engine")
-![Compute Engine](./img/20191208195408.jpg "Compute Engine")
+## 3.3 Ponowne podłączenie dysku startowego
+
+<details>
+  <summary><b><i>Pokaż</i></b></summary>
+
+![Compute Engine](./img/20191208195425.jpg "Compute Engine")
+![Compute Engine](./img/20191208195456.jpg "Compute Engine")
+![Compute Engine](./img/20191208195520.jpg "Compute Engine")
+</details>
+
