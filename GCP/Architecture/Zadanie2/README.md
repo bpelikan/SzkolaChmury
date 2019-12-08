@@ -1,8 +1,8 @@
-# Zadanie domowe nr 2
+# [Zadanie domowe nr 2](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-2-podstawy-pracy-z-gcp/zadanie-domowe-nr-2/)
 
 # Billing
 
-## 1. Eksport danych rozliczeniowych do BigQuery
+### 1. Eksport danych rozliczeniowych do BigQuery
 
 #### 1.1 Utworzenie Datasetu w BigQuery
 
@@ -23,7 +23,7 @@
 ![BillingExport](./img/20191208185448.jpg "BillingExport")
 </details>
 
-## 2. Eksport danych rozliczeniowych do pliku
+### 2. Eksport danych rozliczeniowych do pliku
 
 #### 2.1 Utworzenie Bucketa w Cloud Storage
 
@@ -47,9 +47,9 @@
 </details>
 
 
-# Compute Engine
+## Compute Engine
 
-## 3.1 Utworzenie oraz uruchamianie instancji
+### 3.1 Utworzenie oraz uruchamianie instancji
 
 <details>
   <summary><b><i>Pokaż</i></b></summary>
@@ -59,7 +59,7 @@
 ![ComputeEngine](./img/20191208194821.jpg "ComputeEngine")
 </details>
 
-## 3.2 Odłączenie dysku startowego
+### 3.2 Odłączenie dysku startowego
 
 <details>
   <summary><b><i>Pokaż</i></b></summary>
@@ -69,7 +69,7 @@
 ![ComputeEngine](./img/20191208195408.jpg "ComputeEngine")
 </details>
 
-## 3.3 Ponowne podłączenie dysku startowego
+### 3.3 Ponowne podłączenie dysku startowego
 
 <details>
   <summary><b><i>Pokaż</i></b></summary>
@@ -79,7 +79,7 @@
 ![ComputeEngine](./img/20191208195520.jpg "ComputeEngine")
 </details>
 
-## 3.4 Snapshot dysku
+### 3.4 Snapshot dysku
 
 <details>
   <summary><b><i>Pokaż</i></b></summary>
@@ -89,7 +89,7 @@
 ![ComputeEngine](./img/20191208200703.jpg "ComputeEngine")
 </details>
 
-## 3.5 Przenoszenie instancji pomiędzy strefami
+### 3.5 Przenoszenie instancji pomiędzy strefami
 
 ```
 gcloud compute instances move instance-1 --zone europe-west3-b --destination-zone europe-west3-a
@@ -102,7 +102,7 @@ gcloud compute instances move instance-1 --zone europe-west3-b --destination-zon
 ![ComputeEngine](./img/20191208201813.jpg "ComputeEngine")
 </details>
 
-## 3.6 Przenoszenie instancji pomiędzy regionami
+### 3.6 Przenoszenie instancji pomiędzy regionami
 
 #### 3.6.1 Stworzenie dysku ze snapshota
 Wyświetlenie wszystkich dysków
@@ -150,7 +150,7 @@ instance-2  asia-northeast2-a  f1-micro                   10.174.0.2   34.97.196
 </details>
 
 
-## 4. Uruchomienie skryptów startowych
+### 3.7 Uruchomienie skryptów startowych
 
 <details>
   <summary><b><i>Utworzenie nowej instancji VM</i></b></summary>
