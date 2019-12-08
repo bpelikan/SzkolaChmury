@@ -150,7 +150,17 @@ instance-2  asia-northeast2-a  f1-micro                   10.174.0.2   34.97.196
 </details>
 
 
+## 4. Uruchomienie skryptów startowych
 
+<details>
+  <summary><b><i>Utworzenie nowej instancji VM</i></b></summary>
 
+![ComputeEngine](./img/20191208211154.jpg "ComputeEngine")
+![ComputeEngine](./img/20191208211249.jpg "ComputeEngine")
+</details>
 
-
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+![ComputeEngine](./img/20191208211354.jpg "ComputeEngine")
+</details>
