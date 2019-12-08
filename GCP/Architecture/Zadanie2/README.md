@@ -1,5 +1,7 @@
 # Zadanie domowe nr 2
 
+# Billing
+
 ## 1. Eksport danych rozliczeniowych do BigQuery
 
 #### 1.1 Utworzenie Datasetu w BigQuery
@@ -43,4 +45,16 @@
 ![Cloud Storage](./img/20191208192928.jpg "Cloud Storage")
 ![Cloud Storage](./img/20191208192936.jpg "Cloud Storage")
 </details>
-
+
+
+# Compute Engine
+
+## 3.1 Utworzenie oraz uruchamianie instancji
+
+<details>
+  <summary><b><i>Pokaż</i></b></summary>
+
+![Compute Engine](./img/20191208194255.jpg "Compute Engine")
+![Compute Engine](./img/20191208194713.jpg "Compute Engine")
+![Compute Engine](./img/20191208194821.jpg "Compute Engine")
+</details>
