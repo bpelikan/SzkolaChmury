@@ -54,7 +54,6 @@
 <details>
   <summary><b><i>Pokaż</i></b></summary>
 
-![ComputeEngine](./img/20191208194255.jpg "ComputeEngine")
 ![ComputeEngine](./img/20191208194713.jpg "ComputeEngine")
 ![ComputeEngine](./img/20191208194821.jpg "ComputeEngine")
 </details>
