@@ -37,6 +37,21 @@
 
 #### Materialized View Pattern
 
+
+#### Transient Error / Transient Fault Handling
+* ponawianie zapytań do serwisu - chwilowa niedostępność kolejki, konta storage
+
+#### Circuit Breaker
+* blokowanie kolejnych połączeń w przypadku niedostępności usługi
+
+#### Retry Pattern
+
+#### Queue Based Load Leveling
+* nierównomierny ruch, monitorowanie wielkości kolejki -> skalowanie
+* przechowywanie wiadomości w przypadku niedostępności serwisu konsumującego wiadomości
+* wysyłanie maili (np z potwierdzeniem zakupu)
+
+
 ## Usługi
 
 
