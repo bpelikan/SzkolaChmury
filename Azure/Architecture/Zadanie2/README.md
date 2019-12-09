@@ -29,6 +29,13 @@
 * rozkładanie ruchu pomiędzy instancjami aplikacji
 
 
+#### Redis Cache
+* cache dla danych pobieranych przez użytkowników/klientów
+
+#### Data Partitioning (Lookup Strategy / Range Strategy / Hash Strategy)
+* według kategorii produktów , klienta? przy płatnościach-historii zakupów, daty miesiąca/godziny
+
+#### Materialized View Pattern
 
 ## Usługi
 
@@ -72,6 +79,13 @@
 #### Load balancer / Application gateway
 * za trafic managerem, rozrzucanie ruchu pomiędzy instancjami w zależności od usługi jaką świadczą (oraz obciążenia jeśli wspiera - trafiic manager/load balancer)
 
+#### Data ...
+* tworzenie raportów, analiza danych
 
 #### Wysyłanie maili
 * SendGrid, inne ...
+
+
+----
+
+Użycie zebranych logów do wyboru regionów w których będzie istniała aplikacja, rodzaju cachowanych danych według regionu oraz popularności danej kategorii
