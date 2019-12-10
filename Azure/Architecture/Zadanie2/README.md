@@ -31,6 +31,11 @@
 
 #### CQRS
 * rozdzielenie zapisu oraz odczytu danych
+* oddzielne skalowanie odczytu oraz zapisu / niezależne skalowanie
+* wykorzystanie kolejki dla asynchronicznego zapisu
+* zoptymalizowana baza do odczytu
+* możliwość wykorzystania różnego typu baz relacyjna/nierelacyjna
+* wykorzystanie repliki bazy do odczytu jako read-only
 
 #### Throttling pattern
 * ograniczenie użytkownikowi ilości zapytań na sekundę - dostarczenie usługi do większej ilości klinetów
