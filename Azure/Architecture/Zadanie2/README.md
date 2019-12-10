@@ -1,9 +1,33 @@
 # Praca domowa - tydzień 2
 
-##
+## Patterns
 
 #### Valet Key
+* odciążenie serwera aplikacyjnego niepotrzebnymi operacjami pobierania/wysyłania plików
+* zmniejszenie wykorzystania transferu danych
+* skalowanie tylko usługi dostarczającej pliki w przypadku większego zapotrzebowania
+* dostęp do plików w określonym zakresie uprawnień (odczyt/zapis) oraz w określonym czasie
+* możliwość unieważnienia klucza przez serwer (np. po zakończonym procesie wysyłania pliku)
+
+* klucz dostępu może zostać upubliczniony
+
 * SAS dla faktur
+* trudność w logowaniu/autytowaniu dostępu
+
+<details>
+    <summary><b><i>Wady/zalety</i></b></summary>
+
+| Zalety                                                                                    | Wady                                                                                        |
+|-------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
+| odciążenie serwera aplikacyjnego niepotrzebnymi operacjami pobierania/wysyłania plików    | klucz dostępu może zostać upubliczniony                                                     |
+| zmniejszenie wykorzystania transferu danych                                               | zbyt krótki okres ważności klucza może spowodować, że użytkownik nie zdąży wykonać operacji |
+| skalowanie tylko usługi dostarczającej pliki w przypadku większego zapotrzebowania        | brak możliwości zdefiniowania rozmiaru wysyłanego plików / ilości pobrań pliku              |
+| dostęp do plików w określonym zakresie uprawnień (odczyt/zapis) oraz w określonym czasie  | konieczność zarządzania kluczami dostępu                                                    |
+| możliwość unieważnienia klucza przez serwer (np. po zakończonym procesie wysyłania pliku) | przeglądarka może nie wspierać CORS                                                         |
+|                                                                                           |                                                                                             |
+|                                                                                           |                                                                                             |
+</details>
+
 
 #### CQRS
 * rozdzielenie zapisu oraz odczytu danych
