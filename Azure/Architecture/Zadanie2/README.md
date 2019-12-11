@@ -38,7 +38,7 @@
 * wykorzystanie repliki bazy do odczytu jako read-only
 
 #### Throttling pattern
-* ograniczenie użytkownikowi ilości zapytań na sekundę - dostarczenie usługi do większej ilości klinetów (np w szczególnym okresie większej aktywności - kampania reklamowa/black friday)
+* ograniczenie użytkownikowi ilości zapytań na sekundę - dostarczenie usługi do większej ilości klinetów (np w szczególnym okresie większej aktywności - kampania reklamowa/black friday) ()
 * spełnienie wymagań SLA
 * wyłączanie usług mało istotnych na rzecz usług wrażliwych (przynoszących wartość biznesową), jak np. dokonywanie zakupów, płatności (pomocne może być Priority Queue pattern  z ustawionymi hight-value tenant)
 * ograniczenie dostępu na czas autoskalowania
@@ -47,9 +47,10 @@
 
 #### Asynchronous Messaging/Queue-Based Load Leveling
 
-#### Competing Consumer Pattern
+#### Competing Consumer Pattern - Azure Service Bus Queues
 * wysyłanie wiadomości
 * dokonywanie płatności ?
+* generowanie faktur
 
 
 #### Cached Data Consistency
@@ -97,7 +98,7 @@
   * wykorzystanie API z AAD z celu lepszego monitorowania (audytu) dostępu do faktur + az storage w sieci prywatnej (jeśli jest to mozliwe?)
 
 
-#### CDN/cache
+#### CDN/cache / Azure Cache for Redis
 * dla zdjęć oraz treści opisu produktów
 
 #### CosmosDb
@@ -112,6 +113,8 @@
 * zdjęcie/tekst - analiza pod kątem treści zabronionych
 * tworzenie thumbnaili zdjęć
 
+#### Service Bus Queues
+* system kolejkowy
 
 #### Search
 * wyszukiwanie produktów
