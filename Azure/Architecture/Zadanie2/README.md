@@ -44,7 +44,6 @@
 * ograniczenie dostępu na czas autoskalowania
 
 
-
 #### Asynchronous Messaging/Queue-Based Load Leveling
 
 #### Competing Consumer Pattern - Azure Service Bus Queues
@@ -57,6 +56,11 @@
 
 #### Cache Aside Pattern
 * przechowywanie informacji o produktach jak cena czy opis
+
+
+#### Static Content Hosting
+* odciążenie aplikacji pytaniami o treści statyczne (img, html, css, js)
+* użycie CDN dla szybszego pobierania treści w różnych lokalizacjach
 
 
 #### Load Balancing
