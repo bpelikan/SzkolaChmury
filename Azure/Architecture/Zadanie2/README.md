@@ -38,7 +38,11 @@
 * wykorzystanie repliki bazy do odczytu jako read-only
 
 #### Throttling pattern
-* ograniczenie użytkownikowi ilości zapytań na sekundę - dostarczenie usługi do większej ilości klinetów
+* ograniczenie użytkownikowi ilości zapytań na sekundę - dostarczenie usługi do większej ilości klinetów (np w szczególnym okresie większej aktywności - kampania reklamowa/black friday)
+* spełnienie wymagań SLA
+* wyłączanie usług mało istotnych na rzecz usług wrażliwych (przynoszących wartość biznesową), jak np. dokonywanie zakupów, płatności (pomocne może być Priority Queue pattern  z ustawionymi hight-value tenant)
+* ograniczenie dostępu na czas autoskalowania
+
 
 
 #### Asynchronous Messaging/Queue-Based Load Leveling
