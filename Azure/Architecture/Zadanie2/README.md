@@ -56,7 +56,7 @@
 #### Cached Data Consistency
 
 #### Cache Aside Pattern
-* pobieranie informacji o produktach
+* przechowywanie informacji o produktach jak cena czy opis
 
 
 #### Load Balancing
