@@ -74,6 +74,7 @@
 * według kategorii produktów , klienta? przy płatnościach-historii zakupów, daty miesiąca/godziny
 
 #### Materialized View Pattern
+* podsumowanie zamówień (agregacja ceny, ilości oraz zniżek)
 
 
 #### Transient Error / Transient Fault Handling
