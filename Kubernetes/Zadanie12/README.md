@@ -394,4 +394,6 @@ bartosz@Azure:~$ rm -rf ./code
 * [mixer-rule-productpage-ratelimit.yaml](./code/mixer-rule-productpage-ratelimit.yaml)
 
 # Linki
+* [Istio](https://istio.io/)
+* [Repository](https://github.com/istio/istio)
 * [Bookinfo Application](https://istio.io/docs/examples/bookinfo/)
