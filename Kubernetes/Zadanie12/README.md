@@ -332,3 +332,24 @@ bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo$ kubectl apply -f ./networking
 bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo$ kubectl delete -f ./networking/virtual-service-reviews-25-25-50.yaml
 ```
 </details>
+
+#### 4.4 Ograniczenie ilości wywołań serwisu
+
+```bash
+bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo$ kubectl apply -f ./policy/mixer-rule-productpage-ratelimit.yaml
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+![Gateway](./img/20191217221858.jpg "Gateway")
+![Gateway](./img/20191217221903.jpg "Gateway")
+</details>
+
+<details>
+  <summary><b><i>Usunięcie</i></b></summary>
+
+```bash
+bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo$ kubectl delete -f ./networking/virtual-service-reviews-25-25-50.yaml
+```
+</details>
