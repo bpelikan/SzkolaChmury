@@ -1,23 +1,23 @@
 # Praca Domowa nr 12
 
-## Przygotowanie środowiska
+## 1. Przygotowanie środowiska
 
 <details>
   <summary><b><i>Przygotowanie AKS</i></b></summary>
 
-#### Utworzenie folderu na pliki
+#### 1.1 Utworzenie folderu na pliki
 ```bash
 bartosz@Azure:~$ mkdir code
 bartosz@Azure:~$ cd code
 # bartosz@Azure:~$ code .
 ```
 
-#### Utworzenie Service Principal
+#### 1.2 Utworzenie Service Principal
 ```bash
 bartosz@Azure:~/code$ az ad sp create-for-rbac --skip-assignment -o json > auth.json
 ```
 
-#### Przypisanie zmiennych
+#### 1.3 Przypisanie zmiennych
 ```bash
 bartosz@Azure:~/code$ location="westeurope"
 bartosz@Azure:~/code$ resourceGroup="szkchm-zadanie12"
@@ -26,29 +26,29 @@ bartosz@Azure:~/code$ servicePrincipalClientId=$(jq -r ".appId" auth.json)
 bartosz@Azure:~/code$ servicePrincipalClientSecret=$(jq -r ".password" auth.json)
 ```
 
-#### Utworzenie Resource Group
+#### 1.4 Utworzenie Resource Group
 ```bash
 bartosz@Azure:~/code$ az group create --location $location --name $resourceGroup
 ```
 
-#### Utworzenie klastra
+#### 1.5 Utworzenie klastra
 ```bash
 bartosz@Azure:~/code$ az aks create --generate-ssh-keys -g $resourceGroup -n $aksName --node-count 1 --location $location --service-principal $servicePrincipalClientId --client-secret $servicePrincipalClientSecret 
 ```
 
-#### Pobranie credentials dla aks
+#### 1.6 Pobranie credentials dla aks
 ```bash
 bartosz@Azure:~/code$ az aks get-credentials --resource-group $resourceGroup --name $aksName
 ```
 </details>
 
 
-## Instalacja Istio
+## 2. Instalacja Istio
 
 <details>
   <summary><b><i>Instalacja Istio</i></b></summary>
 
-#### Pobranie paczki z Istio
+#### 2.1 Pobranie paczki z Istio
 ```bash
 bartosz@Azure:~/code$ wget https://github.com/istio/istio/releases/download/1.4.0/istio-1.4.0-linux.tar.gz
 ```
@@ -62,13 +62,13 @@ auth.json  istio-1.4.0-linux.tar.gz
 ```
 </details>
 
-#### Wypakowanie paczki
+#### 2.2 Wypakowanie paczki
 ```bash
 bartosz@Azure:~/code$ tar -xvf istio-1.4.0-linux.tar.gz
 bartosz@Azure:~/code$ cd istio-1.4.0
 ```
 
-#### Dodanie Istio do ścieżki
+#### 2.3 Dodanie Istio do ścieżki
 ```bash
 bartosz@Azure:~/code/istio-1.4.0$ export PATH=$PWD/bin:$PATH
 ```
@@ -115,7 +115,7 @@ Use "istioctl [command] --help" for more information about a command.
 </details>
 
 
-#### Istalacja Istio
+#### 2.4 Istalacja Istio
 ```bash
 bartosz@Azure:~/code/istio-1.4.0$ kubectl apply -f ./install/kubernetes/istio-demo.yaml
 ```
@@ -165,7 +165,11 @@ zipkin                   ClusterIP      10.0.105.80    <none>           9411/TCP
 ```
 </details>
 
-#### Instalacja przykładowej aplikacji
+</details>
+
+## 3. Instalacja przykładowej aplikacji
+
+#### 3.1 Instalacja przykładowej aplikacji bez Istio
 ```bash
 bartosz@Azure:~/code/istio-1.4.0$ kubectl apply -f ./samples/bookinfo/platform/kube/bookinfo.yaml
 ```
@@ -185,10 +189,82 @@ reviews-v3-54c6c64795-tbg7w      1/1     Running   0          81s
 ```
 </details>
 
-</details>
-
+#### 3.2 Zmiana katalogu
+```bash
+bartosz@Azure:~/code/istio-1.4.0$ cd ./samples/bookinfo/platform/kube/
 ```
 
+#### 3.3 Wstrzyknięcie Istio do pliku z aplikacją
+```bash
+bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo/platform/kube$ istioctl kube-inject -f bookinfo.yaml > bookinfoistio.yaml
+```
+
+#### 3.4 Zainstalowanie aplikacji pracującej z Istio
+```bash
+bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo/platform/kube$ kubectl apply -f bookinfoistio.yaml
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+```bash
+bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo/platform/kube$ kubectl get pod
+NAME                              READY   STATUS    RESTARTS   AGE
+details-v1-85f674c54c-7vpnp       2/2     Running   0          60s
+productpage-v1-6d988bb94c-djj4c   2/2     Running   0          60s
+ratings-v1-59cf9cb675-c5mpp       2/2     Running   0          60s
+reviews-v1-6699f6bb9-xcx8n        2/2     Running   0          60s
+reviews-v2-7f444c9dcb-sbzf6       2/2     Running   0          60s
+reviews-v3-766bb976dc-hx6br       2/2     Running   0          60s
+```
 </details>
+
+#### 3.5 Utworzenie Gateway
+```bash
+bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo/platform/kube$ cd ../../
+bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo$ kubectl apply -f ./networking/bookinfo-gateway.yaml
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+```bash
+bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo$ kubectl get gateway
+NAME               AGE
+bookinfo-gateway   36s
+```
+
+```bash
+bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo$ kubectl describe gateway bookinfo-gateway
+Name:         bookinfo-gateway
+Namespace:    default
+Labels:       <none>
+Annotations:  kubectl.kubernetes.io/last-applied-configuration:
+                {"apiVersion":"networking.istio.io/v1alpha3","kind":"Gateway","metadata":{"annotations":{},"name":"bookinfo-gateway","namespace":"default"...
+API Version:  networking.istio.io/v1alpha3
+Kind:         Gateway
+Metadata:
+  Creation Timestamp:  2019-12-17T20:13:46Z
+  Generation:          1
+  Resource Version:    7348
+  Self Link:           /apis/networking.istio.io/v1alpha3/namespaces/default/gateways/bookinfo-gateway
+  UID:                 baf15504-2109-11ea-b7e0-7e0749e7a1bf
+Spec:
+  Selector:
+    Istio:  ingressgateway
+  Servers:
+    Hosts:
+      *
+    Port:
+      Name:      http
+      Number:    80
+      Protocol:  HTTP
+Events:          <none>
+```
+
+![Gateway](./img/20191217211601.jpg "Gateway")
+
+</details>
+
 
 
