@@ -362,6 +362,27 @@ bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo$ kubectl delete -f ./networkin
 ```
 </details>
 
+## Wyczyszczenie środowiska
+
+<details>
+  <summary><b><i>Wyczyszczenie środowiska</i></b></summary>
+
+#### Usunięcie Resource group
+```bash
+bartosz@Azure:~/code$ az group delete --name $resourceGroup --no-wait
+```
+
+#### Usunięcie Service Principal
+```bash
+bartosz@Azure:~/code$ az ad sp delete --id $servicePrincipalClientId
+```
+
+#### Usunięcie pliku
+```bash
+bartosz@Azure:~/code$ rm auth.json
+```
+</details>
+
 # Pliki
 * [virtual-service-reviews-25-25-50.yaml](./code/virtual-service-reviews-25-25-50.yaml)
 
