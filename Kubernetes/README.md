@@ -22,6 +22,7 @@
 
 * [Zadanie 10 - Integracja z Azure AD - Role i uprawnienia](./Zadanie10)
 
-* [Zadanie 11- Azure Monitor, Prometheus + Grafana](./Zadanie11)
+* [Zadanie 11 - Azure Monitor, Prometheus + Grafana](./Zadanie11)
 
+* [Zadanie 12](./Zadanie12)
 
