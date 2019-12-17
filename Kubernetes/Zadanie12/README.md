@@ -167,7 +167,10 @@ zipkin                   ClusterIP      10.0.105.80    <none>           9411/TCP
 
 </details>
 
-## 3. Instalacja przykładowej aplikacji
+## 3. [Instalacja przykładowej aplikacji](https://istio.io/docs/examples/bookinfo/)
+
+<details>
+  <summary><b><i>Instalacja przykładowej aplikacji</i></b></summary>
 
 #### 3.1 Instalacja przykładowej aplikacji bez Istio
 ```bash
@@ -266,5 +269,48 @@ Events:          <none>
 
 </details>
 
+</details>
+
+## 4. Zadanie
+
+#### 4.1 Dodanie Destination Rule
+```bash
+bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo$ kubectl apply -f ./networking/destination-rule-all.yaml
+```
+
+Wynik:
+> Otwierając bookinfo i odżwieżając kilka razy stronę pojawiają się wyniki ze wszystkich 3 rodzajów serwisów **reviews**
+
+#### 4.2 Utworzenie wirtualnego serwisu przekierującego ruch tylko na serwis v1
+```bash
+bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo$ kubectl apply -f ./networking/virtual-service-all-v1.yaml
+```
+
+Wynik:
+> Wywoływany jest tylko serwis **Reviews-v1**, który nie komunikuje się z serwisem **Ratings**, a więc nie pojawiają się gwiazdki z ocenami
+
+<details>
+  <summary><b><i>Usunięcie Virtual Service</i></b></summary>
+
+```bash
+bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo$ kubectl delete -f ./networking/virtual-service-all-v1.yaml
+```
+</details>
 
 
+
+#### 4.3 Przekierowanie ruchu 
+>50% -> v1 
+>50% -> v3
+
+```bash
+bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo$ kubectl apply -f ./networking/virtual-service-reviews-50-v3.yaml
+```
+
+<details>
+  <summary><b><i>Usunięcie</i></b></summary>
+
+```bash
+bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo$ kubectl delete -f ./networking/virtual-service-reviews-50-v3.yaml
+```
+</details>
