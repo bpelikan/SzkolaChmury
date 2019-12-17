@@ -377,14 +377,22 @@ bartosz@Azure:~/code$ az group delete --name $resourceGroup --no-wait
 bartosz@Azure:~/code$ az ad sp delete --id $servicePrincipalClientId
 ```
 
-#### Usunięcie pliku
+#### Usunięcie plików
 ```bash
-bartosz@Azure:~/code$ rm auth.json
+bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo$ cd ~
+bartosz@Azure:~$ rm -rf ./code
 ```
 </details>
 
 # Pliki
+* [istio-demo.yaml](./code/istio-demo.yaml)
+* [bookinfo.yaml](./code/bookinfo.yaml)
+* [bookinfo-gateway.yaml](./code/bookinfo-gateway.yaml)
+* [destination-rule-all.yaml](./code/destination-rule-all.yaml)
+* [virtual-service-all-v1.yaml](./code/virtual-service-all-v1.yaml)
+* [virtual-service-reviews-50-v3.yaml](./code/virtual-service-reviews-50-v3.yaml)
 * [virtual-service-reviews-25-25-50.yaml](./code/virtual-service-reviews-25-25-50.yaml)
+* [mixer-rule-productpage-ratelimit.yaml](./code/mixer-rule-productpage-ratelimit.yaml)
 
 # Linki
 * [Bookinfo Application](https://istio.io/docs/examples/bookinfo/)
