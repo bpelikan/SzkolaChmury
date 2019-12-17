@@ -1,5 +1,12 @@
 # Praca Domowa nr 12
 
+* [Przygotowanie środowiska](#1-przygotowanie-środowiska)
+* [Instalacja Istio](#2-instalacja-istio)
+* [Instalacja przykładowej aplikacji](#3-instalacja-przykładowej-aplikacji)
+* [Zadanie](#4-zadanie)
+* [Pliki](#pliki)
+* [Linki](#linki)
+
 ## 1. Przygotowanie środowiska
 
 <details>
@@ -270,9 +277,10 @@ Events:          <none>
 </details>
 
 </details>
+
 ## 4. Zadanie
 
-#### 4.1 Dodanie Destination Rule
+### 4.1 Dodanie Destination Rule
 ```bash
 bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo$ kubectl apply -f ./networking/destination-rule-all.yaml
 ```
@@ -280,7 +288,7 @@ bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo$ kubectl apply -f ./networking
 Wynik:
 > Otwierając bookinfo i odżwieżając kilka razy stronę pojawiają się wyniki ze wszystkich 3 rodzajów serwisów **reviews**
 
-#### 4.2 Utworzenie wirtualnego serwisu przekierującego ruch tylko na serwis v1
+### 4.2 Utworzenie wirtualnego serwisu przekierującego ruch tylko na serwis v1
 ```bash
 bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo$ kubectl apply -f ./networking/virtual-service-all-v1.yaml
 ```
@@ -298,7 +306,7 @@ bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo$ kubectl delete -f ./networkin
 
 
 
-#### 4.3 Przekierowanie ruchu 
+### 4.3 Przekierowanie ruchu 
 Reguła 1:
 * 50% -> v1
 * 50% -> v3
@@ -333,7 +341,7 @@ bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo$ kubectl delete -f ./networkin
 ```
 </details>
 
-#### 4.4 Ograniczenie ilości wywołań serwisu
+### 4.4 Ograniczenie ilości wywołań serwisu
 
 ```bash
 bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo$ kubectl apply -f ./policy/mixer-rule-productpage-ratelimit.yaml
@@ -353,3 +361,9 @@ bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo$ kubectl apply -f ./policy/mix
 bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo$ kubectl delete -f ./networking/virtual-service-reviews-25-25-50.yaml
 ```
 </details>
+
+# Pliki
+* [virtual-service-reviews-25-25-50.yaml](./code/virtual-service-reviews-25-25-50.yaml)
+
+# Linki
+* [Bookinfo Application](https://istio.io/docs/examples/bookinfo/)

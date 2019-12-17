@@ -3,7 +3,7 @@
 * [Przygotowanie środowiska](#przygotowanie-środowiska)
 * [Zadanie](#zadanie)
 * [Wyczyszczenie środowiska](#wyczyszczenie-środowiska)
-* [Pliki](#wynik)
+* [Pliki](#pliki)
 
 ## Przygotowanie środowiska
 
