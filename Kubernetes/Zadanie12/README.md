@@ -270,7 +270,6 @@ Events:          <none>
 </details>
 
 </details>
-
 ## 4. Zadanie
 
 #### 4.1 Dodanie Destination Rule
@@ -300,8 +299,9 @@ bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo$ kubectl delete -f ./networkin
 
 
 #### 4.3 Przekierowanie ruchu 
->50% -> v1 
->50% -> v3
+Reguła 1:
+* 50% -> v1
+* 50% -> v3
 
 ```bash
 bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo$ kubectl apply -f ./networking/virtual-service-reviews-50-v3.yaml
@@ -312,5 +312,23 @@ bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo$ kubectl apply -f ./networking
 
 ```bash
 bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo$ kubectl delete -f ./networking/virtual-service-reviews-50-v3.yaml
+```
+</details>
+
+Reguła 2:
+* 25% -> v1
+* 25% -> v2
+* 50% -> v3
+
+```bash
+bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo$ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/Zadanie12/code/virtual-service-reviews-25-25-50.yaml > ./networking/virtual-service-reviews-25-25-50.yaml
+bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo$ kubectl apply -f ./networking/virtual-service-reviews-25-25-50.yaml
+```
+
+<details>
+  <summary><b><i>Usunięcie</i></b></summary>
+
+```bash
+bartosz@Azure:~/code/istio-1.4.0/samples/bookinfo$ kubectl delete -f ./networking/virtual-service-reviews-25-25-50.yaml
 ```
 </details>
