@@ -77,4 +77,16 @@ gcloud compute disks create vmdisk1c --source-snapshot=vmdisk1a-snapshot-1 --zon
 
 # Podpięcie dysku do VM
 gcloud compute instances attach-disk vm1c --disk vmdisk1c --zone us-central1-c
+```
+
+### Połączenie się do VM przez SSH
+```bash
+# podpięcie dysku do folderu
+sudo mkdir -p /disk2
+sudo mount -o discard,defaults /dev/sdb /disk2
+sudo chmod a+w /disk2
+
+# sprawdzenie pliku na dysku
+cd /disk2
+cat file1.txt
 ```
