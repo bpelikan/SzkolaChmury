@@ -89,4 +89,22 @@ sudo chmod a+w /disk2
 # sprawdzenie pliku na dysku
 cd /disk2
 cat file1.txt
-```
+```
+
+## Usunięcie zasobów
+```bash
+# Odpięcie dysków z VM
+gcloud compute instances detach-disk vm1a --disk vmdisk1a --zone=us-central1-a
+gcloud compute instances detach-disk vm1c --disk vmdisk1c --zone=us-central1-c
+
+# Usunięcie instancji VM
+gcloud compute instances delete vm1a --zone=us-central1-a
+gcloud compute instances delete vm1c --zone=us-central1-c
+
+# Usunięcie dysków
+gcloud compute disks delete vmdisk1a --zone=us-central1-a
+gcloud compute disks delete vmdisk1c --zone=us-central1-c
+
+# Usunięcie snapshota
+gcloud compute snapshots delete vmdisk1a-snapshot-1
+```
