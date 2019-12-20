@@ -55,4 +55,14 @@ sudo chmod a+w /disk2
 cd /disk2
 echo "test1" > file1.txt
 cat file1.txt
+```
+
+## Tworzenie snapshota
+
+```bash
+Stworzenie snapshota dysku
+gcloud compute disks snapshot vmdisk1a --snapshot-names vmdisk1a-snapshot-1 --zone=us-central1-a
+
+Sprawdzenie snapshotów
+gcloud compute snapshots list
 ```
