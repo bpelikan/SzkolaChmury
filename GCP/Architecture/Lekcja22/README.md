@@ -65,4 +65,16 @@ gcloud compute disks snapshot vmdisk1a --snapshot-names vmdisk1a-snapshot-1 --zo
 
 Sprawdzenie snapshotów
 gcloud compute snapshots list
+```
+
+## Wykorzystanie snapshota do utworzenia nowego dysku
+```bash
+# Utworzenie nowej instancji VM
+gcloud compute instances create vm1c --machine-type=f1-micro --zone=us-central1-c
+
+# Utworznie dysku ze snapshota
+gcloud compute disks create vmdisk1c --source-snapshot=vmdisk1a-snapshot-1 --zone=us-central1-c
+
+# Podpięcie dysku do VM
+gcloud compute instances attach-disk vm1c --disk vmdisk1c --zone us-central1-c
 ```
