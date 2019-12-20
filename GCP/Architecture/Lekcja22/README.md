@@ -38,4 +38,21 @@ gcloud compute disks list
 # Podpięcie dysku do VM
 gcloud compute instances attach-disk vm1a --disk=vmdisk1a --zone=us-central1-a
 ```
-
+
+### Połączenie się do VM przez SSH
+```bash
+# podgląd dysków
+sudo lsblk
+# formatowanie dysku
+sudo mkfs.ext4 -m 0 -F -E lazy_itable_init=0,lazy_journal_init=0,discard /dev/sdb
+
+# podpięcie dysku do folderu
+sudo mkdir -p /disk2
+sudo mount -o discard,defaults /dev/sdb /disk2
+sudo chmod a+w /disk2
+
+# utworzenie pliku na dysku
+cd /disk2
+echo "test1" > file1.txt
+cat file1.txt
+```
