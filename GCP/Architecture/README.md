@@ -8,3 +8,5 @@
 * [Custom image on storage account](./Lekcja23)
 
 * [Migracja VM pomiędzy regionami](./Lekcja25)
+
+* [Zadanie 3](./Zadanie3)
