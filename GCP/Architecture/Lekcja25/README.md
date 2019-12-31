@@ -1,6 +1,6 @@
 # [Migration, Duplication and Moving Machines](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-3-compute-engine/migration-duplication-and-moving-machines-hands-on/)
 
-### Przeniesienie VM pomiędzy zonami w tym samym regionie
+### 1. Przeniesienie VM pomiędzy zonami w tym samym regionie
 ```bash
 # Lista instancji
 gcloud compute instances list
@@ -9,7 +9,7 @@ gcloud compute instances list
 gcloud compute instances move wordpress-1a-vm --zone=us-central1-a --destination-zone=us-central1-b
 ```
 
-### Przeniesienie VM do innego regionu
+### 2. Przeniesienie VM do innego regionu
 ```bash
 # Lista dostępnych regionów
 gcloud compute zones list
@@ -40,7 +40,7 @@ gcloud compute instances create wordpress-2a-vm --machine-type=f1-micro --zone e
 gcloud compute instances add-tags wordpress-2a-vm --zone europe-west1-b --tags http-server
 ```
 
-### Usunięcie zasobów
+### 3. Usunięcie zasobów
 ```bash
 # Usunięcie VM
 gcloud compute instances list
