@@ -40,4 +40,20 @@ gcloud compute instances create wordpress-2a-vm --machine-type=f1-micro --zone e
 gcloud compute instances add-tags wordpress-2a-vm --zone europe-west1-b --tags http-server
 ```
 
+### Usunięcie zasobów
+```bash
+# Usunięcie VM
+gcloud compute instances list
+gcloud compute instances delete wordpress-1a-vm --zone us-central1-b
+gcloud compute instances delete wordpress-2a-vm --zone europe-west1-b
 
+# Usunięcie dysków
+gcloud compute disks list
+gcloud compute disks delete wordpress-1a-vm --zone us-central1-b
+gcloud compute disks delete wordpress-2a --zone europe-west1-b
+
+# Usunięcie snapshotów
+gcloud compute snapshots list
+gcloud compute snapshots delete backup-snapshot-wordpress-1a-vm
+gcloud compute snapshots delete snapshot-wordpress-1a-vm
+```
