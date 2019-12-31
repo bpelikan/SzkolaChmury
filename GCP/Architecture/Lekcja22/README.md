@@ -43,6 +43,7 @@ gcloud compute instances attach-disk vm1a --disk=vmdisk1a --zone=us-central1-a
 ```bash
 # podgląd dysków
 sudo lsblk
+
 # formatowanie dysku
 sudo mkfs.ext4 -m 0 -F -E lazy_itable_init=0,lazy_journal_init=0,discard /dev/sdb
 
@@ -60,10 +61,10 @@ cat file1.txt
 ## 4. Tworzenie snapshota
 
 ```bash
-Stworzenie snapshota dysku
+# Stworzenie snapshota dysku
 gcloud compute disks snapshot vmdisk1a --snapshot-names vmdisk1a-snapshot-1 --zone=us-central1-a
 
-Sprawdzenie snapshotów
+# Sprawdzenie snapshotów
 gcloud compute snapshots list
 ```
 
