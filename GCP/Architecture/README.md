@@ -1,10 +1,15 @@
 # [Google Cloud Platform – Droga Architekta](https://szkolachmury.pl/kursy/google-cloud-platform/)
 
+## Zadania
 
-* [Zadanie 2](./Zadanie2)
+* [Zadanie 2 - Billing, Compute Engine](./Zadanie2)
 
-* [Snapshot](./Lekcja22)
+* [Zadanie 3 - On-premises to GCP migration](./Zadanie3)
 
-* [Custom image on storage account](./Lekcja23)
+## Inne
 
-* [Migracja VM pomiędzy regionami](./Lekcja25)
+* [Creating Snapshot](./Lekcja22)
+
+* [Exporting custom image to storage account](./Lekcja23)
+
+* [Migration VM between regions/zones](./Lekcja25)
