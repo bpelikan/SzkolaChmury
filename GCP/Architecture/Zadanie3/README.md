@@ -24,6 +24,12 @@ Uwagi do rozwiązania:
 
 ## 3. Firma wymaga, abyś przygotował demo końcowej architektury i zaprezentował je podczas umówionego spotkania w siedzibie firmy.
 
+<details>
+  <summary><b><i>Diagram</i></b></summary>
+
+![Diagram](./img/diagram.png "Diagram")
+</details>
+
 #### Utworzenie VM z dostarczonego obrazu
 ```bash
 # Utworzenie zmiennych
