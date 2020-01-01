@@ -24,13 +24,15 @@ Uwagi do rozwiązania:
 
 ## 3. Firma wymaga, abyś przygotował demo końcowej architektury i zaprezentował je podczas umówionego spotkania w siedzibie firmy.
 
+#### 3.1 Diagram
+
 <details>
   <summary><b><i>Diagram</i></b></summary>
 
 ![Diagram](./img/diagram.png "Diagram")
 </details>
 
-#### Utworzenie VM z dostarczonego obrazu
+#### 3.2 Utworzenie VM z dostarczonego obrazu
 ```bash
 # Utworzenie zmiennych
 bucketName="images-bp"
@@ -53,7 +55,13 @@ gcloud compute images import $imageName --os=debian-9 --source-file=gs://${bucke
 gcloud compute instances create $vmName --machine-type=$vmType --zone=$vmZone --image=$imageName --tags=http-server
 ```
 
-#### Usunięcie zasobów
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+![Screen](./img/20200101202602.jpg "Screen")
+</details>
+
+#### 3.3 Usunięcie zasobów
 ```bash
 # VM
 gcloud compute instances delete $vmName --zone $vmZone
@@ -62,8 +70,3 @@ gcloud compute images delete $imageName
 # Bucket
 gsutil rm -r gs://${bucketName}/
 ```
-
-
-
-
-```
