@@ -26,17 +26,35 @@ Uwagi do rozwiązania:
 
 #### Utworzenie VM z dostarczonego obrazu
 ```bash
-# Utworzenie bucketa na obraz
-gsutil mb -c STANDARD -l europe-west3 gs://images-bp/
+# Utworzenie zmiennych
+bucketName="images-bp"
+bucketLocation="europe-west3"
+imageName="mountkirk-games-image"
+vmName="mountkirk-games-vm"
+vmType="f1-micro"
+vmZone="europe-west1-b"
+
+# Utworzenie bucketa dla obrazu
+gsutil mb -c STANDARD -l $bucketLocation gs://${bucketName}/
 
 # Skopiowanie obrazu do własnego bucketa
-gsutil cp gs://mountkirk-games-image/mountkirk-games.vmdk gs://images-bp/mountkirk-games.vmdk
+gsutil cp gs://mountkirk-games-image/mountkirk-games.vmdk gs://${bucketName}/mountkirk-games.vmdk
 
-# Import obrazu
-gcloud compute images import mountkirk-games-image --os=debian-9 --source-file=gs://images-bp/mountkirk-games.vmdk
+# Import obrazu do własnego repozytorium
+gcloud compute images import $imageName --os=debian-9 --source-file=gs://${bucketName}/mountkirk-games.vmdk
 
 # Utworzenie VM na podstawie obrazu
-gcloud compute instances create mountkirk-games-vm --machine-type=f1-micro --zone=europe-west1-b --image=mountkirk-games-image --tags=http-server
+gcloud compute instances create $vmName --machine-type=$vmType --zone=$vmZone --image=$imageName --tags=http-server
+```
+
+#### Usunięcie zasobów
+```bash
+# VM
+gcloud compute instances delete $vmName --zone $vmZone
+# Image
+gcloud compute images delete $imageName
+# Bucket
+gsutil rm -r gs://${bucketName}/
 ```
 
 
