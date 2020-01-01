@@ -5,4 +5,7 @@
 3. Firma wymaga, abyś przygotował demo końcowej architektury i zaprezentował je podczas umówionego spotkania w siedzibie firmy.
 
 ----
-
+
+## 1. Wybierz odpowiednią strategię migracji w oparciu o dostarczony opis.
+
+> Lift and shift
