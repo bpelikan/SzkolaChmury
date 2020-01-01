@@ -2,14 +2,14 @@
 
 ## Zadania
 
-* [Zadanie 2](./Zadanie2)
+* [Zadanie 2 - Billing, Compute Engine](./Zadanie2)
 
-* [Zadanie 3](./Zadanie3)
+* [Zadanie 3 - On-premises to GCP migration](./Zadanie3)
 
 ## Inne
 
-* [Snapshot](./Lekcja22)
+* [Creating Snapshot](./Lekcja22)
 
-* [Custom image on storage account](./Lekcja23)
+* [Exporting custom image to storage account](./Lekcja23)
 
-* [Migracja VM pomiędzy regionami](./Lekcja25)
+* [Migration VM between regions/zones](./Lekcja25)
