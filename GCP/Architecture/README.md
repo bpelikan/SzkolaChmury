@@ -13,3 +13,5 @@
 * [Exporting custom image to storage account](./Lekcja23)
 
 * [Migration VM between regions/zones](./Lekcja25)
+
+* [Managing roles and permissions](./Lekcja29)
