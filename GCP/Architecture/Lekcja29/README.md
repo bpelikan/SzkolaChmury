@@ -40,7 +40,7 @@ gcloud iam service-accounts delete $name@$projectId.iam.gserviceaccount.com
 rm $HOME/key.json
 ```
 
-# [Roles and Custom Roles](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-4-cloud-identity-and-access-management/roles-and-custom-roles-hands-on/)
+## [Roles and Custom Roles](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-4-cloud-identity-and-access-management/roles-and-custom-roles-hands-on/)
 
 * [Creating a custom role](https://cloud.google.com/iam/docs/creating-custom-roles#creating_a_custom_role)
 
@@ -74,4 +74,34 @@ gcloud iam roles describe $roleId --project $projectId
 # Usunięcie
 gcloud iam roles delete $roleId --project $projectId
 rm role.yaml
+```
+
+## [Cloud Organization Policy Service and Constraints](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-4-cloud-identity-and-access-management/cloud-organization-policy-service-and-constraints/)
+
+```bash
+# Zmienne
+projectId=""
+
+# Lista projektów
+gcloud projects list
+
+# Pobranie polityki zaufanych obrazów
+gcloud beta resource-manager org-policies describe compute.trustedImageProjects --effective  --project $projectId > imagePolicyRestore.yaml
+
+# Lista obrazów
+gcloud compute images list
+
+# Utworzenie pliku z polityką
+cat <<EOF > imagePolicy.yaml
+constraint: constraints/compute.trustedImageProjects
+listPolicy:
+  deniedValues:
+    - projects/debian-cloud
+EOF
+
+# Utworzenie polityki
+gcloud beta resource-manager org-policies set-policy --project $projectId imagePolicy.yaml
+
+# Przywrócenie polityki
+gcloud beta resource-manager org-policies set-policy --project $projectId imagePolicyRestore.yaml
 ```
