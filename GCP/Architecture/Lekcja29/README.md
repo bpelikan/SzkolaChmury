@@ -16,3 +16,5 @@ gcloud projects remove-iam-policy-binding $projectId --member user:$userEmail --
 # Przegląd policy
 gcloud projects get-iam-policy $projectId --format json > $HOME/policy.json
 ```
+
+## [Service Accounts](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-4-cloud-identity-and-access-management/service-accounts-hands-on/)
