@@ -37,4 +37,5 @@ gcloud iam service-accounts keys create $HOME/key.json --iam-account $name@$proj
 
 # Usunięcie
 gcloud iam service-accounts delete $name@$projectId.iam.gserviceaccount.com
+rm $HOME/key.json
 ```
