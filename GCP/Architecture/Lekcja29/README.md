@@ -40,7 +40,7 @@ gcloud iam service-accounts delete $name@$projectId.iam.gserviceaccount.com
 rm $HOME/key.json
 ```
 
-# [Roles and Custom Roles](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-4-cloud-identity-and-access-management/roles-and-custom-roles-hands-on/)
+## [Roles and Custom Roles](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-4-cloud-identity-and-access-management/roles-and-custom-roles-hands-on/)
 
 * [Creating a custom role](https://cloud.google.com/iam/docs/creating-custom-roles#creating_a_custom_role)
 
@@ -75,3 +75,6 @@ gcloud iam roles describe $roleId --project $projectId
 gcloud iam roles delete $roleId --project $projectId
 rm role.yaml
 ```
+
+## [Cloud Organization Policy Service and Constraints](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-4-cloud-identity-and-access-management/cloud-organization-policy-service-and-constraints/)
+
