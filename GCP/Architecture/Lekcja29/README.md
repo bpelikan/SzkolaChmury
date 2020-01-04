@@ -44,3 +44,34 @@ rm $HOME/key.json
 
 * [Creating a custom role](https://cloud.google.com/iam/docs/creating-custom-roles#creating_a_custom_role)
 
+```bash
+# Zmienne
+projectId=""
+roleId="roleviewertestid"
+roleTitle="Test Role Viewer"
+roleDescription="My custom role description."
+roleStage="ALPHA" #ALPHA, BETA, GA
+
+# Utworzenie pliku yaml z rolą
+cat <<EOF > role.yaml
+title: "$roleTitle"
+description: "$roleDescription"
+stage: "$roleStage"
+includedPermissions:
+- iam.roles.get
+- iam.roles.list
+EOF
+
+# Utworzenie roli
+gcloud iam roles create $roleId --project $projectId --file role.yaml
+
+# Lista ról
+gcloud iam roles list
+
+# Opis roli
+gcloud iam roles describe $roleId --project $projectId
+
+# Usunięcie
+gcloud iam roles delete $roleId --project $projectId
+rm role.yaml
+```
