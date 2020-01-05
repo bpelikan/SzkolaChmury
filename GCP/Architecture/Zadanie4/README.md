@@ -77,4 +77,13 @@ AccessDeniedException: 403 bucket-viewer-zad4@resonant-idea-261413.iam.gservicea
 ```
 </details>
 
+#### 1.5 Usunięcie zasobów
+```bash
+gcloud beta compute instances delete $vmName --zone=$vmZone 
+gcloud iam service-accounts delete $serviceAccountEmail
+gsutil -m rm -r gs://${bucketName}/
+rm test*.txt
+```
+
+
 
