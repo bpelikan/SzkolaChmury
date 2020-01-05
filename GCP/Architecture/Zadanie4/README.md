@@ -19,7 +19,7 @@ echo "Plik 2 - przykładowy tekst 2" > test2.txt
 gsutil cp test*.txt gs://${bucketName}/
 ```
 
-#### 1.2 Utworzenie `Service Account`
+### 1.2 Utworzenie `Service Account`
 > Utworzenie konta serwisowego z dostępnem Read-only do wcześniej utworzonego bucketa
 
 <details>
@@ -36,4 +36,16 @@ Oraz warunku dostępu tylko do danego bucketa:
 ![Screen](./img/20200105220527.jpg "Screen")
 
 </details>
+
+#### 1.3 Utworzenie VM
+```bash
+# Zmienne
+vmName="zad4bpvm"
+vmType="f1-micro"
+vmZone="europe-west3-b"
+serviceAccountEmail="bucket-viewer-zad4@resonant-idea-261413.iam.gserviceaccount.com" # gcloud iam service-accounts list
+
+# Utworzenie VM
+gcloud beta compute instances create $vmName --zone=$vmZone --machine-type=$vmType --image-project=debian-cloud --image=debian-9-stretch-v20191210 --service-account=$serviceAccountEmail
+```
 
