@@ -2,6 +2,8 @@
 
 ## 1. Zadanie 1
 
+> Klient poprosił cię o przygotowanie maszyny dla swoich pracowników, którzy będą mogli pobierać faktury z przygotowanego repozytorium (w naszym przypadku jest to pojemnik Cloud Storage)
+
 #### 1.1 Przygotowanie `Cloud Storage`
 ```bash
 # Zmienne
