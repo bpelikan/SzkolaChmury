@@ -135,4 +135,9 @@ keyVersion="1"
 gcloud kms keys versions get-public-key $keyVersion --location global --keyring $keyringsName --key $keyName --output-file public-key.pub
 ```
 
+#### 2.4.3 [Zaszyfrowanie pliku](https://cloud.google.com/kms/docs/encrypt-decrypt-rsa#encrypt_data)
+```bash
+openssl pkeyutl -in $HOME/zadanie4/test1.txt -encrypt -pubin -inkey $HOME/zadanie4/public-key.pub -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256 -pkeyopt rsa_mgf1_md:sha256 > $HOME/zadanie4/secret/test1.enc
+```
+
 </details>
