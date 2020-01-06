@@ -97,10 +97,6 @@ bucketLocation="europe-west3"
 
 # Utworzenie bucketa
 gsutil mb -c STANDARD -l $bucketLocation gs://${bucketName}/
-
-# Utworzenie plików do zaszyfrowania
-echo "Plik 1 - przykładowy tekst 1" > test1.txt
-echo "Plik 2 - przykładowy tekst 2" > test2.txt
 ```
 
 #### 2.2 Uruchomieie usługi KMS
@@ -122,3 +118,8 @@ gcloud kms keyrings create $keyringsName --location global
 gcloud kms keys create $keyName --location global --keyring $keyringsName --purpose $keyPurpose --default-algorithm $defaultAlgorithm 
 ```
 
+#### 2.4 PoC w Cloud Shell
+<details>
+  <summary><b><i>PoC w Cloud Shell</i></b></summary>
+
+</details>
