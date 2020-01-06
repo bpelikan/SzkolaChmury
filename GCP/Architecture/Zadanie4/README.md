@@ -48,7 +48,7 @@ vmZone="europe-west3-b"
 serviceAccountEmail="" # gcloud iam service-accounts list
 
 # Utworzenie VM
-gcloud beta compute instances create $vmName --zone=$vmZone --machine-type=$vmType --image-project=debian-cloud --image=debian-9-stretch-v20191210 --service-account=$serviceAccountEmail
+gcloud compute instances create $vmName --zone=$vmZone --machine-type=$vmType --image-project=debian-cloud --image=debian-9-stretch-v20191210 --service-account=$serviceAccountEmail
 ```
 
 #### 1.4 Sprawdzenie uprawnień
@@ -79,11 +79,13 @@ AccessDeniedException: 403 bucket-viewer-zad4@resonant-idea-261413.iam.gservicea
 
 #### 1.5 Usunięcie zasobów
 ```bash
-gcloud beta compute instances delete $vmName --zone=$vmZone 
+gcloud compute instances delete $vmName --zone=$vmZone 
 gcloud iam service-accounts delete $serviceAccountEmail
 gsutil -m rm -r gs://${bucketName}/
 rm test*.txt
 ```
 
+## 2. Zadanie 2
 
+> Dany klient przetrzymuje bardzo ważne dokumenty. Zarząd zdecydował, że wprowadzą szyfrowanie krytycznych dokumentów, które będą mogły zostać odszyfrowane po stronie pracownika, który z danego dokumentu chce skorzystać.
 
