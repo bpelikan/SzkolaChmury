@@ -103,3 +103,8 @@ echo "Plik 1 - przykładowy tekst 1" > test1.txt
 echo "Plik 2 - przykładowy tekst 2" > test2.txt
 ```
 
+#### 2.2 Uruchomieie usługi KMS
+```bash
+gcloud services enable cloudkms.googleapis.com
+```
+
