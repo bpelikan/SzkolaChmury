@@ -145,4 +145,12 @@ openssl pkeyutl -in $HOME/zadanie4/test1.txt -encrypt -pubin -inkey $HOME/zadani
 gcloud kms asymmetric-decrypt --location global --keyring $keyringsName --key $keyName --version $keyVersion --ciphertext-file $HOME/zadanie4/secret/test1.enc --plaintext-file $HOME/zadanie4/test1-odszyfrowany.txt
 ```
 
+#### 2.4.5 Porównanie pliku po odszyfrowaniu
+```bash
+bartosz@cloudshell:~/zadanie4 (resonant-idea-261413)$ cat test1.txt
+Plik 1 - przykładowy tekst 1 ąźćżółęż
+bartosz@cloudshell:~/zadanie4 (resonant-idea-261413)$ cat test1-odszyfrowany.txt
+Plik 1 - przykładowy tekst 1 ąźćżółęż
+```
+
 </details>
