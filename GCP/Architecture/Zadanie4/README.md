@@ -1,5 +1,10 @@
 # [Zadanie domowe nr 4](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-4-cloud-identity-and-access-management/zadanie-domowe-nr-4/)
 
+* [Zadanie 1](#1-zadanie-1)
+* [Zadanie 2](#2-zadanie-2)
+
+---
+
 ## 1. Zadanie 1
 
 > Klient poprosił cię o przygotowanie maszyny dla swoich pracowników, którzy będą mogli pobierać faktury z przygotowanego repozytorium (w naszym przypadku jest to pojemnik Cloud Storage)
