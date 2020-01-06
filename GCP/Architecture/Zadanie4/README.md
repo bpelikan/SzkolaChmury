@@ -89,3 +89,17 @@ rm test*.txt
 
 > Dany klient przetrzymuje bardzo ważne dokumenty. Zarząd zdecydował, że wprowadzą szyfrowanie krytycznych dokumentów, które będą mogły zostać odszyfrowane po stronie pracownika, który z danego dokumentu chce skorzystać.
 
+#### 2.1 Utworzenie bucketa dla plików
+```bash
+# Zmienne
+bucketName="secretstoragebp"
+bucketLocation="europe-west3"
+
+# Utworzenie bucketa
+gsutil mb -c STANDARD -l $bucketLocation gs://${bucketName}/
+
+# Utworzenie plików do zaszyfrowania
+echo "Plik 1 - przykładowy tekst 1" > test1.txt
+echo "Plik 2 - przykładowy tekst 2" > test2.txt
+```
+
