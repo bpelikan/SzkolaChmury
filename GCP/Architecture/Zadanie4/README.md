@@ -127,4 +127,12 @@ gcloud kms keys create $keyName --location global --keyring $keyringsName --purp
 echo "Plik 1 - przykładowy tekst 1 ąźćżółęż" > test1.txt
 ```
 
+#### 2.4.2 [Pobranie klucza publicznego](https://cloud.google.com/kms/docs/retrieve-public-key#kms-howto-retrieve-public-key-cli)
+```bash
+keyVersion="1"
+
+# Pobranie klucza publicznego
+gcloud kms keys versions get-public-key $keyVersion --location global --keyring $keyringsName --key $keyName --output-file public-key.pub
+```
+
 </details>
