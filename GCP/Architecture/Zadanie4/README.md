@@ -122,4 +122,9 @@ gcloud kms keys create $keyName --location global --keyring $keyringsName --purp
 <details>
   <summary><b><i>PoC w Cloud Shell</i></b></summary>
 
+#### 2.4.1 Utworzenie przykładowego pliku
+```bash
+echo "Plik 1 - przykładowy tekst 1 ąźćżółęż" > test1.txt
+```
+
 </details>
