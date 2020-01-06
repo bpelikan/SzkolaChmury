@@ -108,3 +108,17 @@ echo "Plik 2 - przykładowy tekst 2" > test2.txt
 gcloud services enable cloudkms.googleapis.com
 ```
 
+#### 2.3 [Utworzenie klucza asymetrycznego](https://cloud.google.com/kms/docs/creating-asymmetric-keys)
+```bash
+keyringsName="vmkeyrings"
+keyName="vmKeyAsync"
+keyPurpose="asymmetric-encryption"
+defaultAlgorithm="rsa-decrypt-oaep-3072-sha256"
+
+# Utworzenie Keyrings
+gcloud kms keyrings create $keyringsName --location global
+
+# Utworzenie klucza
+gcloud kms keys create $keyName --location global --keyring $keyringsName --purpose $keyPurpose --default-algorithm $defaultAlgorithm 
+```
+
