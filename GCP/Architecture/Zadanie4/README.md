@@ -209,4 +209,20 @@ Oraz warunków:
 
 ![Screen](./img/20200107225326.jpg "Screen")
 </details>
+
+#### 2.6 Utworzenie VM
+```bash
+vmNameEncrypt="zad4encr"
+vmNameDecrypt="zad4decr"
+vmType="f1-micro"
+vmZone="europe-west3-b"
+serviceAccountEmailEncrypt="document-encryptor@resonant-idea-261413.iam.gserviceaccount.com" # gcloud iam service-accounts list
+serviceAccountEmailDecrypt="document-decryptor@resonant-idea-261413.iam.gserviceaccount.com"
+
+# Encryptor VM
+gcloud compute instances create $vmNameEncrypt --zone=$vmZone --machine-type=$vmType --image-project=debian-cloud --image=debian-9-stretch-v20191210 --service-account=$serviceAccountEmailEncrypt --scopes=https://www.googleapis.com/auth/cloud-platform
+
+# Decryptor VM
+gcloud compute instances create $vmNameDecrypt --zone=$vmZone --machine-type=$vmType --image-project=debian-cloud --image=debian-9-stretch-v20191210 --service-account=$serviceAccountEmailDecrypt --scopes=https://www.googleapis.com/auth/cloud-platform
+```
 
