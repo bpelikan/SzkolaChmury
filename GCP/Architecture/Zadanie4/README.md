@@ -185,3 +185,28 @@ Oraz warunków:
 
 ![Screen](./img/20200107223926.jpg "Screen")
 </details>
+
+#### 2.5.2 Konto serwisowe do odszyfrowania dokumentów
+<details>
+  <summary><b><i>Pokaż</i></b></summary>
+
+![Screen](./img/20200107224843.jpg "Screen")
+Dodanie ról:
+* **Storage Object Viewer** oraz
+* **Cloud KMS CryptoKey Decrypter**
+
+![Screen](./img/20200107225335.jpg "Screen")
+
+Oraz warunków:
+* odczytu danych tylko z danego bucketa:
+  * Name is `projects/_/buckets/secretstoragebp`
+  * or Name Starts with `projects/_/buckets/secretstoragebp/objects/`
+
+![Screen](./img/20200107225155.jpg "Screen")
+
+* oraz deszyfrowania danych za pomocą kluczy z danego keyringa:
+  * Name Starts with `projects/resonant-idea-261413/locations/global/keyRings/vmkeyrings/cryptoKeys/`
+
+![Screen](./img/20200107225326.jpg "Screen")
+</details>
+
