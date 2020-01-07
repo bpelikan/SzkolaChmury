@@ -326,7 +326,6 @@ gsutil ls gs://$bucketName
 gsutil rm gs://$bucketName/test1.enc
 gsutil cat gs://$bucketName/test1.enc # powodzenie - jak można zauważyć może odczytywać pliki które utworzył
 gsutil cat gs://$bucketName/t.txt
-
 gcloud kms asymmetric-decrypt --location global --keyring $keyringsName --key $keyName --version $keyVersion --ciphertext-file $HOME/secret/test1.enc --plaintext-file $HOME/test1-odszyfrowany.txt
 ```
 
