@@ -163,4 +163,25 @@ Plik 1 - przykładowy tekst 1 ąźćżółęż
 
 #### 2.5 Utworzenie kont serwisowych
 
+#### 2.5.1 Konto serwisowe do szyfrowania dokumentów
+<details>
+  <summary><b><i>Pokaż</i></b></summary>
+
+![Screen](./img/20200107223615.jpg "Screen")
+Dodanie ról:
+* **Storage Object Creator** oraz
+* **Cloud KMS CryptoKey Public Key Viewer**
+
+![Screen](./img/20200107223937.jpg "Screen")
+
+Oraz warunków:
+* zapisu tylko do danego bucketa:
+  * Name Starts with `projects/_/buckets/secretstoragebp/objects/`
+
+![Screen](./img/20200107223752.jpg "Screen")
+
+* oraz pobieranie kluczy publicznych z danego keyringa:
+  * Name Starts with `projects/resonant-idea-261413/locations/global/keyRings/vmkeyrings/cryptoKeys/`
+
+![Screen](./img/20200107223926.jpg "Screen")
 </details>
