@@ -301,4 +301,71 @@ AccessDeniedException: 403 document-encryptor@resonant-idea-261413.iam.gservicea
 bartosz@zad4encr:~$ gcloud kms asymmetric-decrypt --location global --keyring $keyringsName --key $keyName --version $keyVersion --ciphertext-file $HOME/secret/test1.enc --plaintext-file $HOME/test1-odszyfrowany.txt
 ERROR: (gcloud.kms.asymmetric-decrypt) PERMISSION_DENIED: Permission 'cloudkms.cryptoKeyVersions.useToDecrypt' denied on resource 'projects/resonant-idea-261413/locations/global/keyRings/vmkeyrings/cryptoKeys/vmKeyAsync/cryptoKeyVersions/1' (or it may not exist).
 ```
-</details>
+</details>
+
+#### 2.8 Odszyfrowanie plików 
+```bash
+bucketName="secretstoragebp"
+keyringsName="vmkeyrings"
+keyName="vmKeyAsync"
+keyVersion="1"
+
+# Pobranie plików
+gsutil cp gs://$bucketName/* .
+
+# Odszyfrowanie plików
+gcloud kms asymmetric-decrypt --location global --keyring $keyringsName --key $keyName --version $keyVersion --ciphertext-file $HOME/test1.enc --plaintext-file $HOME/test1-odszyfrowany.txt
+gcloud kms asymmetric-decrypt --location global --keyring $keyringsName --key $keyName --version $keyVersion --ciphertext-file $HOME/test2.enc --plaintext-file $HOME/test2-odszyfrowany.txt
+
+# Wyświetlenie zawartości odszyfrowanych plików
+cat test1-odszyfrowany.txt
+cat test2-odszyfrowany.txt
+
+# Próby wykonania niedozwolonych operacji
+gsutil rm gs://$bucketName/test1.enc
+gcloud kms keys versions get-public-key $keyVersion --location global --keyring $keyringsName --key $keyName --output-file public-key.pub
+gsutil cp $HOME/test1-odszyfrowany.txt gs://$bucketName/
+```
+
+<details>
+  <summary><b><i>Console output</i></b></summary>
+
+```bash
+bartosz@zad4decr:~$ bucketName="secretstoragebp"
+bartosz@zad4decr:~$ keyringsName="vmkeyrings"
+bartosz@zad4decr:~$ keyName="vmKeyAsync"
+bartosz@zad4decr:~$ keyVersion="1"
+bartosz@zad4decr:~$ ls
+# Pobranie plików
+bartosz@zad4decr:~$ gsutil cp gs://$bucketName/* .
+Copying gs://secretstoragebp/t.txt...
+Copying gs://secretstoragebp/test1.enc...                                       
+Copying gs://secretstoragebp/test2.enc...                                       
+/ [3 files][  774.0 B/  774.0 B]                                                
+Operation completed over 3 objects/774.0 B.                                      
+bartosz@zad4decr:~$ cat test1.enc
+��� �%2+?s]�n���N�� # {...}
+# Odszyfrowanie plików
+bartosz@zad4decr:~$ gcloud kms asymmetric-decrypt --location global --keyring $keyringsName --key $keyName --version $keyVersion --ciphertext-file $HOME/test1.enc --plaintext-file $HOME/test1-odszyfrowany.txt
+bartosz@zad4decr:~$ gcloud kms asymmetric-decrypt --location global --keyring $keyringsName --key $keyName --version $keyVersion --ciphertext-file $HOME/test2.enc --plaintext-file $HOME/test2-odszyfrowany.txt
+bartosz@zad4decr:~$ ls
+test1.enc  test1-odszyfrowany.txt  test2.enc  test2-odszyfrowany.txt  t.txt
+# Wyświetlenie zawartości odszyfrowanych plików - zawartość prawidłowa
+bartosz@zad4decr:~$ cat test1-odszyfrowany.txt
+Plik 1 - przykładowy tekst 1 ąźćżółęż
+bartosz@zad4decr:~$ cat test2-odszyfrowany.txt
+Plik 2 - przykładowy tekst 2 ąźćżółęż
+# Próby wykonania niedozwolonych operacji
+bartosz@zad4decr:~$ gsutil rm gs://$bucketName/test1.enc
+Removing gs://secretstoragebp/test1.enc...
+AccessDeniedException: 403 document-decryptor@resonant-idea-261413.iam.gserviceaccount.com does not have storage
+.objects.delete access to secretstoragebp/test1.enc.
+bartosz@zad4decr:~$ gcloud kms keys versions get-public-key $keyVersion --location global --keyring $keyringsName --key $keyName --output-file public-key.pub
+ERROR: (gcloud.kms.keys.versions.get-public-key) PERMISSION_DENIED: Permission 'cloudkms.cryptoKeyVersions.viewPublicKey' denied on resource 'projects/resonant-idea-261413/locations/global/keyRings/vmkeyrings/cryptoKeys/vmKeyAsync/cryptoKeyVersions/1' (or it may not exist).
+bartosz@zad4decr:~$ gsutil cp $HOME/test1-odszyfrowany.txt gs://$bucketName/
+Copying file:///home/bartosz/test1-odszyfrowany.txt [Content-Type=text/plain]...
+AccessDeniedException: 403 document-decryptor@resonant-idea-261413.iam.gserviceaccount.com does not have storage
+.objects.create access to secretstoragebp/test1-odszyfrowany.txt.
+```
+</details>
+
