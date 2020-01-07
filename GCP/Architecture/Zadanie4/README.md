@@ -440,4 +440,14 @@ AccessDeniedException: 403 document-decryptor@resonant-idea-261413.iam.gservicea
 .objects.create access to secretstoragebp/test1-odszyfrowany.txt.
 ```
 </details>
-
+
+#### 2.9 Usunięcie zasobów
+```bash
+gcloud compute instances delete $vmNameEncrypt --zone=$vmZone
+gcloud compute instances delete $vmNameDecrypt --zone=$vmZone
+gcloud iam service-accounts delete $serviceAccountEmailEncrypt
+gcloud iam service-accounts delete $serviceAccountEmailDecrypt
+gsutil -m rm -r gs://${bucketName}/
+# keyVersion="1"
+# gcloud kms keys versions destroy $keyVersion --location global --keyring $keyringsName --key $keyName
+```
