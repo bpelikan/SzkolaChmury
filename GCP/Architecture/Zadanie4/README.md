@@ -225,4 +225,80 @@ gcloud compute instances create $vmNameEncrypt --zone=$vmZone --machine-type=$vm
 # Decryptor VM
 gcloud compute instances create $vmNameDecrypt --zone=$vmZone --machine-type=$vmType --image-project=debian-cloud --image=debian-9-stretch-v20191210 --service-account=$serviceAccountEmailDecrypt --scopes=https://www.googleapis.com/auth/cloud-platform
 ```
-
+
+#### 2.7 Zaszyfrowanie plików 
+```bash
+bucketName="secretstoragebp"
+keyringsName="vmkeyrings"
+keyName="vmKeyAsync"
+keyVersion="1"
+
+# Utworzenie przykładowych plików
+echo "Plik 1 - przykładowy tekst 1 ąźćżółęż" > test1.txt
+echo "Plik 2 - przykładowy tekst 2 ąźćżółęż" > test2.txt
+
+# Pobranie klucza publicznego
+gcloud kms keys versions get-public-key $keyVersion --location global --keyring $keyringsName --key $keyName --output-file public-key.pub
+
+# Zaszyfrowanie plików
+mkdir secret
+openssl pkeyutl -in $HOME/test1.txt -encrypt -pubin -inkey $HOME/public-key.pub -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256 -pkeyopt rsa_mgf1_md:sha256 > $HOME/secret/test1.enc
+openssl pkeyutl -in $HOME/test2.txt -encrypt -pubin -inkey $HOME/public-key.pub -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256 -pkeyopt rsa_mgf1_md:sha256 > $HOME/secret/test2.enc
+
+# Wysłanie plików do Cloud Storage
+gsutil cp $HOME/secret/test1.enc gs://$bucketName/
+gsutil cp $HOME/secret/test2.enc gs://$bucketName/
+
+# Próby wykonania niedozwolonych operacji
+gsutil ls gs://$bucketName
+gsutil rm gs://$bucketName/test1.enc
+gsutil cat gs://$bucketName/test1.enc # powodzenie - jak można zauważyć może odczytywać pliki które utworzył
+gsutil cat gs://$bucketName/t.txt
+
+gcloud kms asymmetric-decrypt --location global --keyring $keyringsName --key $keyName --version $keyVersion --ciphertext-file $HOME/secret/test1.enc --plaintext-file $HOME/test1-odszyfrowany.txt
+```
+
+<details>
+  <summary><b><i>Console output</i></b></summary>
+
+```bash
+bartosz@zad4encr:~$ bucketName="secretstoragebp"
+bartosz@zad4encr:~$ keyringsName="vmkeyrings"
+bartosz@zad4encr:~$ keyName="vmKeyAsync"
+bartosz@zad4encr:~$ keyVersion="1"
+# Utworzenie przykładowych plików
+bartosz@zad4encr:~$ echo "Plik 1 - przykładowy tekst 1 ąźćżółęż" > test1.txt
+bartosz@zad4encr:~$ echo "Plik 2 - przykładowy tekst 2 ąźćżółęż" > test2.txt
+# Pobranie klucza publicznego
+bartosz@zad4encr:~$ gcloud kms keys versions get-public-key $keyVersion --location global --keyring $keyringsName --key $keyName --output-file public-key.pub
+bartosz@zad4encr:~$ ls
+public-key.pub  test1.txt  test2.txt
+bartosz@zad4encr:~$ mkdir secret
+bartosz@zad4encr:~$ ls
+public-key.pub  secret  test1.txt  test2.txt
+# Zaszyfrowanie plików
+bartosz@zad4encr:~$ openssl pkeyutl -in $HOME/test1.txt -encrypt -pubin -inkey $HOME/public-key.pub -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256 -pkeyopt rsa_mgf1_md:sha256 > $HOME/secret/test1.enc
+bartosz@zad4encr:~$ openssl pkeyutl -in $HOME/test2.txt -encrypt -pubin -inkey $HOME/public-key.pub -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256 -pkeyopt rsa_mgf1_md:sha256 > $HOME/secret/test2.enc
+# Wysłanie plików do Cloud Storage
+bartosz@zad4encr:~$ gsutil cp $HOME/secret/test1.enc gs://$bucketName/
+Copying file:///home/bartosz/secret/test1.enc [Content-Type=application/octet-stream]...
+/ [1 files][  384.0 B/  384.0 B]                                                
+Operation completed over 1 objects/384.0 B.                                      
+bartosz@zad4encr:~$ gsutil cp $HOME/secret/test2.enc gs://$bucketName/
+Copying file:///home/bartosz/secret/test2.enc [Content-Type=application/octet-stream]...
+/ [1 files][  384.0 B/  384.0 B]                                                
+Operation completed over 1 objects/384.0 B.                                      
+# Próby wykonania niedozwolonych operacji
+bartosz@zad4encr:~$ gsutil ls gs://$bucketName
+AccessDeniedException: 403 document-encryptor@resonant-idea-261413.iam.gserviceaccount.com does not have storage.objects.list access to secretstoragebp.
+bartosz@zad4encr:~$ gsutil rm gs://$bucketName/test1.enc
+Removing gs://secretstoragebp/test1.enc...
+AccessDeniedException: 403 document-encryptor@resonant-idea-261413.iam.gserviceaccount.com does not have storage.objects.delete access to secretstoragebp/test1.enc.
+bartosz@zad4encr:~$ gsutil cat gs://$bucketName/test1.enc
+��� �%2+?s]�n���N�� # {...} powodzenie
+bartosz@zad4encr:~$ gsutil cat gs://$bucketName/t.txt
+AccessDeniedException: 403 document-encryptor@resonant-idea-261413.iam.gserviceaccount.com does not have storage.objects.list access to secretstoragebp.
+bartosz@zad4encr:~$ gcloud kms asymmetric-decrypt --location global --keyring $keyringsName --key $keyName --version $keyVersion --ciphertext-file $HOME/secret/test1.enc --plaintext-file $HOME/test1-odszyfrowany.txt
+ERROR: (gcloud.kms.asymmetric-decrypt) PERMISSION_DENIED: Permission 'cloudkms.cryptoKeyVersions.useToDecrypt' denied on resource 'projects/resonant-idea-261413/locations/global/keyRings/vmkeyrings/cryptoKeys/vmKeyAsync/cryptoKeyVersions/1' (or it may not exist).
+```
+</details>
