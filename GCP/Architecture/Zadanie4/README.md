@@ -158,5 +158,9 @@ Plik 1 - przykładowy tekst 1 ąźćżółęż
 bartosz@cloudshell:~/zadanie4 (resonant-idea-261413)$ cat test1-odszyfrowany.txt
 Plik 1 - przykładowy tekst 1 ąźćżółęż
 ```
+</details>
+
+
+#### 2.5 Utworzenie kont serwisowych
 
 </details>
