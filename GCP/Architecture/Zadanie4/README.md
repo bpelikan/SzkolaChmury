@@ -178,10 +178,46 @@ Oraz warunków:
 * zapisu tylko do danego bucketa:
   * Name Starts with `projects/_/buckets/secretstoragebp/objects/`
 
+<details>
+  <summary><b><i>Policy</i></b></summary>
+  
+```json
+{
+  "condition": {
+    "description": "Write-only access to secretstoragebp bucket",
+    "expression": "resource.name.startsWith(\"projects/_/buckets/secretstoragebp/objects/\")",
+    "title": "Bucket Secret Writer"
+  },
+  "members": [
+    "serviceAccount:document-encryptor@resonant-idea-261413.iam.gserviceaccount.com"
+  ],
+  "role": "roles/storage.objectCreator"
+},
+```
+</details>
+
 ![Screen](./img/20200107223752.jpg "Screen")
 
 * oraz pobieranie kluczy publicznych z danego keyringa:
   * Name Starts with `projects/resonant-idea-261413/locations/global/keyRings/vmkeyrings/cryptoKeys/`
+
+<details>
+  <summary><b><i>Policy</i></b></summary>
+  
+```json
+{
+  "condition": {
+    "description": "CryptoKey Public Key Viewer in vmkeyrings",
+    "expression": "resource.name.startsWith(\"projects/resonant-idea-261413/locations/global/keyRings/vmkeyrings/cryptoKeys/\")",
+    "title": "Public Key Viewer"
+  },
+  "members": [
+    "serviceAccount:document-encryptor@resonant-idea-261413.iam.gserviceaccount.com"
+  ],
+  "role": "roles/cloudkms.publicKeyViewer"
+},
+```
+</details>
 
 ![Screen](./img/20200107223926.jpg "Screen")
 </details>
@@ -202,10 +238,46 @@ Oraz warunków:
   * Name is `projects/_/buckets/secretstoragebp`
   * or Name Starts with `projects/_/buckets/secretstoragebp/objects/`
 
+<details>
+  <summary><b><i>Policy</i></b></summary>
+  
+```json
+{
+  "condition": {
+    "description": "Read-only access to bucket secretstoragebp",
+    "expression": "resource.name == \"projects/_/buckets/secretstoragebp\" ||\nresource.name.startsWith(\"projects/_/buckets/secretstoragebp/objects/\")",
+    "title": "Bucket Viewer"
+  },
+  "members": [
+    "serviceAccount:document-decryptor@resonant-idea-261413.iam.gserviceaccount.com"
+  ],
+  "role": "roles/storage.objectViewer"
+}
+```
+</details>
+
 ![Screen](./img/20200107225155.jpg "Screen")
 
 * oraz deszyfrowania danych za pomocą kluczy z danego keyringa:
   * Name Starts with `projects/resonant-idea-261413/locations/global/keyRings/vmkeyrings/cryptoKeys/`
+
+<details>
+  <summary><b><i>Policy</i></b></summary>
+  
+```json
+{
+  "condition": {
+    "description": "Allow decrypt with keys from vmkeyrings",
+    "expression": "resource.name.startsWith(\"projects/resonant-idea-261413/locations/global/keyRings/vmkeyrings/cryptoKeys/\")",
+    "title": "Decrypter"
+  },
+  "members": [
+    "serviceAccount:document-decryptor@resonant-idea-261413.iam.gserviceaccount.com"
+  ],
+  "role": "roles/cloudkms.cryptoKeyDecrypter"
+},
+```
+</details>
 
 ![Screen](./img/20200107225326.jpg "Screen")
 </details>
