@@ -1,8 +1,26 @@
 # [Zadanie domowe nr 4](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-4-cloud-identity-and-access-management/zadanie-domowe-nr-4/)
 
-* [Zadanie 1](#1-zadanie-1)
-* [Zadanie 2](#2-zadanie-2)
-* [Zadanie 3](#3-zadanie-3)
+* [1. Zadanie 1](#1-zadanie-1)
+  * [1.1 Przygotowanie `Cloud Storage`](#11-przygotowanie-cloud-storage)
+  * [1.2 Utworzenie `Service Account`](#12-utworzenie-service-account)
+  * [1.3 Utworzenie VM](#13-utworzenie-vm)
+  * [1.4 Sprawdzenie uprawnień](#14-sprawdzenie-uprawnień)
+  * [1.5 Usunięcie zasobów](#15-usunięcie-zasobów)
+* [2. Zadanie 2](#2-zadanie-2)
+  * [2.1 Utworzenie bucketa dla plików](#21-utworzenie-bucketa-dla-plików)
+  * [2.2 Uruchomieie usługi KMS](#22-uruchomieie-usługi-kms)
+  * [2.3 Utworzenie klucza asymetrycznego](#23-utworzenie-klucza-asymetrycznego)
+  * [2.4 PoC w Cloud Shell](#24-poc-w-cloud-shell)
+  * [2.5 Utworzenie kont serwisowych](#25-utworzenie-kont-serwisowych)
+  * [2.6 Utworzenie VM](#26-utworzenie-vm)
+  * [2.7 Zaszyfrowanie plików](#27-zaszyfrowanie-plików)
+  * [2.8 Odszyfrowanie plików](#28-odszyfrowanie-plików)
+  * [2.9 Usunięcie zasobów](#29-usunięcie-zasobów)
+* [3. Zadanie 3](#3-zadanie-3)
+  * [3.1 Utworzenie niestandardowej roli](#31-utworzenie-niestandardowej-roli)
+  * [3.2 Utworzenie Service Account z utworzoną rolą](#32-utworzenie-service-account-z-utworzoną-rolą)
+  * [3.3 Utworzenie VM i sprawdzenie uprawnień roli](#33-utworzenie-vm-i-sprawdzenie-uprawnień-roli)
+  * [3.4 Usunięcie zasobów](#34-usunięcie-zasobów)
 
 ---
 
@@ -568,6 +586,7 @@ Plik 1 - przykładowy tekst 1 ąźćżółęż
 #### 3.4 Usunięcie zasobów
 ```bash
 gcloud compute instances delete $vmName --zone=$vmZone
+gcloud projects remove-iam-policy-binding $projectId --member serviceAccount:$serviceAccountEmail --role $myCustomRole
 gcloud iam service-accounts delete $serviceAccountEmail
 gsutil -m rm -r gs://${bucketName}/
 # keyVersion="1"
