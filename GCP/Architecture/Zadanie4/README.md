@@ -456,4 +456,39 @@ gsutil -m rm -r gs://${bucketName}/
 ## 3. Zadanie 3
 
 > Firma zdecydowała się już na ostatni krok ... zbudowanie niestandardowej roli za pomocą, której połączą możliwości szyfrowania oraz odszyfrowywania danych za pomocą KMS oraz dostępu do danych w Cloud Storage na poziomie READ
+
+#### 3.1 Utworzenie niestandardowej roli
+```bash
+projectId="	resonant-idea-261413 "
+roleId="customrolezad4"
+roleTitle="Custom Role Zad4"
+roleDescription="Umożliwia szyfrowanie, deszyfrowanie danych za pomocą kluczy asymetrycznych KMS oraz umożliwia dostęp Read-only dla Cloud Storage"
+roleStage="GA" #ALPHA, BETA, GA
+
+# Utworzenie pliku yaml z rolą
+cat <<EOF > role.yaml
+title: "$roleTitle"
+description: "$roleDescription"
+stage: "$roleStage"
+includedPermissions:
+- cloudkms.cryptoKeyVersions.viewPublicKey
+- cloudkms.cryptoKeyVersions.useToDecrypt
+- storage.objects.get
+- storage.objects.list
+EOF
+
+# Utworzenie roli
+gcloud iam roles create $roleId --project $projectId --file role.yaml
+
+# Opis roli
+gcloud iam roles describe $roleId --project $projectId
+
+myCustomRole="projects/resonant-idea-261413/roles/customrolezad4"
+```
+
+<details>
+  <summary><b><i>Sprawdzenie roli</i></b></summary>
+
+![Screen](./img/20200108203155.jpg "Screen")
+</details>
 
