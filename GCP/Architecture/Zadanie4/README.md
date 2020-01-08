@@ -563,4 +563,13 @@ bartosz@zad4vm:~$ gcloud kms asymmetric-decrypt --location global --keyring $key
 bartosz@zad4vm:~$ cat test1-odszyfrowany.txt
 Plik 1 - przykładowy tekst 1 ąźćżółęż
 ```
-</details>
+</details>
+
+#### 3.4 Usunięcie zasobów
+```bash
+gcloud compute instances delete $vmName --zone=$vmZone
+gcloud iam service-accounts delete $serviceAccountEmail
+gsutil -m rm -r gs://${bucketName}/
+# keyVersion="1"
+# gcloud kms keys versions destroy $keyVersion --location global --keyring $keyringsName --key $keyName
+```
