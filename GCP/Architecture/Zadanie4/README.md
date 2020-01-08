@@ -508,4 +508,59 @@ serviceAccountEmail="zad4serviceaccount@resonant-idea-261413.iam.gserviceaccount
 # Dodanie roli do Service Account
 gcloud projects add-iam-policy-binding $projectId --member serviceAccount:$serviceAccountEmail --role $myCustomRole
 ```
-
+
+#### 3.3 Utworzenie VM i sprawdzenie uprawnień roli
+```bash
+vmName="zad4vm"
+vmType="f1-micro"
+vmZone="europe-west3-b"
+serviceAccountEmail="zad4serviceaccount@resonant-idea-261413.iam.gserviceaccount.com" # gcloud iam service-accounts list
+
+# Utworzenie VM
+gcloud compute instances create $vmName --zone=$vmZone --machine-type=$vmType --image-project=debian-cloud --image=debian-9-stretch-v20191210 --service-account=$serviceAccountEmail --scopes=https://www.googleapis.com/auth/cloud-platform
+
+
+# Zmienne
+bucketName="secretstoragebp"
+keyringsName="vmkeyrings"
+keyName="vmKeyAsync"
+keyVersion="1"
+
+# Sprawdzenie uprawnień
+echo "Plik 2 - przykładowy tekst 2 ąźćżółęż" > test2.txt
+# Pobranie zaszyfrowanego pliku
+gsutil cp gs://$bucketName/test1.enc .
+# Zaszyfrowanie pliku
+gcloud kms keys versions get-public-key $keyVersion --location global --keyring $keyringsName --key $keyName --output-file public-key.pub
+# Próba wysłania pliku
+gsutil cp $HOME/secret/test2.enc gs://$bucketName/
+# Odszyfrowanie pliku
+gcloud kms asymmetric-decrypt --location global --keyring $keyringsName --key $keyName --version $keyVersion --ciphertext-file $HOME/test1.enc --plaintext-file $HOME/test1-odszyfrowany.txt
+```
+
+<details>
+  <summary><b><i>Console output</i></b></summary>
+
+```bash
+bartosz@zad4vm:~$ bucketName="secretstoragebp"
+bartosz@zad4vm:~$ keyringsName="vmkeyrings"
+bartosz@zad4vm:~$ keyName="vmKeyAsync"
+bartosz@zad4vm:~$ keyVersion="1"
+bartosz@zad4vm:~$ echo "Plik 2 - przykładowy tekst 2 ąźćżółęż" > test2.txt
+bartosz@zad4vm:~$ gsutil cp gs://$bucketName/test1.enc .
+Copying gs://secretstoragebp/test1.enc...
+/ [1 files][  384.0 B/  384.0 B]                                                
+Operation completed over 1 objects/384.0 B.                                      
+bartosz@zad4vm:~$ gcloud kms keys versions get-public-key $keyVersion --location global --keyring $keyringsName --key $keyName --output-file public-key.pub
+bartosz@zad4vm:~$ mkdir secret
+bartosz@zad4vm:~$ openssl pkeyutl -in $HOME/test2.txt -encrypt -pubin -inkey $HOME/public-key.pub -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256 -pkeyopt rsa_mgf1_md:sha256 > $HOME/secret/test2.enc
+bartosz@zad4vm:~$ ls ./secret
+test2.enc
+bartosz@zad4vm:~$ gsutil cp $HOME/secret/test2.enc gs://$bucketName/
+Copying file:///home/bartosz/secret/test2.enc [Content-Type=application/octet-stream]...
+AccessDeniedException: 403 zad4serviceaccount@resonant-idea-261413.iam.gserviceaccount.com does not have storage.objects.create access to secretstoragebp/test2.enc.
+bartosz@zad4vm:~$ gcloud kms asymmetric-decrypt --location global --keyring $keyringsName --key $keyName --version $keyVersion --ciphertext-file $HOME/test1.enc --plaintext-file $HOME/test1-odszyfrowany.txt
+bartosz@zad4vm:~$ cat test1-odszyfrowany.txt
+Plik 1 - przykładowy tekst 1 ąźćżółęż
+```
+</details>
