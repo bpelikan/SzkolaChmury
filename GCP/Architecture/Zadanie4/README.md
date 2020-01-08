@@ -19,16 +19,16 @@
 * [3. Zadanie 3](#3-zadanie-3)
   * [3.1 Utworzenie niestandardowej roli](#31-utworzenie-niestandardowej-roli)
   * [3.2 Utworzenie Service Account z utworzoną rolą](#32-utworzenie-service-account-z-utworzoną-rolą)
-  * [3.3 Utworzenie VM i sprawdzenie uprawnień roli](#33-utworzenie-vm-i-sprawdzenie-uprawnień-roli)
+  * [3.3 Utworzenie VM i sprawdzenie uprawnień roli](#33-utworzenie-vm-i-sprawdzenie-uprawnień)
   * [3.4 Usunięcie zasobów](#34-usunięcie-zasobów)
 
 ---
 
-## 1. Zadanie 1
+# 1. Zadanie 1
 
 > Klient poprosił cię o przygotowanie maszyny dla swoich pracowników, którzy będą mogli pobierać faktury z przygotowanego repozytorium (w naszym przypadku jest to pojemnik Cloud Storage)
 
-#### 1.1 Przygotowanie `Cloud Storage`
+### 1.1 Przygotowanie `Cloud Storage`
 ```bash
 # Zmienne
 bucketName="zad4bpstorage"
@@ -45,7 +45,7 @@ echo "Plik 2 - przykładowy tekst 2" > test2.txt
 gsutil cp test*.txt gs://${bucketName}/
 ```
 
-#### 1.2 Utworzenie `Service Account`
+### 1.2 Utworzenie `Service Account`
 > Utworzenie konta serwisowego z dostępnem Read-only do wcześniej utworzonego bucketa
 
 <details>
@@ -63,7 +63,7 @@ Oraz warunku dostępu tylko do danego bucketa:
 
 </details>
 
-#### 1.3 Utworzenie VM
+### 1.3 Utworzenie VM
 ```bash
 # Zmienne
 vmName="zad4bpvm"
@@ -75,7 +75,7 @@ serviceAccountEmail="" # gcloud iam service-accounts list
 gcloud compute instances create $vmName --zone=$vmZone --machine-type=$vmType --image-project=debian-cloud --image=debian-9-stretch-v20191210 --service-account=$serviceAccountEmail
 ```
 
-#### 1.4 Sprawdzenie uprawnień
+### 1.4 Sprawdzenie uprawnień
 > Połączenie się z VM i sprawdzenie czy ma dostęp Read-only do bucketa
 
 <details>
@@ -101,7 +101,7 @@ AccessDeniedException: 403 bucket-viewer-zad4@resonant-idea-261413.iam.gservicea
 ```
 </details>
 
-#### 1.5 Usunięcie zasobów
+### 1.5 Usunięcie zasobów
 ```bash
 gcloud compute instances delete $vmName --zone=$vmZone 
 gcloud iam service-accounts delete $serviceAccountEmail
@@ -109,11 +109,11 @@ gsutil -m rm -r gs://${bucketName}/
 rm test*.txt
 ```
 
-## 2. Zadanie 2
+# 2. Zadanie 2
 
 > Dany klient przetrzymuje bardzo ważne dokumenty. Zarząd zdecydował, że wprowadzą szyfrowanie krytycznych dokumentów, które będą mogły zostać odszyfrowane po stronie pracownika, który z danego dokumentu chce skorzystać.
 
-#### 2.1 Utworzenie bucketa dla plików
+### 2.1 Utworzenie bucketa dla plików
 ```bash
 bucketName="secretstoragebp"
 bucketLocation="europe-west3"
@@ -122,12 +122,12 @@ bucketLocation="europe-west3"
 gsutil mb -c STANDARD -l $bucketLocation gs://${bucketName}/
 ```
 
-#### 2.2 Uruchomieie usługi KMS
+### 2.2 Uruchomieie usługi KMS
 ```bash
 gcloud services enable cloudkms.googleapis.com
 ```
 
-#### 2.3 [Utworzenie klucza asymetrycznego](https://cloud.google.com/kms/docs/creating-asymmetric-keys)
+### 2.3 [Utworzenie klucza asymetrycznego](https://cloud.google.com/kms/docs/creating-asymmetric-keys)
 ```bash
 keyringsName="vmkeyrings"
 keyName="vmKeyAsync"
@@ -141,7 +141,7 @@ gcloud kms keyrings create $keyringsName --location global
 gcloud kms keys create $keyName --location global --keyring $keyringsName --purpose $keyPurpose --default-algorithm $defaultAlgorithm 
 ```
 
-#### 2.4 PoC w Cloud Shell
+### 2.4 PoC w Cloud Shell
 <details>
   <summary><b><i>PoC w Cloud Shell</i></b></summary>
 
@@ -180,7 +180,7 @@ Plik 1 - przykładowy tekst 1 ąźćżółęż
 </details>
 
 
-#### 2.5 Utworzenie kont serwisowych
+### 2.5 Utworzenie kont serwisowych
 
 #### 2.5.1 Konto serwisowe do szyfrowania dokumentów
 <details>
@@ -301,7 +301,7 @@ Oraz warunków:
 ![Screen](./img/20200107225326.jpg "Screen")
 </details>
 
-#### 2.6 Utworzenie VM
+### 2.6 Utworzenie VM
 ```bash
 vmNameEncrypt="zad4encr"
 vmNameDecrypt="zad4decr"
@@ -317,7 +317,7 @@ gcloud compute instances create $vmNameEncrypt --zone=$vmZone --machine-type=$vm
 gcloud compute instances create $vmNameDecrypt --zone=$vmZone --machine-type=$vmType --image-project=debian-cloud --image=debian-9-stretch-v20191210 --service-account=$serviceAccountEmailDecrypt --scopes=https://www.googleapis.com/auth/cloud-platform
 ```
 
-#### 2.7 Zaszyfrowanie plików 
+### 2.7 Zaszyfrowanie plików 
 ```bash
 bucketName="secretstoragebp"
 keyringsName="vmkeyrings"
@@ -393,7 +393,7 @@ ERROR: (gcloud.kms.asymmetric-decrypt) PERMISSION_DENIED: Permission 'cloudkms.c
 ```
 </details>
 
-#### 2.8 Odszyfrowanie plików 
+### 2.8 Odszyfrowanie plików 
 ```bash
 bucketName="secretstoragebp"
 keyringsName="vmkeyrings"
@@ -459,7 +459,7 @@ AccessDeniedException: 403 document-decryptor@resonant-idea-261413.iam.gservicea
 ```
 </details>
 
-#### 2.9 Usunięcie zasobów
+### 2.9 Usunięcie zasobów
 ```bash
 gcloud compute instances delete $vmNameEncrypt --zone=$vmZone
 gcloud compute instances delete $vmNameDecrypt --zone=$vmZone
@@ -471,11 +471,11 @@ gsutil -m rm -r gs://${bucketName}/
 ```
 
 
-## 3. Zadanie 3
+# 3. Zadanie 3
 
 > Firma zdecydowała się już na ostatni krok ... zbudowanie niestandardowej roli za pomocą, której połączą możliwości szyfrowania oraz odszyfrowywania danych za pomocą KMS oraz dostępu do danych w Cloud Storage na poziomie READ
 
-#### 3.1 Utworzenie niestandardowej roli
+### 3.1 Utworzenie niestandardowej roli
 ```bash
 projectId="resonant-idea-261413"
 roleId="customrolezad4"
@@ -501,6 +501,7 @@ gcloud iam roles create $roleId --project $projectId --file role.yaml
 # Opis roli
 gcloud iam roles describe $roleId --project $projectId
 
+# Zapisanie pełnej nazwy roli do dalszego zadania
 myCustomRole="projects/resonant-idea-261413/roles/customrolezad4"
 ```
 
@@ -510,7 +511,7 @@ myCustomRole="projects/resonant-idea-261413/roles/customrolezad4"
 ![Screen](./img/20200108203155.jpg "Screen")
 </details>
 
-#### 3.2 Utworzenie `Service Account` z utworzoną rolą
+### 3.2 Utworzenie `Service Account` z utworzoną rolą
 ```bash
 serviceAccountName="zad4serviceaccount"
 serviceAccountDescription=""
@@ -521,13 +522,14 @@ gcloud iam service-accounts create $serviceAccountName --description "$serviceAc
 
 # Sprawdzenie konta
 gcloud iam service-accounts list
+# Zapisanie adresu konta
 serviceAccountEmail="zad4serviceaccount@resonant-idea-261413.iam.gserviceaccount.com"
 
-# Dodanie roli do Service Account
+# Dodanie roli
 gcloud projects add-iam-policy-binding $projectId --member serviceAccount:$serviceAccountEmail --role $myCustomRole
 ```
 
-#### 3.3 Utworzenie VM i sprawdzenie uprawnień roli
+### 3.3 Utworzenie VM i sprawdzenie uprawnień
 ```bash
 vmName="zad4vm"
 vmType="f1-micro"
@@ -537,8 +539,7 @@ serviceAccountEmail="zad4serviceaccount@resonant-idea-261413.iam.gserviceaccount
 # Utworzenie VM
 gcloud compute instances create $vmName --zone=$vmZone --machine-type=$vmType --image-project=debian-cloud --image=debian-9-stretch-v20191210 --service-account=$serviceAccountEmail --scopes=https://www.googleapis.com/auth/cloud-platform
 
-
-# Zmienne
+# Zmienne dla bucketa oraz KMS utworzonego w zadaniu 2
 bucketName="secretstoragebp"
 keyringsName="vmkeyrings"
 keyName="vmKeyAsync"
@@ -548,9 +549,12 @@ keyVersion="1"
 echo "Plik 2 - przykładowy tekst 2 ąźćżółęż" > test2.txt
 # Pobranie zaszyfrowanego pliku
 gsutil cp gs://$bucketName/test1.enc .
-# Zaszyfrowanie pliku
+# Pobranie klucza publicznego
 gcloud kms keys versions get-public-key $keyVersion --location global --keyring $keyringsName --key $keyName --output-file public-key.pub
-# Próba wysłania pliku
+# Zaszyfrowanie pliku
+mkdir secret
+openssl pkeyutl -in $HOME/test2.txt -encrypt -pubin -inkey $HOME/public-key.pub -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256 -pkeyopt rsa_mgf1_md:sha256 > $HOME/secret/test2.enc
+# Próba wysłania pliku - brak uprawnień
 gsutil cp $HOME/secret/test2.enc gs://$bucketName/
 # Odszyfrowanie pliku
 gcloud kms asymmetric-decrypt --location global --keyring $keyringsName --key $keyName --version $keyVersion --ciphertext-file $HOME/test1.enc --plaintext-file $HOME/test1-odszyfrowany.txt
@@ -583,7 +587,7 @@ Plik 1 - przykładowy tekst 1 ąźćżółęż
 ```
 </details>
 
-#### 3.4 Usunięcie zasobów
+### 3.4 Usunięcie zasobów
 ```bash
 gcloud compute instances delete $vmName --zone=$vmZone
 gcloud projects remove-iam-policy-binding $projectId --member serviceAccount:$serviceAccountEmail --role $myCustomRole

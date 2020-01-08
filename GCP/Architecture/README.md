@@ -6,7 +6,7 @@
 
 * [Zadanie 3 - On-premises to GCP migration](./Zadanie3)
 
-* [Zadanie 4 - IAM](./Zadanie4)
+* [Zadanie 4 - IAM, KMS, szyfrowanie plików](./Zadanie4)
 
 ## Inne
 
