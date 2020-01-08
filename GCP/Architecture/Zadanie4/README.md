@@ -459,7 +459,7 @@ gsutil -m rm -r gs://${bucketName}/
 
 #### 3.1 Utworzenie niestandardowej roli
 ```bash
-projectId="	resonant-idea-261413 "
+projectId="resonant-idea-261413"
 roleId="customrolezad4"
 roleTitle="Custom Role Zad4"
 roleDescription="Umożliwia szyfrowanie, deszyfrowanie danych za pomocą kluczy asymetrycznych KMS oraz umożliwia dostęp Read-only dla Cloud Storage"
