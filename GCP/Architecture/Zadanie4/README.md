@@ -491,4 +491,21 @@ myCustomRole="projects/resonant-idea-261413/roles/customrolezad4"
 
 ![Screen](./img/20200108203155.jpg "Screen")
 </details>
+
+#### 3.2 Utworzenie `Service Account` z utworzoną rolą
+```bash
+serviceAccountName="zad4serviceaccount"
+serviceAccountDescription=""
+serviceAccountDisplayName="Zad4 Service Account"
+
+# Utworzenie Service Account
+gcloud iam service-accounts create $serviceAccountName --description "$serviceAccountDescription" --display-name "$serviceAccountDisplayName"
+
+# Sprawdzenie konta
+gcloud iam service-accounts list
+serviceAccountEmail="zad4serviceaccount@resonant-idea-261413.iam.gserviceaccount.com"
+
+# Dodanie roli do Service Account
+gcloud projects add-iam-policy-binding $projectId --member serviceAccount:$serviceAccountEmail --role $myCustomRole
+```
 
