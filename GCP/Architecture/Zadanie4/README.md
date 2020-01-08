@@ -2,6 +2,7 @@
 
 * [Zadanie 1](#1-zadanie-1)
 * [Zadanie 2](#2-zadanie-2)
+* [Zadanie 3](#3-zadanie-3)
 
 ---
 
@@ -450,3 +451,9 @@ gsutil -m rm -r gs://${bucketName}/
 # keyVersion="1"
 # gcloud kms keys versions destroy $keyVersion --location global --keyring $keyringsName --key $keyName
 ```
+
+
+## 3. Zadanie 3
+
+> Firma zdecydowała się już na ostatni krok ... zbudowanie niestandardowej roli za pomocą, której połączą możliwości szyfrowania oraz odszyfrowywania danych za pomocą KMS oraz dostępu do danych w Cloud Storage na poziomie READ
+
