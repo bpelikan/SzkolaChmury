@@ -17,3 +17,5 @@
 * [Migration VM between regions/zones](./Lekcja25)
 
 * [Managing roles and permissions](./Lekcja29)
+
+* [Instance groups and autoscaling](./Tydzien5)
