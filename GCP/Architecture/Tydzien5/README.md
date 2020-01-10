@@ -29,3 +29,27 @@ gcloud compute instance-groups managed delete $instanceGroupName --zone=us-centr
 gcloud compute instance-templates delete $templateName1
 gcloud compute instance-templates delete $templateName2
 ```
+
+#### [Canary Testing](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-5-instance-groups-i-autoskalowanie/canary-testing-hands-on/)
+```bash
+templateName1="vmtemplate1"
+templateName2="vmtemplate2"
+
+# Utworzenie 2 wersji szablonu
+gcloud compute instance-templates create $templateName1 --image-family debian-9 --image-project debian-cloud --machine-type=f1-micro
+gcloud compute instance-templates create $templateName2 --image-family debian-10 --image-project debian-cloud --machine-type=f1-micro
+
+# Utworzenie instance group
+instanceGroupName="vm-group"
+gcloud compute instance-groups managed create $instanceGroupName --base-instance-name=$instanceGroupName --template=$templateName1 --size=4 --zone=us-central1-a
+
+# Canary
+gcloud compute instance-groups managed rolling-action start-update $instanceGroupName --version template=$templateName1 --canary-version template=$templateName2,target-size=50% --zone us-central1-a
+
+gcloud compute instance-groups managed rolling-action start-update $instanceGroupName --version template=$templateName2 --max-unavailable 100% --zone=us-central1-a
+
+# Usunięcie zasobów
+gcloud compute instance-groups managed delete $instanceGroupName --zone=us-central1-a
+gcloud compute instance-templates delete $templateName1
+gcloud compute instance-templates delete $templateName2
+```
