@@ -1,7 +1,7 @@
 # [INSTANCE GROUPS I AUTOSKALOWANIE](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-5-instance-groups-i-autoskalowanie/)
 
 
-#### [Instance Templates](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-5-instance-groups-i-autoskalowanie/instance-templates-hands-on/)
+## [Instance Templates](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-5-instance-groups-i-autoskalowanie/instance-templates-hands-on/)
 ```bash
 instanceGroupName="instance-vm-group"
 
@@ -9,7 +9,7 @@ instanceGroupName="instance-vm-group"
 gcloud compute instance-groups managed set-autoscaling $instanceGroupName --min-num-replicas 5 --max-num-replicas 10 --zone=us-central1-a
 ```
 
-#### [Rolling Updates](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-5-instance-groups-i-autoskalowanie/rolling-updates-hands-on/)
+## [Rolling Updates](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-5-instance-groups-i-autoskalowanie/rolling-updates-hands-on/)
 ```bash
 # Utworzenie szablonu
 templateName1="vmtemplate1"
@@ -30,7 +30,7 @@ gcloud compute instance-templates delete $templateName1
 gcloud compute instance-templates delete $templateName2
 ```
 
-#### [Canary Testing](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-5-instance-groups-i-autoskalowanie/canary-testing-hands-on/)
+## [Canary Testing](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-5-instance-groups-i-autoskalowanie/canary-testing-hands-on/)
 ```bash
 templateName1="vmtemplate1"
 templateName2="vmtemplate2"
@@ -43,7 +43,7 @@ gcloud compute instance-templates create $templateName2 --image-family debian-10
 instanceGroupName="vm-group"
 gcloud compute instance-groups managed create $instanceGroupName --base-instance-name=$instanceGroupName --template=$templateName1 --size=4 --zone=us-central1-a
 
-# Canary
+# Canary update
 gcloud compute instance-groups managed rolling-action start-update $instanceGroupName --version template=$templateName1 --canary-version template=$templateName2,target-size=50% --zone us-central1-a
 
 gcloud compute instance-groups managed rolling-action start-update $instanceGroupName --version template=$templateName2 --max-unavailable 100% --zone=us-central1-a
@@ -54,7 +54,7 @@ gcloud compute instance-templates delete $templateName1
 gcloud compute instance-templates delete $templateName2
 ```
 
-# [Regional and Zonal Managed Instance Groups](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-5-instance-groups-i-autoskalowanie/regional-and-zonal-managed-instance-groups-hands-on/)
+## [Regional and Zonal Managed Instance Groups](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-5-instance-groups-i-autoskalowanie/regional-and-zonal-managed-instance-groups-hands-on/)
 ```bash
 templateName="vminsttempl"
 # Template
