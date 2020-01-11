@@ -8,6 +8,8 @@
 
 * [Zadanie 4 - IAM, KMS, szyfrowanie plików](./Zadanie4)
 
+* [Zadanie 5 - Instance groups](./Zadanie5)
+
 ## Inne
 
 * [Creating Snapshot](./Lekcja22)
