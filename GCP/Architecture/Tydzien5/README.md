@@ -53,3 +53,33 @@ gcloud compute instance-groups managed delete $instanceGroupName --zone=us-centr
 gcloud compute instance-templates delete $templateName1
 gcloud compute instance-templates delete $templateName2
 ```
+
+# [Regional and Zonal Managed Instance Groups](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-5-instance-groups-i-autoskalowanie/regional-and-zonal-managed-instance-groups-hands-on/)
+```bash
+templateName="vminsttempl"
+# Template
+gcloud compute instance-templates create $templateName --image-family debian-9 --image-project debian-cloud --machine-type=f1-micro
+
+# Instance group
+migRegion="us-central1"
+migZones="us-central1-a,us-central1-b"
+
+# losowe 3 AZ
+regionalMig1="vminstgrp1"
+gcloud compute instance-groups managed create $regionalMig1 --template $templateName --base-instance-name $templateName --size 3 --region $migRegion
+
+# Wybrane AZ
+regionalMig2="vminstgrp2"
+gcloud compute instance-groups managed create $regionalMig2 --template $templateName --base-instance-name $templateName --size 3 --zones $migZones
+
+# Wyłączenie modelu redystrybucji
+regionalMig3="vminstgrp3"
+gcloud beta compute instance-groups managed create $regionalMig3 --template $templateName --base-instance-name $templateName --size 3 --zones $migZones --instance-redistribution-type NONE
+
+# Usunięcie
+gcloud compute instance-groups managed delete $regionalMig1 --region $migRegion
+gcloud compute instance-groups managed delete $regionalMig2 --region $migRegion
+gcloud compute instance-groups managed delete $regionalMig3 --region $migRegion
+gcloud compute instance-templates delete $templateName
+
+```
