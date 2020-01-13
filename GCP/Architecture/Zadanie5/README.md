@@ -27,8 +27,8 @@ Użycie [Managed Instance Groups](https://cloud.google.com/compute/docs/instance
 ## 1.3 Update
 
 1. Wybranie strefy na której testowana będzie nowa wersja aplikacji
-2. Przekierowanie 10% ruchu w wybranej strefie do nowej wersji, wraz z czasem zwiększanie tej wartości do 100%. W międzyczasie zbierane będą informacje czy nie występują błędy, spowolnienie aplikacji, oraz zadowolenie użytkowników (porzez zbieranie zgłoszeń, czy też monitorowanie portali społecznościowych)
-3. Jeśli po określonym czasie w strefie nie zostaną odnotowane żadne nieprawidłowości, wykonanie powyższego schematu na wszystkich regionach/strefach.
+2. Przekierowanie 10% ruchu w wybranej strefie do nowej wersji, wraz z czasem zwiększanie tej wartości do 100% ([Canary update](https://cloud.google.com/compute/docs/instance-groups/rolling-out-updates-to-managed-instance-groups#starting_a_canary_update)). W międzyczasie zbierane będą informacje czy nie występują błędy, spowolnienie aplikacji, oraz zadowolenie użytkowników (porzez zbieranie zgłoszeń, czy też monitorowanie portali społecznościowych)
+3. Jeśli po określonym czasie w strefie nie zostaną odnotowane żadne nieprawidłowości, wykonanie rolling update za pozostałych strefach.
 4. Jeśli wystąpią nieprawidłowości, zbyt wiele błędów lub za dużo niezadowolonych użytkowników nastapi cofnięcie wersji do poprzedniej.
 
 
