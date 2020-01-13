@@ -6,7 +6,7 @@
 4. Rozwiązanie musi zapobiegać jakiejkolwiek przerwie w dostarczaniu funkcjonalności na wypadek awarii np. regionu Google Cloud.
 5. Rozwiązanie musi umożliwość łatwe i bezpiecznie wdrażanie nowych wersji oprogramowania do instancji bez konieczności wpływania na całe środowisko.
 
-# 1. Rozwiązanie
+## 1.1 Rozwiązanie
 Użycie [Managed Instance Groups](https://cloud.google.com/compute/docs/instance-groups/) pozwoli spełnić powyższe założenia:
 * Zapewnienie **High availability**:
   * **Keeping instances running** - w przypadku niezamierzonego wyłączenia/usunięcia maszyny, VM zostanie automatycznie odtworzona na nowo
@@ -16,10 +16,19 @@ Użycie [Managed Instance Groups](https://cloud.google.com/compute/docs/instance
 * [**Scalability**](https://cloud.google.com/compute/docs/instance-groups/#autoscaling) - **MIG** automatycznie zeskaluje środowisko w zależności od obciążenia oraz naszej [polityki skalowania](https://cloud.google.com/compute/docs/autoscaler/#policies).
 * [**Automated updates**](https://cloud.google.com/compute/docs/instance-groups/#automatic_updating) - umożliwia wykonanie **Rolling updates** oraz **Canary updates**, czyli wykonanie aktualizacji w dość bezpieczny sposób z możliwością łatwego przywrócenia poprzedniej wersji.
 
+## 1.2 Diagram
+
 <details>
   <summary><b><i>Diagram</i></b></summary>
 
 ![Diagram](./img/20200112221046.jpg "Diagram")
 </details>
+
+## 1.3 Update
+
+1. Wybranie strefy na której testowana będzie nowa wersja aplikacji
+2. Przekierowanie 10% ruchu w wybranej strefie do nowej wersji, wraz z czasem zwiększanie tej wartości do 100%. W międzyczasie zbierane będą informacje czy nie występują błędy, spowolnienie aplikacji, oraz zadowolenie użytkowników (porzez zbieranie zgłoszeń, czy też monitorowanie portali społecznościowych)
+3. Jeśli po określonym czasie w strefie nie zostaną odnotowane żadne nieprawidłowości, wykonanie powyższego schematu na wszystkich regionach/strefach.
+4. Jeśli wystąpią nieprawidłowości, zbyt wiele błędów lub za dużo niezadowolonych użytkowników nastapi cofnięcie wersji do poprzedniej.
 
 
