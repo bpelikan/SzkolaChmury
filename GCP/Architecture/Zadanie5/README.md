@@ -178,4 +178,16 @@ gcloud compute instance-groups managed stop-autoscaling $migName --region $migRe
 # Zwiększenie liczby instancji
 gcloud compute instance-groups managed resize $migName --region $migRegion --size 6
 ```
+
+### 1.7.1 Canary update
+```bash
+gcloud compute instance-groups managed rolling-action start-update $migName --version template=$templateName --canary-version template=$templateName2,target-size=50% --region $migRegion
+```
+
+<details>
+  <summary><b><i>Wynik</i></b></summary>
+
+![Screen](./img/20200114013036.jpg "Screen")
+![Screen](./img/20200114013051.jpg "Screen")
+</details>
 
