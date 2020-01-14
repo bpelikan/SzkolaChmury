@@ -73,4 +73,17 @@ gcloud compute instance-templates create $templateName2 \
 --machine-type=f1-micro \
 --metadata=startup-script=\#\!/bin/bash$'\n'sudo\ apt-get\ update\ $'\n'sudo\ apt-get\ install\ -y\ nginx\ $'\n'sudo\ service\ nginx\ start\ $'\n'sudo\ sed\ -i\ --\ \"s/Welcome\ to\ nginx/Version:2\ -\ Welcome\ to\ \$HOSTNAME/g\"\ /var/www/html/index.nginx-debian.html
 ```
+
+## 1.3 Utworzenie `Managed instance group` z włączonym autohealingiem
+```bash
+migName="webserver-group"
+migRegion="us-central1"
+gcloud compute instance-groups managed create $migName \
+    --region $migRegion \
+    --template $templateName \
+    --base-instance-name $templateName \
+    --size 3 \
+    --health-check autohealer-check \
+    --initial-delay 90 \
+```
 
