@@ -190,4 +190,16 @@ gcloud compute instance-groups managed rolling-action start-update $migName --ve
 ![Screen](./img/20200114013036.jpg "Screen")
 ![Screen](./img/20200114013051.jpg "Screen")
 </details>
+
+### 1.7.2 Rolling update
+```bash
+gcloud compute instance-groups managed rolling-action start-update $migName --version template=$templateName2 --region $migRegion
+```
+
+<details>
+  <summary><b><i>Wynik</i></b></summary>
+
+![Screen](./img/20200114013918.jpg "Screen")
+![Screen](./img/20200114013927.jpg "Screen")
+</details>
 
