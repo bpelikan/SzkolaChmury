@@ -107,4 +107,31 @@ webserver-template-t1pt  us-central1-c  RUNNING  NONE    webserver-template
 webserver-template-hhv3  us-central1-f  RUNNING  NONE    webserver-template
 ```
 </details>
+
+## 1.5 Test autoskalowania
+
+<details>
+  <summary><b><i>Obciążenie środowiska</i></b></summary>
+
+![Screen](./img/20200114003028.jpg "Screen")
+</details>
+
+
+<details>
+  <summary><b><i>Wynik</i></b></summary>
+
+```bash
+bartosz@cloudshell:~ (resonant-idea-261413)$ gcloud compute instance-groups managed list-instances $migName --region $migRegion
+NAME                     ZONE           STATUS   ACTION  INSTANCE_TEMPLATE   VERSION_NAME  LAST_ERROR
+webserver-template-3kjd  us-central1-b  RUNNING  NONE    webserver-template
+webserver-template-65ng  us-central1-b  RUNNING  NONE    webserver-template
+webserver-template-b3zq  us-central1-b  RUNNING  NONE    webserver-template
+webserver-template-t1pt  us-central1-c  RUNNING  NONE    webserver-template
+webserver-template-wd9t  us-central1-c  RUNNING  NONE    webserver-template
+webserver-template-hhv3  us-central1-f  RUNNING  NONE    webserver-template
+webserver-template-qfrf  us-central1-f  RUNNING  NONE    webserver-template
+webserver-template-szmw  us-central1-f  RUNNING  NONE    webserver-template
+```
+</details>
+
 
