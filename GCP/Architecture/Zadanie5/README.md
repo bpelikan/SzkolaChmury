@@ -6,7 +6,8 @@
 4. Rozwiązanie musi zapobiegać jakiejkolwiek przerwie w dostarczaniu funkcjonalności na wypadek awarii np. regionu Google Cloud.
 5. Rozwiązanie musi umożliwość łatwe i bezpiecznie wdrażanie nowych wersji oprogramowania do instancji bez konieczności wpływania na całe środowisko.
 
-## 1.1 Rozwiązanie
+# 1 Rozwiązanie
+## 1.1 Opis
 Użycie [Managed Instance Groups](https://cloud.google.com/compute/docs/instance-groups/) pozwoli spełnić powyższe założenia:
 * Zapewnienie **High availability**:
   * **Keeping instances running** - w przypadku niezamierzonego wyłączenia/usunięcia maszyny, VM zostanie automatycznie odtworzona na nowo
@@ -31,4 +32,20 @@ Użycie [Managed Instance Groups](https://cloud.google.com/compute/docs/instance
 3. Jeśli po określonym czasie w strefie nie zostaną odnotowane żadne nieprawidłowości, wykonanie rolling update za pozostałych strefach.
 4. Jeśli wystąpią nieprawidłowości, zbyt wiele błędów lub za dużo niezadowolonych użytkowników nastapi cofnięcie wersji do poprzedniej.
 
+# 2. Demo
+
+## 1.1 Utworzenie `Health check`
+```bash
+healthCheckName="autohealer-check"
+# Utworznie
+gcloud compute health-checks create http $healthCheckName \
+    --check-interval 10 \
+    --timeout 5 \
+    --healthy-threshold 3 \
+    --unhealthy-threshold 3 \
+    --request-path "/health"
+
+# Sprawdzenie
+gcloud compute health-checks list
+```
 
