@@ -8,7 +8,7 @@
 
 * [Zadanie 4 - IAM, KMS, szyfrowanie plików](./Zadanie4)
 
-* [Zadanie 5 - Instance groups](./Zadanie5)
+* [Zadanie 5 - Instance groups, autoskalowanie, autohealing, canary/rolling update](./Zadanie5)
 
 ## Inne
 
