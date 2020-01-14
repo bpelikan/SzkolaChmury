@@ -86,4 +86,25 @@ gcloud compute instance-groups managed create $migName \
     --health-check autohealer-check \
     --initial-delay 90 \
 ```
+
+## 1.4 Konfiguracja autoskalowania
+```bash
+gcloud compute instance-groups managed set-autoscaling $migName \
+    --region $migRegion \
+    --min-num-replicas 3 \
+    --max-num-replicas 8 \
+    --target-cpu-utilization "0.5"
+```
+
+<details>
+  <summary><b><i>Status</i></b></summary>
+
+```bash
+bartosz@cloudshell:~ (resonant-idea-261413)$ gcloud compute instance-groups managed list-instances $migName --region $migRegion
+NAME                     ZONE           STATUS   ACTION  INSTANCE_TEMPLATE   VERSION_NAME  LAST_ERROR
+webserver-template-65ng  us-central1-b  RUNNING  NONE    webserver-template
+webserver-template-t1pt  us-central1-c  RUNNING  NONE    webserver-template
+webserver-template-hhv3  us-central1-f  RUNNING  NONE    webserver-template
+```
+</details>
 
