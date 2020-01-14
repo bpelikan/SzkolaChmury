@@ -166,4 +166,16 @@ webserver-template-t1pt  us-central1-c  RUNNING   NONE        webserver-template
 webserver-template-hhv3  us-central1-f  RUNNING   NONE        webserver-template
 ```
 </details>
+
+## 1.7 Demo wykonania update
+```bash
+# Wyłączenie autohealing - demostracyjna 2 wersja nie posiada ścieżki /health
+gcloud compute instance-groups managed update $migName --region $migRegion --clear-autohealing
+
+# Wyłączenie autoskalowania
+gcloud compute instance-groups managed stop-autoscaling $migName --region $migRegion
+
+# Zwiększenie liczby instancji
+gcloud compute instance-groups managed resize $migName --region $migRegion --size 6
+```
 
