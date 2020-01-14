@@ -6,7 +6,7 @@
 4. Rozwiązanie musi zapobiegać jakiejkolwiek przerwie w dostarczaniu funkcjonalności na wypadek awarii np. regionu Google Cloud.
 5. Rozwiązanie musi umożliwość łatwe i bezpiecznie wdrażanie nowych wersji oprogramowania do instancji bez konieczności wpływania na całe środowisko.
 
-# 1 Rozwiązanie
+# 1. Rozwiązanie
 ## 1.1 Opis
 Użycie [Managed Instance Groups](https://cloud.google.com/compute/docs/instance-groups/) pozwoli spełnić powyższe założenia:
 * Zapewnienie **High availability**:
@@ -25,19 +25,20 @@ Użycie [Managed Instance Groups](https://cloud.google.com/compute/docs/instance
 ![Diagram](./img/20200112221046.jpg "Diagram")
 </details>
 
-## 1.3 Update
+## 1.3 Opis aktualizacji wersji
 
 1. Wybranie strefy na której testowana będzie nowa wersja aplikacji
 2. Przekierowanie 10% ruchu w wybranej strefie do nowej wersji, wraz z czasem zwiększanie tej wartości do 100% ([Canary update](https://cloud.google.com/compute/docs/instance-groups/rolling-out-updates-to-managed-instance-groups#starting_a_canary_update)). W międzyczasie zbierane będą informacje czy nie występują błędy, spowolnienie aplikacji, oraz zadowolenie użytkowników (porzez zbieranie zgłoszeń, czy też monitorowanie portali społecznościowych)
-3. Jeśli po określonym czasie w strefie nie zostaną odnotowane żadne nieprawidłowości, wykonanie rolling update za pozostałych strefach.
+3. Jeśli po określonym czasie w strefie nie zostaną odnotowane żadne nieprawidłowości, wykonanie rolling update w pozostałych strefach.
 4. Jeśli wystąpią nieprawidłowości, zbyt wiele błędów lub za dużo niezadowolonych użytkowników nastapi cofnięcie wersji do poprzedniej.
 
 # 2. Demo
 
-## 1.1 Utworzenie `Health check`
+### 2.1 Utworzenie `Health check`
 ```bash
 healthCheckName="autohealer-check"
-# Utworznie
+
+# Utworzenie
 gcloud compute health-checks create http $healthCheckName \
     --check-interval 10 \
     --timeout 5 \
@@ -49,12 +50,12 @@ gcloud compute health-checks create http $healthCheckName \
 gcloud compute health-checks list
 ```
 
-## 1.2 Utworzenie template dla MIG
+### 2.2 Utworzenie template dla MIG
 ```bash
 templateName="webserver-template"
 templateName2="webserver-template-new"
 
-# wersja 1
+# Wersja 1
 gcloud compute instance-templates create $templateName \
     --machine-type f1-micro \
     --tags http-server \
@@ -74,10 +75,11 @@ gcloud compute instance-templates create $templateName2 \
 --metadata=startup-script=\#\!/bin/bash$'\n'sudo\ apt-get\ update\ $'\n'sudo\ apt-get\ install\ -y\ nginx\ $'\n'sudo\ service\ nginx\ start\ $'\n'sudo\ sed\ -i\ --\ \"s/Welcome\ to\ nginx/Version:2\ -\ Welcome\ to\ \$HOSTNAME/g\"\ /var/www/html/index.nginx-debian.html
 ```
 
-## 1.3 Utworzenie `Managed instance group` z włączonym autohealingiem
+### 2.3 Utworzenie `Managed instance group` z włączonym autohealingiem
 ```bash
 migName="webserver-group"
 migRegion="us-central1"
+
 gcloud compute instance-groups managed create $migName \
     --region $migRegion \
     --template $templateName \
@@ -87,7 +89,7 @@ gcloud compute instance-groups managed create $migName \
     --initial-delay 90 \
 ```
 
-## 1.4 Konfiguracja autoskalowania
+### 2.4 Konfiguracja autoskalowania
 ```bash
 gcloud compute instance-groups managed set-autoscaling $migName \
     --region $migRegion \
@@ -108,7 +110,7 @@ webserver-template-hhv3  us-central1-f  RUNNING  NONE    webserver-template
 ```
 </details>
 
-## 1.5 Test autoskalowania
+### 2.5 Test autoskalowania
 
 <details>
   <summary><b><i>Obciążenie środowiska</i></b></summary>
@@ -134,8 +136,7 @@ webserver-template-szmw  us-central1-f  RUNNING  NONE    webserver-template
 ```
 </details>
 
-
-## 1.6 Test autohealing
+### 2.6 Test autohealing
 
 <details>
   <summary><b><i>Status przed</i></b></summary>
@@ -167,7 +168,7 @@ webserver-template-hhv3  us-central1-f  RUNNING   NONE        webserver-template
 ```
 </details>
 
-## 1.7 Demo wykonania update
+### 2.7 Demo wykonania aktualizacji
 ```bash
 # Wyłączenie autohealing - demostracyjna 2 wersja nie posiada ścieżki /health
 gcloud compute instance-groups managed update $migName --region $migRegion --clear-autohealing
@@ -179,7 +180,7 @@ gcloud compute instance-groups managed stop-autoscaling $migName --region $migRe
 gcloud compute instance-groups managed resize $migName --region $migRegion --size 6
 ```
 
-### 1.7.1 Canary update
+#### 2.7.1 Canary update
 ```bash
 gcloud compute instance-groups managed rolling-action start-update $migName --version template=$templateName --canary-version template=$templateName2,target-size=50% --region $migRegion
 ```
@@ -191,7 +192,7 @@ gcloud compute instance-groups managed rolling-action start-update $migName --ve
 ![Screen](./img/20200114013051.jpg "Screen")
 </details>
 
-### 1.7.2 Rolling update
+#### 2.7.2 Rolling update
 ```bash
 gcloud compute instance-groups managed rolling-action start-update $migName --version template=$templateName2 --region $migRegion
 ```
@@ -202,4 +203,11 @@ gcloud compute instance-groups managed rolling-action start-update $migName --ve
 ![Screen](./img/20200114013918.jpg "Screen")
 ![Screen](./img/20200114013927.jpg "Screen")
 </details>
-
+
+### 2.8 Usunięcie zasobów
+```bash
+gcloud compute instance-groups managed delete $migName --region $migRegion
+gcloud compute instance-templates delete $templateName
+gcloud compute instance-templates delete $templateName2
+gcloud compute health-checks delete $healthCheckName
+```
