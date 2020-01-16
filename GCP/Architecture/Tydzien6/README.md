@@ -75,3 +75,89 @@ gsutil signurl -d 1m key.json gs://${bucketName}/test4.txt
 gsutil rm -r gs://${bucketName}/
 rm -rf ../example
 ```
+
+## [Object Versioning and Lifecycle Management](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-6-cloud-storage/object-versioning-and-lifecycle-management-hands-on/)
+```bash
+bucketName="tydzien6bucketbp"
+gsutil mb gs://${bucketName}/
+
+# utworzenie polityki
+gsutil lifecycle set policy1.json gs://${bucketName}/
+
+# pobranie polityki
+gsutil lifecycle get gs://${bucketName}/
+
+# sprawdzenie wersjonowania plików
+gsutil versioning get gs://${bucketName}/
+
+# włączenie wersjonowania
+gsutil versioning set on gs://${bucketName}/
+
+# zmiana polityki
+gsutil lifecycle set policy2.json gs://${bucketName}/
+
+# test wersjonowania plików
+gsutil cp policy1.json gs://${bucketName}/policy/policy1.json
+gsutil rm gs://${bucketName}/policy/policy1.json
+
+# przywrócenie pliku
+gsutil ls -a gs://${bucketName}/
+gsutil ls -a gs://${bucketName}/policy
+fileGeneration="1579209893318558"
+gsutil cp gs://${bucketName}/policy/policy1.json#$fileGeneration gs://${bucketName}/policy/policy-restore.json
+```
+
+policy1.json
+```json
+{
+  "lifecycle": {
+    "rule": [
+      {
+        "action": {
+        "type": "SetStorageClass",
+        "storageClass": "NEARLINE"
+        },
+        "condition": {
+          "age": 365,
+          "matchesStorageClass": ["MULTI_REGIONAL", "STANDARD", "DURABLE_REDUCED_AVAILABILITY"]
+        }
+      },
+      {
+        "action": {
+        "type": "SetStorageClass",
+        "storageClass": "COLDLINE"
+        },
+        "condition": {
+          "age": 1095,
+          "matchesStorageClass": ["NEARLINE"]
+        }
+      }
+    ]
+  }
+}
+```
+
+policy2.json
+```json
+{
+  "lifecycle": {
+    "rule": [
+      {
+        "action": {"type": "Delete"},
+        "condition": {
+          "age": 30,
+          "isLive": true
+        }
+      },
+      {
+        "action": {"type": "Delete"},
+        "condition": {
+          "age": 10,
+          "isLive": false
+        }
+      }
+    ]
+  }
+}
+```
+
