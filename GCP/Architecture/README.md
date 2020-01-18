@@ -21,3 +21,5 @@
 * [Managing roles and permissions](./Lekcja29)
 
 * [Instance groups and autoscaling](./Tydzien5)
+
+* [Cloud Storage](./Tydzien6)
