@@ -10,6 +10,8 @@
 
 * [Zadanie 5 - Instance groups, autoskalowanie, autohealing, canary/rolling update](./Zadanie5)
 
+* [Zadanie 6 - Cloud Storage](./Zadanie6)
+
 ## Inne
 
 * [Creating Snapshot](./Lekcja22)
