@@ -19,4 +19,15 @@ gsutil mb -c STANDARD -l $bucketLocation gs://${bucketName}/
 
 ## Przygotowanie dostępu dla środowiska Onprem
 ```bash
+serviceAccountOnPrem="onpremserviceaccount"
+serviceAccountOnPremDescription="Service account umożliwiający dostęp do storage ze środowiska on-prem"
+serviceAccountOnPremDisplayName="Onprem service account"
+
+# Utworzenie konta service account dla on-prem
+gcloud iam service-accounts create $serviceAccountOnPrem --description "$serviceAccountOnPremDescription" --display-name "$serviceAccountOnPremDisplayName"
+
+# Pobranie nazwy
+gcloud iam service-accounts list
+serviceAccountOnPremEmail="onpremserviceaccount@resonant-idea-261413.iam.gserviceaccount.com"
+
 ```
