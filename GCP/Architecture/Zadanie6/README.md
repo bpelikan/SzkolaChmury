@@ -63,7 +63,7 @@ gcloud iam service-accounts keys create clientkey.json --iam-account $serviceAcc
 gsutil iam get gs://${bucketName}/ > bucket_iam.json
 ```
 <details>
-  <summary><b><i>bucket_iam.txt</i></b></summary>
+  <summary><b><i>bucket_iam.json</i></b></summary>
 
 ```json
 {
@@ -197,5 +197,63 @@ Copying gs://szkchmzad6bp/testdatachm/fungs/fung209.jpg...
 Operation completed over 1 objects/63.5 KiB.                                     
 bartosz@zad6client:~$ ls
 clientkey.json  fung209.jpg
+```
+</details>
+
+### Polityka cyklu życia obiektów
+```bash
+# Sprawdzenie wersjonowania
+gsutil versioning get gs://$bucketName
+
+# Włączenie wersjonowania plików
+gsutil versioning set on gs://$bucketName
+gsutil versioning get gs://$bucketName
+
+# Ustawienie polityki
+gsutil lifecycle set policy.json gs://$bucketName
+
+# Sprawdzenie
+gsutil lifecycle get gs://$bucketName
+```
+
+<details>
+  <summary><b><i>policy.json</i></b></summary>
+
+```bash
+{
+  "lifecycle": {
+    "rule": [
+      {
+        "action": {
+          "type": "SetStorageClass",
+          "storageClass": "NEARLINE"
+        },
+        "condition": {
+          "age": 60,
+          "matchesStorageClass": ["STANDARD", "MULTI_REGIONAL", "DURABLE_REDUCED_AVAILABILITY"]
+        }
+      },
+      {
+        "action": {
+          "type": "Delete"
+        },
+        "condition": {
+          "age": 90,
+          "isLive": true,
+          "matchesStorageClass": ["NEARLINE"]
+        }
+      },
+      {
+        "action": {
+          "type": "Delete"
+        },
+        "condition": {
+          "age": 10,
+          "isLive": false
+        }
+      }
+    ]
+  }
+}
 ```
 </details>
