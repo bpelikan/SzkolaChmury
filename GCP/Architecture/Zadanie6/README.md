@@ -10,3 +10,10 @@ https://storage.googleapis.com/testdatachm/sampledata/imagedata.tar.gz
 
 ---
 
+### Utworzenie bucketa
+```bash
+bucketName="szkchmzad6bp"
+bucketLocation="EUR4" # https://cloud.google.com/storage/docs/locations#location-dr
+gsutil mb -c STANDARD -l $bucketLocation gs://${bucketName}/
+```
+
