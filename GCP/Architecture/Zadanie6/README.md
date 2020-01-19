@@ -181,4 +181,21 @@ gsutil cp gs://$bucketName/testdatachm/fungs/fung209.jpg .
 <details>
   <summary><b><i>Output</i></b></summary>
 
+```bash
+bartosz@zad6client:~$ bucketName="szkchmzad6bp"
+bartosz@zad6client:~$ gsutil ls gs://$bucketName
+ServiceException: 401 Anonymous caller does not have storage.objects.list access to szkchmzad6bp.
+bartosz@zad6client:~$ ls
+clientkey.json
+bartosz@zad6client:~$ gcloud auth activate-service-account --key-file clientkey.json
+Activated service account credentials for: [clientserviceaccount@resonant-idea-261413.iam.gserviceaccount.com]
+bartosz@zad6client:~$ gsutil ls gs://$bucketName
+gs://szkchmzad6bp/testdatachm/
+bartosz@zad6client:~$ gsutil cp gs://$bucketName/testdatachm/fungs/fung209.jpg .
+Copying gs://szkchmzad6bp/testdatachm/fungs/fung209.jpg...
+- [1 files][ 63.5 KiB/ 63.5 KiB]                                                
+Operation completed over 1 objects/63.5 KiB.                                     
+bartosz@zad6client:~$ ls
+clientkey.json  fung209.jpg
+```
 </details>
