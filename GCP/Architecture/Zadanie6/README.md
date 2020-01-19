@@ -256,4 +256,16 @@ gsutil lifecycle get gs://$bucketName
   }
 }
 ```
-</details>
+</details>
+
+### Usunięcie
+```bash
+gsutil iam ch -d serviceAccount:$serviceAccountOnPremEmail gs://${bucketName}
+gsutil iam ch -d serviceAccount:$serviceAccountClientEmail gs://${bucketName}
+gcloud iam service-accounts delete $serviceAccountOnPremEmail
+gcloud iam service-accounts delete $serviceAccountClientEmail
+gsutil -m rm -r gs://${bucketName}/
+rm onpremkey.json
+rm clientkey.json
+rm bucket_iam.json
+```
