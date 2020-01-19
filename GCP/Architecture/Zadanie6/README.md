@@ -40,4 +40,15 @@ gcloud iam service-accounts keys create onpremkey.json --iam-account $serviceAcc
 
 ## Przygotowanie dostępu dla klienta
 ```bash
+serviceAccountClient="clientserviceaccount"
+serviceAccountClientDescription="Service account umożliwiający dostęp do storage ze środowiska klienta"
+serviceAccountClinetDisplayName="Client Service Account"
+
+# Utworzenie konta service account dla klienta
+gcloud iam service-accounts create $serviceAccountClient --description "$serviceAccountClientDescription" --display-name "$serviceAccountClinetDisplayName"
+
+# Pobranie nazwy
+gcloud iam service-accounts list
+serviceAccountClientEmail="clientserviceaccount@resonant-idea-261413.iam.gserviceaccount.com"
+
 ```
