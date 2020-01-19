@@ -34,4 +34,6 @@ serviceAccountOnPremEmail="onpremserviceaccount@resonant-idea-261413.iam.gservic
 # https://cloud.google.com/storage/docs/gsutil/commands/iam
 gsutil iam ch serviceAccount:$serviceAccountOnPremEmail:objectAdmin gs://${bucketName}/
 
+### Wygenerowanie klucza
+gcloud iam service-accounts keys create onpremkey.json --iam-account $serviceAccountOnPremEmail
 ```
