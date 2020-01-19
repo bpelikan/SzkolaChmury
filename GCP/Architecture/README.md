@@ -10,7 +10,7 @@
 
 * [Zadanie 5 - Instance groups, autoskalowanie, autohealing, canary/rolling update](./Zadanie5)
 
-* [Zadanie 6 - Cloud Storage](./Zadanie6)
+* [Zadanie 6 - Cloud Storage, udostępnianie obiektów oraz ustawianie im polityki czasu życia](./Zadanie6)
 
 ## Inne
 

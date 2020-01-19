@@ -10,14 +10,14 @@ https://storage.googleapis.com/testdatachm/sampledata/imagedata.tar.gz
 
 ---
 
-### Utworzenie bucketa
+### 1. Utworzenie bucketa
 ```bash
 bucketName="szkchmzad6bp"
 bucketLocation="EUR4" # https://cloud.google.com/storage/docs/locations#location-dr
 gsutil mb -c STANDARD -l $bucketLocation gs://${bucketName}/
 ```
 
-### Przygotowanie dostępu dla środowiska on-prem
+### 2. Przygotowanie dostępu dla środowiska on-prem
 ```bash
 serviceAccountOnPrem="onpremserviceaccount"
 serviceAccountOnPremDescription="Service account umożliwiający dostęp do storage ze środowiska on-prem"
@@ -38,7 +38,7 @@ gsutil iam ch serviceAccount:$serviceAccountOnPremEmail:objectAdmin gs://${bucke
 gcloud iam service-accounts keys create onpremkey.json --iam-account $serviceAccountOnPremEmail
 ```
 
-### Przygotowanie dostępu dla klienta
+### 3. Przygotowanie dostępu dla klienta
 ```bash
 serviceAccountClient="clientserviceaccount"
 serviceAccountClientDescription="Service account umożliwiający dostęp do storage ze środowiska klienta"
@@ -58,7 +58,7 @@ gsutil iam ch serviceAccount:$serviceAccountClientEmail:objectViewer gs://${buck
 gcloud iam service-accounts keys create clientkey.json --iam-account $serviceAccountClientEmail
 ```
 
-### Weryfikacja uprawnień
+### 4. Weryfikacja uprawnień
 ```bash
 gsutil iam get gs://${bucketName}/ > bucket_iam.json
 ```
@@ -99,7 +99,7 @@ gsutil iam get gs://${bucketName}/ > bucket_iam.json
 ```
 </details>
 
-### Zalogowanie się do VM on-prem
+### 5. Zalogowanie się do VM on-prem
 ```bash
 bucketName="szkchmzad6bp"
 
@@ -161,7 +161,7 @@ bartosz@zad6onprem:~$ gsutil du -chs gs://${bucketName}/
 ```
 </details>
 
-### Zalogowanie się do VM klienta
+### 6. Zalogowanie się do VM klienta
 ```bash
 bucketName="szkchmzad6bp"
 
@@ -200,7 +200,7 @@ clientkey.json  fung209.jpg
 ```
 </details>
 
-### Polityka cyklu życia obiektów
+### 7. Polityka cyklu życia obiektów
 ```bash
 # Sprawdzenie wersjonowania
 gsutil versioning get gs://$bucketName
@@ -258,14 +258,19 @@ gsutil lifecycle get gs://$bucketName
 ```
 </details>
 
-### Usunięcie
+### 8. Usunięcie zasobów
 ```bash
+# Usunięcie wpisów iam w buckecie
 gsutil iam ch -d serviceAccount:$serviceAccountOnPremEmail gs://${bucketName}
 gsutil iam ch -d serviceAccount:$serviceAccountClientEmail gs://${bucketName}
+# Usunięcie kont serwisowych
 gcloud iam service-accounts delete $serviceAccountOnPremEmail
 gcloud iam service-accounts delete $serviceAccountClientEmail
+# Usunięcie bucketa
 gsutil -m rm -r gs://${bucketName}/
+# Usunięcie utworzonych plików
 rm onpremkey.json
 rm clientkey.json
 rm bucket_iam.json
+rm policy.json
 ```
