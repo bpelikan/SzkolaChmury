@@ -21,9 +21,9 @@ gsutil mb -c STANDARD -l $bucketLocation gs://${bucketName}/
 ```bash
 serviceAccountOnPrem="onpremserviceaccount"
 serviceAccountOnPremDescription="Service account umożliwiający dostęp do storage ze środowiska on-prem"
-serviceAccountOnPremDisplayName="Onprem service account"
+serviceAccountOnPremDisplayName="Onprem Service Account"
 
-# Utworzenie konta service account dla on-prem
+# Utworzenie konta serwisowego dla on-prem
 gcloud iam service-accounts create $serviceAccountOnPrem --description "$serviceAccountOnPremDescription" --display-name "$serviceAccountOnPremDisplayName"
 
 # Pobranie nazwy
@@ -44,7 +44,7 @@ serviceAccountClient="clientserviceaccount"
 serviceAccountClientDescription="Service account umożliwiający dostęp do storage ze środowiska klienta"
 serviceAccountClinetDisplayName="Client Service Account"
 
-# Utworzenie konta service account dla klienta
+# Utworzenie konta serwisowego dla klienta
 gcloud iam service-accounts create $serviceAccountClient --description "$serviceAccountClientDescription" --display-name "$serviceAccountClinetDisplayName"
 
 # Pobranie nazwy
@@ -56,4 +56,45 @@ gsutil iam ch serviceAccount:$serviceAccountClientEmail:objectViewer gs://${buck
 
 # Wygenerowanie klucza
 gcloud iam service-accounts keys create clientkey.json --iam-account $serviceAccountClientEmail
-```
+```
+
+## Weryfikacja uprawnień
+```bash
+gsutil iam get gs://${bucketName}/ > bucket_iam.json
+```
+<details>
+  <summary><b><i>bucket_iam.txt</i></b></summary>
+
+```json
+{
+  "bindings": [
+    {
+      "members": [
+        "projectEditor:resonant-idea-261413", 
+        "projectOwner:resonant-idea-261413"
+      ], 
+      "role": "roles/storage.legacyBucketOwner"
+    }, 
+    {
+      "members": [
+        "projectViewer:resonant-idea-261413"
+      ], 
+      "role": "roles/storage.legacyBucketReader"
+    }, 
+    {
+      "members": [
+        "serviceAccount:onpremserviceaccount@resonant-idea-261413.iam.gserviceaccount.com"
+      ], 
+      "role": "roles/storage.objectAdmin"
+    }, 
+    {
+      "members": [
+        "serviceAccount:clientserviceaccount@resonant-idea-261413.iam.gserviceaccount.com"
+      ], 
+      "role": "roles/storage.objectViewer"
+    }
+  ], 
+  "etag": "CAM="
+}
+```
+</details>
