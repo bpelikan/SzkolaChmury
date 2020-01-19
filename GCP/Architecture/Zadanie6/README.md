@@ -17,7 +17,7 @@ bucketLocation="EUR4" # https://cloud.google.com/storage/docs/locations#location
 gsutil mb -c STANDARD -l $bucketLocation gs://${bucketName}/
 ```
 
-## Przygotowanie dostępu dla środowiska Onprem
+## Przygotowanie dostępu dla środowiska on-prem
 ```bash
 serviceAccountOnPrem="onpremserviceaccount"
 serviceAccountOnPremDescription="Service account umożliwiający dostęp do storage ze środowiska on-prem"
@@ -34,6 +34,10 @@ serviceAccountOnPremEmail="onpremserviceaccount@resonant-idea-261413.iam.gservic
 # https://cloud.google.com/storage/docs/gsutil/commands/iam
 gsutil iam ch serviceAccount:$serviceAccountOnPremEmail:objectAdmin gs://${bucketName}/
 
-### Wygenerowanie klucza
+# Wygenerowanie klucza
 gcloud iam service-accounts keys create onpremkey.json --iam-account $serviceAccountOnPremEmail
 ```
+
+## Przygotowanie dostępu dla klienta
+```bash
+```
