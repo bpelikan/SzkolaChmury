@@ -51,4 +51,7 @@ gcloud iam service-accounts create $serviceAccountClient --description "$service
 gcloud iam service-accounts list
 serviceAccountClientEmail="clientserviceaccount@resonant-idea-261413.iam.gserviceaccount.com"
 
+# Nadanie uprawnień 
+gsutil iam ch serviceAccount:$serviceAccountClientEmail:objectViewer gs://${bucketName}/
+
 ```
