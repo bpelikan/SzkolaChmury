@@ -17,7 +17,7 @@ bucketLocation="EUR4" # https://cloud.google.com/storage/docs/locations#location
 gsutil mb -c STANDARD -l $bucketLocation gs://${bucketName}/
 ```
 
-## Przygotowanie dostępu dla środowiska on-prem
+### Przygotowanie dostępu dla środowiska on-prem
 ```bash
 serviceAccountOnPrem="onpremserviceaccount"
 serviceAccountOnPremDescription="Service account umożliwiający dostęp do storage ze środowiska on-prem"
@@ -38,7 +38,7 @@ gsutil iam ch serviceAccount:$serviceAccountOnPremEmail:objectAdmin gs://${bucke
 gcloud iam service-accounts keys create onpremkey.json --iam-account $serviceAccountOnPremEmail
 ```
 
-## Przygotowanie dostępu dla klienta
+### Przygotowanie dostępu dla klienta
 ```bash
 serviceAccountClient="clientserviceaccount"
 serviceAccountClientDescription="Service account umożliwiający dostęp do storage ze środowiska klienta"
@@ -58,7 +58,7 @@ gsutil iam ch serviceAccount:$serviceAccountClientEmail:objectViewer gs://${buck
 gcloud iam service-accounts keys create clientkey.json --iam-account $serviceAccountClientEmail
 ```
 
-## Weryfikacja uprawnień
+### Weryfikacja uprawnień
 ```bash
 gsutil iam get gs://${bucketName}/ > bucket_iam.json
 ```
@@ -97,4 +97,34 @@ gsutil iam get gs://${bucketName}/ > bucket_iam.json
   "etag": "CAM="
 }
 ```
-</details>
+</details>
+
+### Zalogowanie się do VM on-prem
+```bash
+bucketName="szkchmzad6bp"
+
+# Sprawdzenie dostępu
+gsutil ls gs://$bucketName
+
+# Wykorzystanie klucza w celu uzyskania dostępu do bucketa
+gcloud auth activate-service-account --key-file onpremkey.json
+
+# Sprawdzenie dostępu
+gsutil ls gs://$bucketName
+
+# Pobranie plików
+curl https://storage.googleapis.com/testdatachm/sampledata/imagedata.tar.gz > imagedata.tar.gz
+
+# Rozpakowaie plików
+tar -zxvf imagedata.tar.gz > null
+
+# Sprawdzenie czy pliki zostały rozpakowane prawidłowo
+ls ./testdatachm/**
+
+# Wysłanie plików do bucketa
+gsutil -m cp -r testdatachm gs://$bucketName
+
+# Sprawdzenie rozmiaru bucketa
+gsutil du -chs gs://${bucketName}/
+
+```
