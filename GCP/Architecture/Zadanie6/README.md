@@ -30,4 +30,8 @@ gcloud iam service-accounts create $serviceAccountOnPrem --description "$service
 gcloud iam service-accounts list
 serviceAccountOnPremEmail="onpremserviceaccount@resonant-idea-261413.iam.gserviceaccount.com"
 
+# Nadanie uprawnień do danego bucketa
+# https://cloud.google.com/storage/docs/gsutil/commands/iam
+gsutil iam ch serviceAccount:$serviceAccountOnPremEmail:objectAdmin gs://${bucketName}/
+
 ```
