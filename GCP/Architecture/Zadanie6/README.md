@@ -54,4 +54,6 @@ serviceAccountClientEmail="clientserviceaccount@resonant-idea-261413.iam.gservic
 # Nadanie uprawnień 
 gsutil iam ch serviceAccount:$serviceAccountClientEmail:objectViewer gs://${bucketName}/
 
+# Wygenerowanie klucza
+gcloud iam service-accounts keys create clientkey.json --iam-account $serviceAccountClientEmail
 ```
