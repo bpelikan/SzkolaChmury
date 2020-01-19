@@ -17,3 +17,6 @@ bucketLocation="EUR4" # https://cloud.google.com/storage/docs/locations#location
 gsutil mb -c STANDARD -l $bucketLocation gs://${bucketName}/
 ```
 
+## Przygotowanie dostępu dla środowiska Onprem
+```bash
+```
