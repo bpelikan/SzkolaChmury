@@ -159,6 +159,26 @@ bartosz@zad6onprem:~$ gsutil du -chs gs://${bucketName}/
 73.61 MiB    gs://szkchmzad6bp
 73.61 MiB    total
 ```
+</details>
 
+### Zalogowanie się do VM klienta
+```bash
+bucketName="szkchmzad6bp"
+
+# Sprawdzenie dostępu
+gsutil ls gs://$bucketName
+
+# Wykorzystanie klucza w celu uzyskania dostępu do bucketa
+gcloud auth activate-service-account --key-file clientkey.json
+
+# Sprawdzenie dostępu
+gsutil ls gs://$bucketName
+
+# Pobranie przykładowego pliku
+gsutil cp gs://$bucketName/testdatachm/fungs/fung209.jpg .
 ```
+
+<details>
+  <summary><b><i>Output</i></b></summary>
+
 </details>
