@@ -127,4 +127,38 @@ gsutil -m cp -r testdatachm gs://$bucketName
 # Sprawdzenie rozmiaru bucketa
 gsutil du -chs gs://${bucketName}/
 
-```
+```
+
+<details>
+  <summary><b><i>Output</i></b></summary>
+
+```bash
+bartosz@zad6onprem:~$ bucketName="szkchmzad6bp"
+bartosz@zad6onprem:~$ gsutil ls gs://$bucketName
+ServiceException: 401 Anonymous caller does not have storage.objects.list access to szkchmzad6bp.
+bartosz@zad6onprem:~$ ls
+onpremkey.json
+bartosz@zad6onprem:~$ gcloud auth activate-service-account --key-file onpremkey.json
+Activated service account credentials for: [onpremserviceaccount@resonant-idea-261413.iam.gserviceaccount.com]
+bartosz@zad6onprem:~$ gsutil ls gs://$bucketName
+bartosz@zad6onprem:~$ curl https://storage.googleapis.com/testdatachm/sampledata/imagedata.tar.gz > image
+data.tar.gz
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 72.8M  100 72.8M    0     0  59.1M      0  0:00:01  0:00:01 --:--:-- 59.1M
+bartosz@zad6onprem:~$ tar -zxvf imagedata.tar.gz > null
+bartosz@zad6onprem:~$ ls ./testdatachm/**
+./testdatachm/fungs:
+fung100.jpg  fung155.jpg  fung209.jpg  fung253.jpg  fung302.jpg  fung356.jpg  fung415.jpg  fung57.jpg
+{...}
+bartosz@zad6onprem:~$ gsutil -m cp -r testdatachm gs://$bucketName
+{...}
+/ [964/964 files][ 73.6 MiB/ 73.6 MiB] 100% Done 512.4 KiB/s ETA 00:00:00       
+Operation completed over 964 objects/73.6 MiB.
+bartosz@zad6onprem:~$ gsutil du -chs gs://${bucketName}/
+73.61 MiB    gs://szkchmzad6bp
+73.61 MiB    total
+```
+
+```
+</details>
