@@ -28,6 +28,8 @@
 
 * [Połączenie z Azure Key Vault](./Lekcja84)
 
+* [Fluentd, Elasticsearch, Kibana](./Lekcja101)
+
 ## Startup Scripts
 
 * [Azure](./StartupScripts/AzureAKS.sh)
