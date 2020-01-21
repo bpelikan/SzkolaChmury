@@ -18,11 +18,16 @@
 
 * [Zadanie 9 - Horizontal Pod Autoscaler](./Zadanie9)
 
-* [Lekcja 84 - połączenie z Azure Key Vault](./Lekcja84)
-
 * [Zadanie 10 - Integracja z Azure AD - Role i uprawnienia](./Zadanie10)
 
 * [Zadanie 11 - Azure Monitor, Prometheus + Grafana](./Zadanie11)
 
 * [Zadanie 12 - Istio](./Zadanie12)
 
+## Inne
+
+* [Połączenie z Azure Key Vault](./Lekcja84)
+
+## Startup Scripts
+
+* [Azure](./StartupScripts/AzureAKS.sh)
