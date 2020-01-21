@@ -68,10 +68,11 @@ curl https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Kubernetes/L
 kubectl apply -f kibana-lb.yaml
 
 # Pobranie adresu IP do Kibany
-kubectl get svc quickstart-service-lb
+kibanaIP=$(kubectl get svc quickstart-service-lb -o json | jq -r ".status.loadBalancer.ingress[0].ip")
 
-# Wyświetlenie hasła do kibany
-echo $PASSWORD
+# Zalogowanie się do Kibany
+# url | user:password
+echo "https://$kibanaIP | elastic:$PASSWORD"
 ```
 
 ## Materiały
