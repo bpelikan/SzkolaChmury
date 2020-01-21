@@ -385,7 +385,6 @@ bartosz@Azure:~$ rm -rf ./code
 </details>
 
 # Pliki
-* [istio-demo.yaml](./code/istio-demo.yaml)
 * [bookinfo.yaml](./code/bookinfo.yaml)
 * [bookinfo-gateway.yaml](./code/bookinfo-gateway.yaml)
 * [destination-rule-all.yaml](./code/destination-rule-all.yaml)
@@ -395,4 +394,6 @@ bartosz@Azure:~$ rm -rf ./code
 * [mixer-rule-productpage-ratelimit.yaml](./code/mixer-rule-productpage-ratelimit.yaml)
 
 # Linki
+* [Istio](https://istio.io/)
+* [Repository](https://github.com/istio/istio)
 * [Bookinfo Application](https://istio.io/docs/examples/bookinfo/)
