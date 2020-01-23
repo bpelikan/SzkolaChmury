@@ -12,6 +12,8 @@
 
 * [Zadanie 6 - Cloud Storage, udostępnianie obiektów oraz ustawianie im polityki czasu życia](./Zadanie6)
 
+* [Zadanie 7](./Zadanie7)
+
 ## Inne
 
 * [Creating Snapshot](./Lekcja22)
