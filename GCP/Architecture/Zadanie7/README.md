@@ -27,4 +27,11 @@ Możliwe wykorzystanie przy:
         Eight core CPUs
         32GB of RAM
 * Compute Engine ([c2-standard-8 8vCPU	32GB](https://cloud.google.com/compute/docs/machine-types#c2_machine_types))
+
+## 3. Firma lokalnie posiada serwery NAS, które odpowiadają za przechowywanie obrazów, logów oraz kopii zapasowych. Serwery muszą posiadają możliwość wersjonowania obiektów oraz kontrolowania dostępu na poziomie pojedyńczego obiektu.
+>
+    NAS - image storage, logs, backups
+        100 TB total storage; 35 TB available
+* Cloud Storage - umożliwia włączenie wersjonowania obiektów oraz kontrolowanie dostępu na poziomie pojedyńczego obiektu.
+* Filestore - nie znalazłem informacji aby usługa ta wspierała wersjonowanie oraz kontrolowanie dostępu na poziomie pojedyńczego obiektu
 
