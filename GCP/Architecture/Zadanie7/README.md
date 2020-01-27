@@ -1,8 +1,5 @@
 # [Zadanie domowe nr 7](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-7-databases-on-google-cloud/zadanie-domowe-nr-7/)
 
----
-
-
 ## 1. Firma posiada jedną głowną bazę danych MySQL - jeden serwer dla danych użytkowników, inwentaryzacji, danych statycznych. Serwis ten jest głównym elementem, który ma zostać przeniesiony do środowiska w Google Cloud.
 > 
     MySQL. One server for user data, inventory, static data,
@@ -21,4 +18,13 @@ Wymagania te spełni baza `Cloud SQL`, problemem tutaj może być wybór odpowie
 Dodatkowo można wykorzystać tutaj opcję replikacji bazy [`Replication from an external server`](https://cloud.google.com/sql/docs/mysql/replication/) w celu synchronizacji danych z on-prem do GCP. 
 Możliwe wykorzystanie przy:
 * chęci posiadanie failover replica w GCP
-* przy migracji do GCP
+* przy migracji do GCP
+
+## 2. Dział bezpieczeństwa posiada serwery, które nie są związane bezpośrednio z samą architekturą aplikacji. Serwery te również mają zostać przeniesione do środowiska w Google Cloud
+> 
+    Miscellaneous servers:
+        Jenkins, monitoring, bastion hosts, security scanners
+        Eight core CPUs
+        32GB of RAM
+* Compute Engine ([c2-standard-8 8vCPU	32GB](https://cloud.google.com/compute/docs/machine-types#c2_machine_types))
+
