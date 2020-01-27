@@ -12,7 +12,7 @@
 
 * [Zadanie 6 - Cloud Storage, udostępnianie obiektów oraz ustawianie im polityki czasu życia](./Zadanie6)
 
-* [Zadanie 7](./Zadanie7)
+* [Zadanie 7 - Databases, migracja baz on-prem do GCP](./Zadanie7)
 
 ## Inne
 
