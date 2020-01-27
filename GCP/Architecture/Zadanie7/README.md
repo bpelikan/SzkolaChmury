@@ -46,7 +46,9 @@ Wykorzystanie możliwości jakie oferuje Cloud SQL:
 
 ## 5. Dodatkowe wytyczne
 > Zarząd planuje ekspansje globalną jeśli chodzi o aplikacje, wiec również jej dane będą udostępniane globalnie w pewnych regionach. Zarząd zauważył, że baza MySQL pod względem architektury staje się wąskim gardłem, kiedy mówimy o skalowalności. Firma jest gotowa zainwestować czas na migrację do pełni zarządzalnego, skalowalnego, relacyjnego serwisu baz danych dla regionalnych i globalnych danych aplikacyjnych, aby ekspansja na rynek zagraniczny nie była przeszkodą. Jakie rozwiązanie zaproponowałbyś firmie gdyby nie chciała rezygnować z MySQL, ale chciała by zyskać na skalowalności swojego środowiska bazodanowego?
-* [Cloud Spanner](https://cloud.google.com/spanner/) będzie odpowiednim wyborem, zapewnia wszystkie wymagane cechy.
+* [Cloud Spanner](https://cloud.google.com/spanner/) będzie odpowiednim wyborem:
+    * zapewnia wszystkie wymagane cechy
+    * konieczne będzie poświęcenie czasu na dostosowanie oprogramowania - na co firma jest gotowa.
 
 ## 6. Przedstaw również proces migracji z klasycznej bazy MySQL do takiego zaproponowanego środowiska.
 Utworzenie backupu bazy danych i odtworzenie jej w GCP, problemem tutaj może być czas wykonania takiej migracji w czasie której w środowisku on-prem baza nadal działa. 
@@ -56,4 +58,16 @@ Dzięki temu w czasie rzeczywistym możemy wykonać migrację bazy z on-prem do 
 Pamiętać tutaj należy o tym, że środowisko on-prem musi spełniać pewne wymagania, aby taka migracja była możliwa ([Requirements for the source database server](https://cloud.google.com/sql/docs/mysql/replication/replication-from-external#server-requirements)).
 * [Kroki do wykonania replikacji](https://cloud.google.com/sql/docs/mysql/replication/replication-from-external#process)
 
-
+## 7. MountKirk Games
+Kiedy przejrzymy treść case study - MountKirk Games natrafimy na taki oto wpis w wymaganiach dotyczących platformy backendowej gry:
+
+> "Connect to a transactional database service to manage user profiles and game state"
+
+#### Jakie rozwiązania zaproponowałbyś dla tego przypadku jeśli chodzi o bazę danych?
+
+* Najlepszym wyborem dla danych użytkowników lub też stanu gry będzie baza dokumentowa (chcąc pobrać dane użytkownika lub stanu gry baza jest odpytywana tylko o jeden dokument zamiast wykonywać zapytanie z dodatkowymi relacjami pobierające dane z różnych tabel), czyli w przypadku GCP będzie to Cloud Firestore, który zapewni:
+    * tranzakcyjność
+    * `Realtime sync to clients`
+    * globalną replikację bazy
+* Cloud Spanner odpada głównie ze względu na wysoki koszt + chęć korzystania z nierelacyjnej baz danych:
+> and integrate with a managed NoSQL database. 
