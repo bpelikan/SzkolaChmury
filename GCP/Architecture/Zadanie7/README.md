@@ -28,10 +28,17 @@ Możliwe wykorzystanie przy:
         32GB of RAM
 * Compute Engine ([c2-standard-8 8vCPU	32GB](https://cloud.google.com/compute/docs/machine-types#c2_machine_types))
 
-## 3. Firma lokalnie posiada serwery NAS, które odpowiadają za przechowywanie obrazów, logów oraz kopii zapasowych. Serwery muszą posiadają możliwość wersjonowania obiektów oraz kontrolowania dostępu na poziomie pojedyńczego obiektu.
+## 3. Firma lokalnie posiada serwery NAS, które odpowiadają za przechowywanie obrazów, logów oraz kopii zapasowych. Serwery muszą posiadać możliwość wersjonowania obiektów oraz kontrolowania dostępu na poziomie pojedyńczego obiektu.
 >
     NAS - image storage, logs, backups
         100 TB total storage; 35 TB available
 * Cloud Storage - umożliwia włączenie wersjonowania obiektów oraz kontrolowanie dostępu na poziomie pojedyńczego obiektu.
-* Filestore - nie znalazłem informacji aby usługa ta wspierała wersjonowanie oraz kontrolowanie dostępu na poziomie pojedyńczego obiektu
+* Filestore - możę być wykorzystana jako NAS jednak nie znalazłem informacji aby usługa ta wspierała wersjonowanie oraz kontrolowanie dostępu na poziomie pojedyńczego obiektu
+
+## 4. Dress4Win planuje zbudować miejsce odzyskiwania danych w przypadku awarii, ponieważ ich obecna infrastruktura znajduje się w jednym miejscu. 
+> Zaproponuj plan działania w przypadku awarii na poziomie samej bazy danych, ponieważ jest to krytyczny element działania aplikacji oraz środowisk w całej firmie, dlatego ten element wymaga dość dużej precyzji.
+Wykorzystanie możliwości jakie oferuje Cloud SQL:
+* [High availability configuration](https://cloud.google.com/sql/docs/mysql/high-availability) na wypadek niedostępności bazy - w takiej sytuacji GCP automatycznie przełączy się na drugą instancję z innej strefie po ok 60s.
+* [Automatyczne backupy + binary logging](https://cloud.google.com/sql/docs/mysql/backup-recovery/backups) na wypadek utraty/uszkodzenia danych - mamy tutaj możliwość przywrócenia bazy z backupów które są tworzone co 24h, oraz przywrócenie bazy do określonego czasu na 7 dni wstecz dzięki włączonej opcji binary logging ([point-in-time recovery](https://cloud.google.com/sql/docs/mysql/backup-recovery/restore)). Należy tutaj pamiętać, że przywrócenia bazy do określonego czasu nie możemy wykonać na obecnej instancji, tworzona jest nowa instancja ([źródło](https://cloud.google.com/sql/docs/mysql/backup-recovery/restore#tips-pitr)). Backupy możemy dodatkowo zabezpieczyć przechowując je w usłudze Cloud Storage.
+
 
