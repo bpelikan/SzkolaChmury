@@ -48,4 +48,12 @@ Wykorzystanie możliwości jakie oferuje Cloud SQL:
 > Zarząd planuje ekspansje globalną jeśli chodzi o aplikacje, wiec również jej dane będą udostępniane globalnie w pewnych regionach. Zarząd zauważył, że baza MySQL pod względem architektury staje się wąskim gardłem, kiedy mówimy o skalowalności. Firma jest gotowa zainwestować czas na migrację do pełni zarządzalnego, skalowalnego, relacyjnego serwisu baz danych dla regionalnych i globalnych danych aplikacyjnych, aby ekspansja na rynek zagraniczny nie była przeszkodą. Jakie rozwiązanie zaproponowałbyś firmie gdyby nie chciała rezygnować z MySQL, ale chciała by zyskać na skalowalności swojego środowiska bazodanowego?
 * [Cloud Spanner](https://cloud.google.com/spanner/) będzie odpowiednim wyborem, zapewnia wszystkie wymagane cechy.
 
+## 6. Przedstaw również proces migracji z klasycznej bazy MySQL do takiego zaproponowanego środowiska.
+Utworzenie backupu bazy danych i odtworzenie jej w GCP, problemem tutaj może być czas wykonania takiej migracji w czasie której w środowiku on-prem baza nadal działa. 
+
+Tutaj lepszym wyborem będzie wykorzystanie opcji replikacji bazy, którą oferuje Cloud SQL - [`Replication from an external server`](https://cloud.google.com/sql/docs/mysql/replication/). 
+Dzięki temu w czasie rzeczywistym możemy wykonać migrację bazy z on-prem do GCP, a następnie tylko przełączyć połączenie na bazę znajdującąsięw GCP. 
+Pamiętać tutaj należy o tym, że środowisko on-prem musi spełniać pewne wymagania, aby taka migracja była możliwa ([Requirements for the source database server](https://cloud.google.com/sql/docs/mysql/replication/replication-from-external#server-requirements)).
+[Kroki do wykonania replikacji](https://cloud.google.com/sql/docs/mysql/replication/replication-from-external#process)
+
 
