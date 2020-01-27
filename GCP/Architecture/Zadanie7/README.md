@@ -39,7 +39,7 @@ Możliwe wykorzystanie przy:
 > Zaproponuj plan działania w przypadku awarii na poziomie samej bazy danych, ponieważ jest to krytyczny element działania aplikacji oraz środowisk w całej firmie, dlatego ten element wymaga dość dużej precyzji.
 Wykorzystanie możliwości jakie oferuje Cloud SQL:
 * [High availability configuration](https://cloud.google.com/sql/docs/mysql/high-availability) na wypadek niedostępności bazy - w takiej sytuacji GCP automatycznie przełączy się na drugą instancję z innej strefie po ok 60s.
-* [Automatyczne backupy + binary logging](https://cloud.google.com/sql/docs/mysql/backup-recovery/backups) na wypadek utraty/uszkodzenia danych - mamy tutaj możliwość przywrócenia bazy z backupów które są tworzone co 24h, oraz przywrócenie bazy do określonego czasu na 7 dni wstecz dzięki włączonej opcji binary logging ([point-in-time recovery](https://cloud.google.com/sql/docs/mysql/backup-recovery/restore)). Należy tutaj pamiętać, że przywrócenia bazy do określonego czasu nie możemy wykonać na obecnej instancji, tworzona jest nowa instancja ([źródło](https://cloud.google.com/sql/docs/mysql/backup-recovery/restore#tips-pitr)). Backupy możemy dodatkowo zabezpieczyć przechowując je w usłudze Cloud Storage.
+* [Automatyczne backupy + binary logging](https://cloud.google.com/sql/docs/mysql/backup-recovery/backups) na wypadek utraty/uszkodzenia danych - mamy tutaj możliwość przywrócenia bazy z backupów które są tworzone co 24h, oraz przywrócenie bazy do określonego czasu na 7 dni wstecz dzięki włączonej opcji binary logging ([point-in-time recovery](https://cloud.google.com/sql/docs/mysql/backup-recovery/restore)). Należy tutaj pamiętać, że przywrócenia bazy do określonego czasu nie możemy wykonać na obecnej instancji - tworzona jest nowa instancja ([źródło](https://cloud.google.com/sql/docs/mysql/backup-recovery/restore#tips-pitr)). Backupy możemy dodatkowo zabezpieczyć/zarchiwizować w usłudze Cloud Storage.
 
 > Zaproponuj plan, który będzie brał pod uwagę odzyskiwanie danych z rozwiązania dla serwerów NAS w Google Cloud tak, aby firma nie musiała się przejmować, że ich obrazy czy też np. logi z danego dnia nagle znikną
 * Wykorzystanie Cloud Storage z włączoną opcją wersjonowania obiektów
@@ -49,11 +49,11 @@ Wykorzystanie możliwości jakie oferuje Cloud SQL:
 * [Cloud Spanner](https://cloud.google.com/spanner/) będzie odpowiednim wyborem, zapewnia wszystkie wymagane cechy.
 
 ## 6. Przedstaw również proces migracji z klasycznej bazy MySQL do takiego zaproponowanego środowiska.
-Utworzenie backupu bazy danych i odtworzenie jej w GCP, problemem tutaj może być czas wykonania takiej migracji w czasie której w środowiku on-prem baza nadal działa. 
+Utworzenie backupu bazy danych i odtworzenie jej w GCP, problemem tutaj może być czas wykonania takiej migracji w czasie której w środowisku on-prem baza nadal działa. 
 
 Tutaj lepszym wyborem będzie wykorzystanie opcji replikacji bazy, którą oferuje Cloud SQL - [`Replication from an external server`](https://cloud.google.com/sql/docs/mysql/replication/). 
 Dzięki temu w czasie rzeczywistym możemy wykonać migrację bazy z on-prem do GCP, a następnie tylko przełączyć połączenie na bazę znajdującąsięw GCP. 
 Pamiętać tutaj należy o tym, że środowisko on-prem musi spełniać pewne wymagania, aby taka migracja była możliwa ([Requirements for the source database server](https://cloud.google.com/sql/docs/mysql/replication/replication-from-external#server-requirements)).
-[Kroki do wykonania replikacji](https://cloud.google.com/sql/docs/mysql/replication/replication-from-external#process)
+* [Kroki do wykonania replikacji](https://cloud.google.com/sql/docs/mysql/replication/replication-from-external#process)
 
 
