@@ -44,4 +44,8 @@ Wykorzystanie możliwości jakie oferuje Cloud SQL:
 > Zaproponuj plan, który będzie brał pod uwagę odzyskiwanie danych z rozwiązania dla serwerów NAS w Google Cloud tak, aby firma nie musiała się przejmować, że ich obrazy czy też np. logi z danego dnia nagle znikną
 * Wykorzystanie Cloud Storage z włączoną opcją wersjonowania obiektów
 
+## 5. Dodatkowe wytyczne
+> Zarząd planuje ekspansje globalną jeśli chodzi o aplikacje, wiec również jej dane będą udostępniane globalnie w pewnych regionach. Zarząd zauważył, że baza MySQL pod względem architektury staje się wąskim gardłem, kiedy mówimy o skalowalności. Firma jest gotowa zainwestować czas na migrację do pełni zarządzalnego, skalowalnego, relacyjnego serwisu baz danych dla regionalnych i globalnych danych aplikacyjnych, aby ekspansja na rynek zagraniczny nie była przeszkodą. Jakie rozwiązanie zaproponowałbyś firmie gdyby nie chciała rezygnować z MySQL, ale chciała by zyskać na skalowalności swojego środowiska bazodanowego?
+* [Cloud Spanner](https://cloud.google.com/spanner/) będzie odpowiednim wyborem, zapewnia wszystkie wymagane cechy.
+
 
