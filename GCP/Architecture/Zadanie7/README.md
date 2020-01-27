@@ -8,7 +8,7 @@
         128 GB of RAM
         2x 5 TB HDD (RAID 1)
 
-Patrząc na powyższe wymagania potrzebować będziemy bazę MySQL o pojemności 5TB z włączoną opcją HA (jako, że storage bazy on-prem jest w RAID 1). 
+Patrząc na powyższe wymagania potrzebować będziemy bazy MySQL o pojemności 5TB z włączoną opcją HA (jako, że storage bazy on-prem jest w RAID 1). 
 Wymagania te spełni baza `Cloud SQL`, problemem tutaj może być wybór odpowiedniego typu maszyny:
 * db-n1-standard-32 (32vCPU, 120 GB)
 * db-n1-standard-64 (64vCPU, 240 GB)
@@ -40,5 +40,8 @@ Możliwe wykorzystanie przy:
 Wykorzystanie możliwości jakie oferuje Cloud SQL:
 * [High availability configuration](https://cloud.google.com/sql/docs/mysql/high-availability) na wypadek niedostępności bazy - w takiej sytuacji GCP automatycznie przełączy się na drugą instancję z innej strefie po ok 60s.
 * [Automatyczne backupy + binary logging](https://cloud.google.com/sql/docs/mysql/backup-recovery/backups) na wypadek utraty/uszkodzenia danych - mamy tutaj możliwość przywrócenia bazy z backupów które są tworzone co 24h, oraz przywrócenie bazy do określonego czasu na 7 dni wstecz dzięki włączonej opcji binary logging ([point-in-time recovery](https://cloud.google.com/sql/docs/mysql/backup-recovery/restore)). Należy tutaj pamiętać, że przywrócenia bazy do określonego czasu nie możemy wykonać na obecnej instancji, tworzona jest nowa instancja ([źródło](https://cloud.google.com/sql/docs/mysql/backup-recovery/restore#tips-pitr)). Backupy możemy dodatkowo zabezpieczyć przechowując je w usłudze Cloud Storage.
+
+> Zaproponuj plan, który będzie brał pod uwagę odzyskiwanie danych z rozwiązania dla serwerów NAS w Google Cloud tak, aby firma nie musiała się przejmować, że ich obrazy czy też np. logi z danego dnia nagle znikną
+* Wykorzystanie Cloud Storage z włączoną opcją wersjonowania obiektów
 
 
