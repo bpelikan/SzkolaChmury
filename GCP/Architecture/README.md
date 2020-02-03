@@ -14,6 +14,8 @@
 
 * [Zadanie 7 - Databases, migracja baz on-prem do GCP](./Zadanie7)
 
+* [Zadanie 8](./Zadanie8)
+
 ## Inne
 
 * [Creating Snapshot](./Lekcja22)
