@@ -5,7 +5,7 @@
 # Pobranie przykładowych kodów źródłowych
 git clone https://github.com/GoogleCloudPlatform/python-docs-samples
 
-# deploy aplikacji Hello World
+# Wdrożenie aplikacji Hello World
 cd ./python-docs-samples/appengine/standard/hello_world
 gcloud app deploy
 
@@ -21,10 +21,19 @@ gcloud app versions list
 
 # Wysłanie do nowej wersji aplikacji 30% użytkowników
 gcloud app services set-traffic default --splits 20200203t221803=0.7,20200203t223122=0.3 --split-by=random
-# Przekirowanie całego ruchu do nowej wersji aplikacji
+# Przekierowanie całego ruchu do nowej wersji aplikacji
 gcloud app services set-traffic default --splits 20200203t223122=1
 
 # Sprawdzenie
 gcloud app versions list
+```
+
+## 2. Zarząd pewnej firmy zdecydował się na przeniesienie swojej aplikacji do środowiska w Google Cloud. Zdecydowali się umieścić swoją aplikacje na środowisku w App Engine. Środowisko wymaga integracji z bazą danych MySQL z których aplikacja pobiera dane.
+
+#### 2.1 Utworzenie Cloud SQL
+```bash
+sqlInstanceName="zadanie8sqlinst2"
+secretRootPassword="tajnehaslo12345566"
+gcloud sql instances create $sqlInstanceName --root-password $secretRootPassword --activation-policy=ALWAYS --tier=db-n1-standard-1 --region=europe-west1
 ```
 
