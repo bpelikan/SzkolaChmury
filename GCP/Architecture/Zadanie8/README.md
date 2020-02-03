@@ -45,3 +45,22 @@ gcloud sql instances create $sqlInstanceName --root-password $secretRootPassword
 mysql -h 127.0.0.1 -u root -p -e "CREATE DATABASE mydbname;"
 ```
 
+#### 2.4 Wdrożenie aplikacji
+```bash
+# Pobranie kodu aplikacji
+git clone https://github.com/GoogleCloudPlatform/php-docs-samples
+cd php-docs-samples/appengine/flexible/cloudsql-mysql
+
+# Aktualizacja danych w pliku app.yaml
+
+# Wdrożenie aplikacji
+gcloud app deploy
+gcloud app browse
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+![Diagram](./img/20200204000522.jpg "Diagram")
+</details>
+
