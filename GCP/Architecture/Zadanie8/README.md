@@ -37,3 +37,6 @@ secretRootPassword="tajnehaslo12345566"
 gcloud sql instances create $sqlInstanceName --root-password $secretRootPassword --activation-policy=ALWAYS --tier=db-n1-standard-1 --region=europe-west1
 ```
 
+#### 2.2 Utworzenie proxy
+> https://cloud.google.com/sql/docs/mysql/connect-admin-proxy
+
