@@ -40,3 +40,8 @@ gcloud sql instances create $sqlInstanceName --root-password $secretRootPassword
 #### 2.2 Utworzenie proxy
 > https://cloud.google.com/sql/docs/mysql/connect-admin-proxy
 
+#### 2.3 Utworznie bazy
+```bash
+mysql -h 127.0.0.1 -u root -p -e "CREATE DATABASE mydbname;"
+```
+
