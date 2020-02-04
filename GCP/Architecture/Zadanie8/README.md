@@ -32,8 +32,8 @@ gcloud app versions list
 
 #### 2.1 Utworzenie Cloud SQL
 ```bash
-sqlInstanceName="zadanie8sqlinst2"
-secretRootPassword="tajnehaslo12345566"
+sqlInstanceName="zadanie8sqlinst"
+secretRootPassword="tajnehaslo1234"
 gcloud sql instances create $sqlInstanceName --root-password $secretRootPassword --activation-policy=ALWAYS --tier=db-n1-standard-1 --region=europe-west1
 ```
 
@@ -63,3 +63,18 @@ gcloud app browse
 
 ![Diagram](./img/20200204000522.jpg "Diagram")
 </details>
+
+### 3. Pytanie
+> Posiadasz aplikację App Engine Standard Environment, która używa SQL w chmurze dla backendu bazy danych. W godzinach szczytu użytkowania, liczba zapytań do Cloud SQL skutkuje spadkiem wydajności. W jaki sposób można najlepiej pomóc w ograniczeniu wąskich gardeł wydajnościowych dla typowych zapytań?
+> 1. Przełączyć środowisko na App Engine Flexible Environment
+> 2. Ustawić Memcache App Engine na dedicated service level i zwiększyć pojemność pamięci podręcznej, aby sprostać szczytowemu obciążeniu zapytań.
+> 3. Zwiększyć pamięć swojej bazy danych SQL w chmurze
+> 4. Ustawić App Engine's Memcache na poziom shared Service level.
+
+W tym przypadku problemem są typowe zapytania, a więc zapytania które się powtarzają i często wykonanie ich daje takie same wyniki - w takiej sytuacji najlepszym wyborem jest wykorzystanie cachowania zapytań - odrzucamy odpowiedzi 1 oraz 3. 
+Pasujące więc odpowiedzi to 2 i 4. 
+
+Wybór pomiędzy nimi zależy od naszych wymagań:
+
+2. **Dedicated memcache** - płatna opcja (per GB/h) zapewniająca daną pojemność przydzieloną tylko do naszej aplikacji - do użycia w przypadku krytycznej aplikacji, gdzie chcemy mieć pewność, że cache będzie działał prawidłowo
+4. **Shared memcache** - darmowa usługa współdzielona pomiędzy aplikacjami, nie zapewnia pojemności oraz wydajności - do aplikacji mniej krytycznych, gdzie dopuszczamy możliwość, że cache nie zostanie nam przydzielony
