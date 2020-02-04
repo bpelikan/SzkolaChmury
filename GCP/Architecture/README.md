@@ -14,6 +14,8 @@
 
 * [Zadanie 7 - Databases, migracja baz on-prem do GCP](./Zadanie7)
 
+* [Zadanie 8 - App Engine, kierowanie ruchu pomiędzy wersjami, połączenie do Cloud SQL](./Zadanie8)
+
 ## Inne
 
 * [Creating Snapshot](./Lekcja22)
