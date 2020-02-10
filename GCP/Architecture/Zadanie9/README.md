@@ -1,8 +1,8 @@
 # [Zadanie domowe nr 9](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-9-understanding-vpc-networks/praca-domowa-nr-9/)
 
-### 1. W tym zadaniu stworzymy dwa przykładowe projekty, a następnie w każdym projekcie utworzymy odpowiednie środowiska sieciowe. Następnie, kiedy będziemy mieć już odpowiednie komponenty w każdym z projektów wykonamy parowanie wzajemne naszych sieci
+## 1. W tym zadaniu stworzymy dwa przykładowe projekty, a następnie w każdym projekcie utworzymy odpowiednie środowiska sieciowe. Następnie, kiedy będziemy mieć już odpowiednie komponenty w każdym z projektów wykonamy parowanie wzajemne naszych sieci
 
-#### 1.1 Utworzenie projektów
+### 1.1 Utworzenie projektów
 ```bash
 projectId1="zadanie9bp-1"
 projectId2="zadanie9bp-2"
@@ -23,7 +23,7 @@ zadanie9bp-2          zadanie9bp-2                   121362761339
 ```
 </details>
 
-#### 1.2 Utworzenie sieci VPC w każdym z projektów
+### 1.2 Utworzenie sieci VPC w każdym z projektów
 ```bash
 vpcNetwork1="vpcnetwork1"
 vpcNetwork2="vpcnetwork2"
@@ -47,7 +47,7 @@ vpcnetwork2  CUSTOM       REGIONAL
 ```
 </details>
 
-#### 1.3 Utworzenie podsieci
+### 1.3 Utworzenie podsieci
 ```bash
 vpc1subnet1="vpcnetwork1-sub1"
 vpc2subnet2="vpcnetwork2-sub2"
@@ -111,7 +111,7 @@ default           northamerica-northeast1  default      10.162.0.0/20
 ```
 </details>
 
-#### 1.4 Utworzenie reguł Firewall
+### 1.4 Utworzenie reguł Firewall
 ```bash
 gcloud compute firewall-rules create $vpcNetwork1-allow-icmp --direction=INGRESS --priority=65534 --network=$vpcNetwork1 --action=ALLOW --rules=icmp --source-ranges=0.0.0.0/0 --project=$projectId1
 gcloud compute firewall-rules create $vpcNetwork2-allow-icmp --direction=INGRESS --priority=65534 --network=$vpcNetwork2 --action=ALLOW --rules=icmp --source-ranges=0.0.0.0/0 --project=$projectId2
@@ -147,7 +147,7 @@ To show all fields in table format, please see the examples in --help.
 ```
 </details>
 
-#### 1.5 Utworzenie VM
+### 1.5 Utworzenie VM
 ```bash
 vmName1="zad9vm1"
 vmZone1="europe-west1-b"
@@ -172,7 +172,7 @@ zad9vm2  europe-west2-b  f1-micro                   10.2.0.2     34.89.72.188  R
 ```
 </details>
 
-#### 1.6 Utworzenie VPC network peering
+### 1.6 Utworzenie VPC network peering
 ```bash
 peeringvpc1tovpc2="vpc1-vpc2"
 peeringvpc2tovpc1="vpc2-vpc1"
@@ -194,7 +194,7 @@ vpc2-vpc1  vpcnetwork2  zadanie9bp-1  vpcnetwork1   True                ACTIVE  
 ```
 </details>
 
-#### 1.7 Sprawdzenie połączenia
+### 1.7 Sprawdzenie połączenia
 Podłączenie się do VM w podsieci 1 i wykonanie próby połączenia się do VM w podsieci 2 (zad9vm1 -> zad9vm2 | 10.1.0.2 -> 10.2.0.2)
 
 <details>
@@ -221,7 +221,7 @@ rtt min/avg/max/mdev = 6.851/7.228/7.982/0.541 ms
 ```
 </details>
 
-#### 1.8 Pytanie
+### 1.8 Pytanie
 
 > Jak zbudujesz połączenie pomiędzy sieciami tak, aby umożliwić dotarcie z Projektu B do świata zewnętrznego wychodząc przez urządzenie wirtualne w Projekcie A?
 
