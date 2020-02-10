@@ -193,4 +193,30 @@ NAME       NETWORK      PEER_PROJECT  PEER_NETWORK  AUTO_CREATE_ROUTES  STATE   
 vpc2-vpc1  vpcnetwork2  zadanie9bp-1  vpcnetwork1   True                ACTIVE  [2020-02-10T14:50:46.142-08:00]: Connected.
 ```
 </details>
-
+
+#### 1.7 Sprawdzenie połączenia
+Podłączenie się do VM w podsieci 1 i wykonanie próby połączenia się do VM w podsieci 2 (zad9vm1 -> zad9vm2 | 10.1.0.2 -> 10.2.0.2)
+
+<details>
+  <summary><b><i>Console output</i></b></summary>
+
+```bash
+Connected, host fingerprint: ssh-rsa 0 {...}
+Linux zad9vm1 4.9.0-11-amd64 #1 SMP Debian 4.9.189-3+deb9u2 (2019-11-11) x86_64
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+
+bartosz@zad9vm1:~$ ping -c 3 10.2.0.2
+PING 10.2.0.2 (10.2.0.2) 56(84) bytes of data.
+64 bytes from 10.2.0.2: icmp_seq=1 ttl=64 time=7.98 ms
+64 bytes from 10.2.0.2: icmp_seq=2 ttl=64 time=6.85 ms
+64 bytes from 10.2.0.2: icmp_seq=3 ttl=64 time=6.85 ms
+
+--- 10.2.0.2 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2002ms
+rtt min/avg/max/mdev = 6.851/7.228/7.982/0.541 ms
+```
+</details>
