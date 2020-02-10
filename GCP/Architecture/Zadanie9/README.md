@@ -146,4 +146,29 @@ To show all fields of the firewall, please show in JSON format: --format=json
 To show all fields in table format, please see the examples in --help.
 ```
 </details>
+
+#### 1.5 Utworzenie VM
+```bash
+vmName1="zad9vm1"
+vmZone1="europe-west1-b"
+vmName2="zad9vm2"
+vmZone2="europe-west2-b"
+vmType="f1-micro"
+
+gcloud compute instances create $vmName1 --zone=$vmZone1 --machine-type=$vmType --network-interface=network=$vpcNetwork1,subnet=$vpc1subnet1 --image-project=debian-cloud --image=debian-9-stretch-v20191210 --project=$projectId1
+gcloud compute instances create $vmName2 --zone=$vmZone2 --machine-type=$vmType --network-interface=network=$vpcNetwork2,subnet=$vpc2subnet2 --image-project=debian-cloud --image=debian-9-stretch-v20191210 --project=$projectId2
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+```bash
+bartosz@cloudshell:~$ gcloud compute instances list --project=$projectId1
+NAME     ZONE            MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP    STATUS
+zad9vm1  europe-west1-b  f1-micro                   10.1.0.2     35.240.22.166  RUNNING
+bartosz@cloudshell:~$ gcloud compute instances list --project=$projectId2
+NAME     ZONE            MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP   STATUS
+zad9vm2  europe-west2-b  f1-micro                   10.2.0.2     34.89.72.188  RUNNING
+```
+</details>
 
