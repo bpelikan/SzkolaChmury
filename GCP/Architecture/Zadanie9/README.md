@@ -171,4 +171,26 @@ NAME     ZONE            MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP   S
 zad9vm2  europe-west2-b  f1-micro                   10.2.0.2     34.89.72.188  RUNNING
 ```
 </details>
+
+#### 1.6 Utworzenie VPC network peering
+```bash
+peeringvpc1tovpc2="vpc1-vpc2"
+peeringvpc2tovpc1="vpc2-vpc1"
+
+gcloud compute networks peerings create $peeringvpc1tovpc2 --network=$vpcNetwork1 --peer-network=$vpcNetwork2 --auto-create-routes --peer-project=$projectId2 --project=$projectId1
+gcloud compute networks peerings create $peeringvpc2tovpc1 --network=$vpcNetwork2 --peer-network=$vpcNetwork1 --auto-create-routes --peer-project=$projectId1 --project=$projectId2
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+```bash
+bartosz@cloudshell:~$ gcloud compute networks peerings list --project=$projectId1
+NAME       NETWORK      PEER_PROJECT  PEER_NETWORK  AUTO_CREATE_ROUTES  STATE   STATE_DETAILS
+vpc1-vpc2  vpcnetwork1  zadanie9bp-2  vpcnetwork2   True                ACTIVE  [2020-02-10T14:50:46.142-08:00]: Connected.
+bartosz@cloudshell:~$ gcloud compute networks peerings list --project=$projectId2
+NAME       NETWORK      PEER_PROJECT  PEER_NETWORK  AUTO_CREATE_ROUTES  STATE   STATE_DETAILS
+vpc2-vpc1  vpcnetwork2  zadanie9bp-1  vpcnetwork1   True                ACTIVE  [2020-02-10T14:50:46.142-08:00]: Connected.
+```
+</details>
 
