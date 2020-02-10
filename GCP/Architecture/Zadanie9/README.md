@@ -110,4 +110,40 @@ default           asia-east2               default      10.170.0.0/20
 default           northamerica-northeast1  default      10.162.0.0/20
 ```
 </details>
+
+#### 1.4 Utworzenie reguł Firewall
+```bash
+gcloud compute firewall-rules create $vpcNetwork1-allow-icmp --direction=INGRESS --priority=65534 --network=$vpcNetwork1 --action=ALLOW --rules=icmp --source-ranges=0.0.0.0/0 --project=$projectId1
+gcloud compute firewall-rules create $vpcNetwork2-allow-icmp --direction=INGRESS --priority=65534 --network=$vpcNetwork2 --action=ALLOW --rules=icmp --source-ranges=0.0.0.0/0 --project=$projectId2
+gcloud compute firewall-rules create $vpcNetwork2-allow-ssh --direction=INGRESS --priority=65534 --network=$vpcNetwork1 --action=ALLOW --rules=tcp:22 --source-ranges=0.0.0.0/0 --project=$projectId1
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+```bash
+bartosz@cloudshell:~$ gcloud compute firewall-rules list --project=$projectId1
+NAME                    NETWORK      DIRECTION  PRIORITY  ALLOW                         DENY  DISABLED
+default-allow-icmp      default      INGRESS    65534     icmp                                False
+default-allow-internal  default      INGRESS    65534     tcp:0-65535,udp:0-65535,icmp        False
+default-allow-rdp       default      INGRESS    65534     tcp:3389                            False
+default-allow-ssh       default      INGRESS    65534     tcp:22                              False
+vpcnetwork1-allow-icmp  vpcnetwork1  INGRESS    65534     icmp                                False
+vpcnetwork2-allow-ssh   vpcnetwork1  INGRESS    65534     tcp:22                              False
+
+To show all fields of the firewall, please show in JSON format: --format=json
+To show all fields in table format, please see the examples in --help.
+
+bartosz@cloudshell:~$ gcloud compute firewall-rules list --project=$projectId2
+NAME                    NETWORK      DIRECTION  PRIORITY  ALLOW                         DENY  DISABLED
+default-allow-icmp      default      INGRESS    65534     icmp                                False
+default-allow-internal  default      INGRESS    65534     tcp:0-65535,udp:0-65535,icmp        False
+default-allow-rdp       default      INGRESS    65534     tcp:3389                            False
+default-allow-ssh       default      INGRESS    65534     tcp:22                              False
+vpcnetwork2-allow-icmp  vpcnetwork2  INGRESS    65534     icmp                                False
+
+To show all fields of the firewall, please show in JSON format: --format=json
+To show all fields in table format, please see the examples in --help.
+```
+</details>
 
