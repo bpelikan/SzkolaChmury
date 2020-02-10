@@ -21,4 +21,28 @@ zadanie9bp-1          zadanie9bp-1                   492134302499
 zadanie9bp-2          zadanie9bp-2                   121362761339
 ```
 </details>
+
+#### 1.2 Utworzenie sieci VPC w każdym z projektów
+```bash
+vpcNetwork1="vpcnetwork1"
+vpcNetwork2="vpcnetwork2"
+
+gcloud compute networks create $vpcNetwork1 --subnet-mode=custom --project=$projectId1
+gcloud compute networks create $vpcNetwork2 --subnet-mode=custom --project=$projectId2
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+```bash
+bartosz@cloudshell:~$ gcloud compute networks list --project=$projectId1
+NAME         SUBNET_MODE  BGP_ROUTING_MODE  IPV4_RANGE  GATEWAY_IPV4
+default      AUTO         REGIONAL
+vpcnetwork1  CUSTOM       REGIONAL
+bartosz@cloudshell:~$ gcloud compute networks list --project=$projectId2
+NAME         SUBNET_MODE  BGP_ROUTING_MODE  IPV4_RANGE  GATEWAY_IPV4
+default      AUTO         REGIONAL
+vpcnetwork2  CUSTOM       REGIONAL
+```
+</details>
 
