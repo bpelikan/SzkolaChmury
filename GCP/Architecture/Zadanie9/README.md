@@ -220,3 +220,11 @@ PING 10.2.0.2 (10.2.0.2) 56(84) bytes of data.
 rtt min/avg/max/mdev = 6.851/7.228/7.982/0.541 ms
 ```
 </details>
+
+#### 1.8 Pytanie
+
+> Jak zbudujesz połączenie pomiędzy sieciami tak, aby umożliwić dotarcie z Projektu B do świata zewnętrznego wychodząc przez urządzenie wirtualne w Projekcie A?
+
+1. Zablokować ruch wychodzący z projektu B
+2. Włączyć peering do projektu A (co jest już zrobione)
+3. W tablicach routingu jako bramę domyślną ustawić urządzenie wirtualne w projekcie A
