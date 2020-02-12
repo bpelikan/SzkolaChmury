@@ -371,5 +371,46 @@ peeringvpccb  vpcnetworkc  zadanie9projb  vpcnetworkb   True                ACTI
 ```
 </details>
 
+### 2.5 Utworzenie VM
+```bash
+vmNameA1="zad9vma1"
+vmNameA2="zad9vma2"
+vmNameB1="zad9vmb1"
+vmNameB2="zad9vmb2"
+vmNameC1="zad9vmc1"
+vmType="f1-micro"
+
+gcloud compute instances create $vmNameC1 --zone=europe-west1-b --machine-type=$vmType --network-interface=no-address,network=$vpcNetworkC,subnet=$vpcSubnetC1 --image-project=debian-cloud --image=debian-9-stretch-v20191210 --project=$projectC
+
+gcloud compute instances create $vmNameB1 --zone=us-central1-b --machine-type=$vmType --network-interface=no-address,network=$vpcNetworkB,subnet=$vpcSubnetB1 --image-project=debian-cloud --image=debian-9-stretch-v20191210 --project=$projectB
+gcloud compute instances create $vmNameB2 --zone=us-central1-b --machine-type=$vmType --network-interface=no-address,network=$vpcNetworkB,subnet=$vpcSubnetB2 --image-project=debian-cloud --image=debian-9-stretch-v20191210 --project=$projectB
+
+gcloud compute instances create $vmNameA1 --zone=us-central1-b --machine-type=$vmType --network-interface=no-address,network=$vpcNetworkA,subnet=$vpcSubnetA1 --image-project=debian-cloud --image=debian-9-stretch-v20191210 --project=$projectA
+# VM with IP forward
+gcloud compute instances create $vmNameA2 --zone=europe-west1-b --machine-type=$vmType --network-interface=network=$vpcNetworkA,subnet=$vpcSubnetA2 --image-project=debian-cloud --image=debian-9-stretch-v20191210 --project=$projectA #--can-ip-forward --tags=internet-gateway
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+```bash
+gcloud compute instances list --project=$projectA
+gcloud compute instances list --project=$projectB
+gcloud compute instances list --project=$projectC
+
+bartosz@cloudshell:~$ gcloud compute instances list --project=$projectA
+NAME      ZONE            MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP   STATUS
+zad9vma2  europe-west1-b  f1-micro                   10.132.0.4   34.76.98.238  RUNNING
+zad9vma1  us-central1-b   f1-micro                   10.128.0.2                 RUNNING
+bartosz@cloudshell:~$ gcloud compute instances list --project=$projectB
+NAME      ZONE           MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP  STATUS
+zad9vmb1  us-central1-b  f1-micro                   172.16.0.2                RUNNING
+zad9vmb2  us-central1-b  f1-micro                   172.20.0.2                RUNNING
+bartosz@cloudshell:~$ gcloud compute instances list --project=$projectC
+NAME      ZONE            MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP  STATUS
+zad9vmc1  europe-west1-b  f1-micro                   10.130.0.2                RUNNING
+```
+</details>
+
 ```
 </details>
