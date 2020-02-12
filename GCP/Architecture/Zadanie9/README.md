@@ -243,4 +243,27 @@ gcloud projects delete $projectId2
 ![Diagram](./img/schemat.png "schemat architektury")
 ![Diagram](./img/schemat-p.png "schemat architektury poprawiony")
 
+</details>
+### 2.1 Utworzenie projektów
+```bash
+projectA="zadanie9proja"
+projectB="zadanie9projb"
+projectC="zadanie9projc"
+
+gcloud projects create $projectA
+gcloud projects create $projectB
+gcloud projects create $projectC
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+```bash
+bartosz@cloudshell:~$ gcloud projects list
+PROJECT_ID            NAME                           PROJECT_NUMBER
+resonant-idea-261413  Szkola Chmury - GCP Architect  162512192576
+zadanie9proja         zadanie9proja                  14187841242
+zadanie9projb         zadanie9projb                  1031943103857
+zadanie9projc         zadanie9projc                  295955672230
+```
 </details>
