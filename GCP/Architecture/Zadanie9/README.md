@@ -233,4 +233,14 @@ rtt min/avg/max/mdev = 6.851/7.228/7.982/0.541 ms
 ```bash
 gcloud projects delete $projectId1
 gcloud projects delete $projectId2
-```
+```
+
+## 2. Realizacja schematu architektury
+
+<details>
+  <summary><b><i>Schemat architektury</i></b></summary>
+
+![Diagram](./img/schemat.png "schemat architektury")
+![Diagram](./img/schemat-p.png "schemat architektury poprawiony")
+
+</details>
