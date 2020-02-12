@@ -412,5 +412,29 @@ zad9vmc1  europe-west1-b  f1-micro                   10.130.0.2                R
 ```
 </details>
 
+### 2.6 Utworzenie reguł Firewall
+```bash
+gcloud compute firewall-rules create $vpcNetworkC-allow-ssh --direction=INGRESS --priority=65534 --network=$vpcNetworkC --action=ALLOW --rules=tcp:22 --source-ranges=0.0.0.0/0 --project=$projectC
+gcloud compute firewall-rules create $vpcNetworkB-allow-ssh --direction=INGRESS --priority=65534 --network=$vpcNetworkB --action=ALLOW --rules=tcp:22 --source-ranges=10.130.0.0/20,172.20.0.0/20 --project=$projectB
+gcloud compute firewall-rules create $vpcNetworkA-allow-ssh --direction=INGRESS --priority=65534 --network=$vpcNetworkA --action=ALLOW --rules=tcp:22 --source-ranges=172.16.0.0/20,10.128.0.0/20 --project=$projectA
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+```bash
+bartoszpelikan@cloudshell:~$ gcloud compute firewall-rules list --project=$projectA
+NAME                   NETWORK      DIRECTION  PRIORITY  ALLOW   DENY  DISABLED
+vpcnetworka-allow-ssh  vpcnetworka  INGRESS    65534     tcp:22        False
+
+bartoszpelikan@cloudshell:~$ gcloud compute firewall-rules list --project=$projectB
+NAME                   NETWORK      DIRECTION  PRIORITY  ALLOW   DENY  DISABLED
+vpcnetworkb-allow-ssh  vpcnetworkb  INGRESS    65534     tcp:22        False
+
+bartoszpelikan@cloudshell:~$ gcloud compute firewall-rules list --project=$projectC
+NAME                   NETWORK      DIRECTION  PRIORITY  ALLOW   DENY  DISABLED
+vpcnetworkc-allow-ssh  vpcnetworkc  INGRESS    65534     tcp:22        False
+```
+</details>
 ```
 </details>
