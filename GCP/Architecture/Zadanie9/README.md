@@ -436,5 +436,82 @@ NAME                   NETWORK      DIRECTION  PRIORITY  ALLOW   DENY  DISABLED
 vpcnetworkc-allow-ssh  vpcnetworkc  INGRESS    65534     tcp:22        False
 ```
 </details>
+
+### 2.7 Sprawdzenie połączenia
+Połączenie się przez SSH przez C1->B2->B1->A1->A2, a następnie sprawdzenie połączenia do internetu
+
+<details>
+  <summary><b><i>Console output</i></b></summary>
+
+```bash
+Connected, host fingerprint: ssh-rsa 0 {...}
+Linux zad9vmc1 4.9.0-11-amd64 #1 SMP Debian 4.9.189-3+deb9u2 (2019-11-11) x86_64
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Wed Feb 12 21:11:27 2020 from 35.235.241.178
+bartosz@zad9vmc1:~$ ssh 172.20.0.2 -i ~/.ssh/gcp
+Linux zad9vmb2 4.9.0-11-amd64 #1 SMP Debian 4.9.189-3+deb9u2 (2019-11-11) x86_64
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Wed Feb 12 21:32:46 2020 from 10.130.0.2
+bartosz@zad9vmb2:~$ ssh 172.16.0.2 -i ~/.ssh/gcp
+Linux zad9vmb1 4.9.0-11-amd64 #1 SMP Debian 4.9.189-3+deb9u2 (2019-11-11) x86_64
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Wed Feb 12 21:33:42 2020 from 172.20.0.2
+bartosz@zad9vmb1:~$ ssh 10.128.0.2 -i ~/.ssh/gcp
+Linux zad9vma1 4.9.0-11-amd64 #1 SMP Debian 4.9.189-3+deb9u2 (2019-11-11) x86_64
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Wed Feb 12 21:37:13 2020 from 172.16.0.2
+bartosz@zad9vma1:~$ ssh 10.132.0.4 -i ~/.ssh/gcp
+Warning: Identity file /home/bartosz/.ssh/gcp not accessible: No such file or directory.
+^C
+bartosz@zad9vma1:~$ ssh-keygen -t rsa -f ~/.ssh/gcp -C $email
+Generating public/private rsa key pair.
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /home/bartosz/.ssh/gcp.
+Your public key has been saved in /home/bartosz/.ssh/gcp.pub.
+The key fingerprint is:
+SHA256:2h5fCGggD1JetLLarJ+A9YVrmSKqWDWTb36EVwjM7VM {...}
+The key's randomart image is:
++---[RSA 2048]----+
+|  ..oo .         |
+| o . .+ . E      |
+|. = o  o o       |
+| . * + .+ .      |
+|  o B +.So       |
+|.= o X.oo. .     |
+|= = * +oo . .    |
+|o= + o ..o .     |
+|*.o   ... .      |
++----[SHA256]-----+
+bartosz@zad9vma1:~$ cat ~/.ssh/gcp.pub
+ssh-rsa {...}
+bartosz@zad9vma1:~$ ssh 10.132.0.4 -i ~/.ssh/gcp
+^C
+bartosz@zad9vma1:~$ ssh 10.132.0.4 -i ~/.ssh/gcp
+The authenticity of host '10.132.0.4 (10.132.0.4)' can't be established.
+ECDSA key fingerprint is SHA256:kCNVvjlXMIOEfP94X/KX5HrNUcETayPpg62W+F8J/sQ.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '10.132.0.4' (ECDSA) to the list of known hosts.
+Linux zad9vma2 4.9.0-11-amd64 #1 SMP Debian 4.9.189-3+deb9u2 (2019-11-11) x86_64
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+bartosz@zad9vma2:~$ ping www.wp.pl
+PING www.wp.pl (212.77.98.9) 56(84) bytes of data.
+64 bytes from www.wp.pl (212.77.98.9): icmp_seq=1 ttl=54 time=21.9 ms
+64 bytes from www.wp.pl (212.77.98.9): icmp_seq=2 ttl=54 time=22.0 ms
+64 bytes from www.wp.pl (212.77.98.9): icmp_seq=3 ttl=54 time=22.3 ms
+^C
+--- www.wp.pl ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2002ms
+rtt min/avg/max/mdev = 21.976/22.114/22.324/0.228 ms
 ```
 </details>
