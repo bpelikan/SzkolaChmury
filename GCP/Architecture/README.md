@@ -16,6 +16,8 @@
 
 * [Zadanie 8 - App Engine, kierowanie ruchu pomiędzy wersjami, połączenie do Cloud SQL](./Zadanie8)
 
+* [Zadanie 9](./Zadanie9)
+
 ## Inne
 
 * [Creating Snapshot](./Lekcja22)
@@ -29,3 +31,5 @@
 * [Instance groups and autoscaling](./Tydzien5)
 
 * [Cloud Storage](./Tydzien6)
+
+* [VPC Networks](./Tydzien9)
