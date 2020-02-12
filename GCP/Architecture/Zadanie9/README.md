@@ -334,6 +334,42 @@ bartosz@cloudshell:~$ gcloud compute networks subnets list --project=$projectC
 NAME              REGION                   NETWORK      RANGE
 vpcnetworka-sub1  europe-west1             vpcnetworkc  10.130.0.0/20
 {...}
+```
+</details>
+
+### 2.4 Utworzenie VPC network peering
+```bash
+peeringvpcAB="peeringvpcab"
+peeringvpcBA="peeringvpcba"
+peeringvpcBC="peeringvpcbc"
+peeringvpcCB="peeringvpccb"
+
+gcloud compute networks peerings create $peeringvpcAB --network=$vpcNetworkA --peer-network=$vpcNetworkB --auto-create-routes --peer-project=$projectB --project=$projectA
+gcloud compute networks peerings create $peeringvpcBA --network=$vpcNetworkB --peer-network=$vpcNetworkA --auto-create-routes --peer-project=$projectA --project=$projectB
+gcloud compute networks peerings create $peeringvpcBC --network=$vpcNetworkB --peer-network=$vpcNetworkC --auto-create-routes --peer-project=$projectC --project=$projectB
+gcloud compute networks peerings create $peeringvpcCB --network=$vpcNetworkC --peer-network=$vpcNetworkB --auto-create-routes --peer-project=$projectB --project=$projectC
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+```bash
+gcloud compute networks peerings list --project=$projectA
+gcloud compute networks peerings list --project=$projectB
+gcloud compute networks peerings list --project=$projectC
+
+bartosz@cloudshell:~$ gcloud compute networks peerings list --project=$projectA
+NAME          NETWORK      PEER_PROJECT   PEER_NETWORK  AUTO_CREATE_ROUTES  STATE   STATE_DETAILS
+peeringvpcab  vpcnetworka  zadanie9projb  vpcnetworkb   True                ACTIVE  [2020-02-12T12:55:18.716-08:00]: Connected.
+bartosz@cloudshell:~$ gcloud compute networks peerings list --project=$projectB
+NAME          NETWORK      PEER_PROJECT   PEER_NETWORK  AUTO_CREATE_ROUTES  STATE   STATE_DETAILS
+peeringvpcba  vpcnetworkb  zadanie9proja  vpcnetworka   True                ACTIVE  [2020-02-12T12:55:18.716-08:00]: Connected.
+peeringvpcbc  vpcnetworkb  zadanie9projc  vpcnetworkc   True                ACTIVE  [2020-02-12T12:55:35.840-08:00]: Connected.
+bartosz@cloudshell:~$ gcloud compute networks peerings list --project=$projectC
+NAME          NETWORK      PEER_PROJECT   PEER_NETWORK  AUTO_CREATE_ROUTES  STATE   STATE_DETAILS
+peeringvpccb  vpcnetworkc  zadanie9projb  vpcnetworkb   True                ACTIVE  [2020-02-12T12:55:35.840-08:00]: Connected.
+```
+</details>
 
 ```
 </details>
