@@ -386,8 +386,7 @@ gcloud compute instances create $vmNameB1 --zone=us-central1-b --machine-type=$v
 gcloud compute instances create $vmNameB2 --zone=us-central1-b --machine-type=$vmType --network-interface=no-address,network=$vpcNetworkB,subnet=$vpcSubnetB2 --image-project=debian-cloud --image=debian-9-stretch-v20191210 --project=$projectB
 
 gcloud compute instances create $vmNameA1 --zone=us-central1-b --machine-type=$vmType --network-interface=no-address,network=$vpcNetworkA,subnet=$vpcSubnetA1 --image-project=debian-cloud --image=debian-9-stretch-v20191210 --project=$projectA
-# VM with IP forward
-gcloud compute instances create $vmNameA2 --zone=europe-west1-b --machine-type=$vmType --network-interface=network=$vpcNetworkA,subnet=$vpcSubnetA2 --image-project=debian-cloud --image=debian-9-stretch-v20191210 --project=$projectA #--can-ip-forward --tags=internet-gateway
+gcloud compute instances create $vmNameA2 --zone=europe-west1-b --machine-type=$vmType --network-interface=network=$vpcNetworkA,subnet=$vpcSubnetA2 --image-project=debian-cloud --image=debian-9-stretch-v20191210 --project=$projectA
 ```
 
 <details>
@@ -438,7 +437,7 @@ vpcnetworkc-allow-ssh  vpcnetworkc  INGRESS    65534     tcp:22        False
 </details>
 
 ### 2.7 Sprawdzenie połączenia
-Połączenie się przez SSH przez C1->B2->B1->A1->A2, a następnie sprawdzenie połączenia do internetu
+Dodanie kluczy SSH do metadanych projektów (niezalecane podejście), następnie połączenie się przez SSH przez C1->B2->B1->A1->A2, a następnie sprawdzenie połączenia do internetu
 
 <details>
   <summary><b><i>Console output</i></b></summary>
