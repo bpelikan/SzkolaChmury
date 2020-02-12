@@ -298,4 +298,42 @@ default      AUTO         REGIONAL
 vpcnetworkc  CUSTOM       REGIONAL
 ```
 </details>
-
+
+### 2.3 Utworzenie podsieci
+```bash
+vpcSubnetA1="vpcnetworka-sub1"
+vpcSubnetA2="vpcnetworka-sub2"
+vpcSubnetB1="vpcnetworkb-sub1"
+vpcSubnetB2="vpcnetworkb-sub2"
+vpcSubnetC1="vpcnetworka-sub1"
+
+gcloud compute networks subnets create $vpcSubnetA1 --network=$vpcNetworkA --region=us-central1 --range=10.128.0.0/20 --project=$projectA
+gcloud compute networks subnets create $vpcSubnetA2 --network=$vpcNetworkA --region=europe-west1 --range=10.132.0.0/20 --project=$projectA
+gcloud compute networks subnets create $vpcSubnetB1 --network=$vpcNetworkB --region=us-central1 --range=172.16.0.0/20 --project=$projectB
+gcloud compute networks subnets create $vpcSubnetB2 --network=$vpcNetworkB --region=us-central1 --range=172.20.0.0/20 --project=$projectB
+gcloud compute networks subnets create $vpcSubnetC1 --network=$vpcNetworkC --region=europe-west1 --range=10.130.0.0/20 --project=$projectC
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+```bash
+bartosz@cloudshell:~$ gcloud compute networks subnets list --project=$projectA
+NAME              REGION                   NETWORK      RANGE
+vpcnetworka-sub2  europe-west1             vpcnetworka  10.132.0.0/20
+vpcnetworka-sub1  us-central1              vpcnetworka  10.128.0.0/20
+{...}
+
+bartosz@cloudshell:~$ gcloud compute networks subnets list --project=$projectB
+NAME              REGION                   NETWORK      RANGE
+vpcnetworkb-sub1  us-central1              vpcnetworkb  172.16.0.0/20
+vpcnetworkb-sub2  us-central1              vpcnetworkb  172.20.0.0/20
+{...}
+
+bartosz@cloudshell:~$ gcloud compute networks subnets list --project=$projectC
+NAME              REGION                   NETWORK      RANGE
+vpcnetworka-sub1  europe-west1             vpcnetworkc  10.130.0.0/20
+{...}
+
+```
+</details>
