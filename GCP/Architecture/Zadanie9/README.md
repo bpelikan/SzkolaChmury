@@ -244,6 +244,7 @@ gcloud projects delete $projectId2
 ![Diagram](./img/schemat-p.png "schemat architektury poprawiony")
 
 </details>
+
 ### 2.1 Utworzenie projektów
 ```bash
 projectA="zadanie9proja"
@@ -266,4 +267,35 @@ zadanie9proja         zadanie9proja                  14187841242
 zadanie9projb         zadanie9projb                  1031943103857
 zadanie9projc         zadanie9projc                  295955672230
 ```
-</details>
+</details>
+
+### 2.2 Utworzenie sieci VPC w każdym z projektów
+```bash
+vpcNetworkA="vpcnetworka"
+vpcNetworkB="vpcnetworkb"
+vpcNetworkC="vpcnetworkc"
+
+gcloud compute networks create $vpcNetworkA --subnet-mode=custom --project=$projectA
+gcloud compute networks create $vpcNetworkB --subnet-mode=custom --project=$projectB
+gcloud compute networks create $vpcNetworkC --subnet-mode=custom --project=$projectC
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+```bash
+bartosz@cloudshell:~$ gcloud compute networks list --project=$projectA
+NAME         SUBNET_MODE  BGP_ROUTING_MODE  IPV4_RANGE  GATEWAY_IPV4
+default      AUTO         REGIONAL
+vpcnetworka  CUSTOM       REGIONAL
+bartosz@cloudshell:~$ gcloud compute networks list --project=$projectB
+NAME         SUBNET_MODE  BGP_ROUTING_MODE  IPV4_RANGE  GATEWAY_IPV4
+default      AUTO         REGIONAL
+vpcnetworkb  CUSTOM       REGIONAL
+bartosz@cloudshell:~$ gcloud compute networks list --project=$projectC
+NAME         SUBNET_MODE  BGP_ROUTING_MODE  IPV4_RANGE  GATEWAY_IPV4
+default      AUTO         REGIONAL
+vpcnetworkc  CUSTOM       REGIONAL
+```
+</details>
+
