@@ -423,15 +423,15 @@ gcloud compute firewall-rules create $vpcNetworkA-allow-ssh --direction=INGRESS 
   <summary><b><i>Sprawdzenie</i></b></summary>
 
 ```bash
-bartoszpelikan@cloudshell:~$ gcloud compute firewall-rules list --project=$projectA
+bartosz@cloudshell:~$ gcloud compute firewall-rules list --project=$projectA
 NAME                   NETWORK      DIRECTION  PRIORITY  ALLOW   DENY  DISABLED
 vpcnetworka-allow-ssh  vpcnetworka  INGRESS    65534     tcp:22        False
 
-bartoszpelikan@cloudshell:~$ gcloud compute firewall-rules list --project=$projectB
+bartosz@cloudshell:~$ gcloud compute firewall-rules list --project=$projectB
 NAME                   NETWORK      DIRECTION  PRIORITY  ALLOW   DENY  DISABLED
 vpcnetworkb-allow-ssh  vpcnetworkb  INGRESS    65534     tcp:22        False
 
-bartoszpelikan@cloudshell:~$ gcloud compute firewall-rules list --project=$projectC
+bartosz@cloudshell:~$ gcloud compute firewall-rules list --project=$projectC
 NAME                   NETWORK      DIRECTION  PRIORITY  ALLOW   DENY  DISABLED
 vpcnetworkc-allow-ssh  vpcnetworkc  INGRESS    65534     tcp:22        False
 ```
@@ -514,4 +514,12 @@ PING www.wp.pl (212.77.98.9) 56(84) bytes of data.
 3 packets transmitted, 3 received, 0% packet loss, time 2002ms
 rtt min/avg/max/mdev = 21.976/22.114/22.324/0.228 ms
 ```
-</details>
+</details>
+
+### 2.8 Usunięcie projektów
+```bash
+gcloud projects delete $projectA
+gcloud projects delete $projectB
+gcloud projects delete $projectC
+```
+
