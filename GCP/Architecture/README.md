@@ -16,7 +16,7 @@
 
 * [Zadanie 8 - App Engine, kierowanie ruchu pomiędzy wersjami, połączenie do Cloud SQL](./Zadanie8)
 
-* [Zadanie 9](./Zadanie9)
+* [Zadanie 9 - VPC Networks, network peering, Firewall rules](./Zadanie9)
 
 ## Inne
 
