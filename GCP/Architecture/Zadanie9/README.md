@@ -438,7 +438,7 @@ vpcnetworkc-allow-ssh  vpcnetworkc  INGRESS    65534     tcp:22        False
 
 ### 2.7 Sprawdzenie połączenia
 1. Dodanie kluczy SSH do metadanych projektów (niezalecane podejście)
-2. Połączenie się przez SSH przez C1->B2->B1->A1->A2
+2. Połączenie się przez SSH do C1->B2->B1->A1->A2
 3. Sprawdzenie połączenia do internetu
 
 <details>
