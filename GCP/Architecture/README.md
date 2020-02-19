@@ -18,6 +18,8 @@
 
 * [Zadanie 9](./Zadanie9)
 
+* [Zadanie 10](./Zadanie10)
+
 ## Inne
 
 * [Creating Snapshot](./Lekcja22)
