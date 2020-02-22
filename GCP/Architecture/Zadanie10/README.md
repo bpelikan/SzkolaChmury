@@ -94,6 +94,31 @@ gw-on-prem  on-prem  us-central1
 ```
 ![screen](./img/20200222201858.jpg)
 </details>
+
+### 1.5 Rezerwacja publicznych adresów IP
+```bash
+gwIpName1="$vpngwName1-ip"
+gwIpName2="$vpngwName2-ip"
+
+gcloud compute addresses create $gwIpName1 --region $vpcRegion1
+gcloud compute addresses create $gwIpName2 --region $vpcRegion2 
+
+# Zapisanie adresów do zmiennych
+gwipAddress1=$(gcloud compute addresses describe $gwIpName1 --region $vpcRegion1 --format='get(address)')
+gwipAddress2=$(gcloud compute addresses describe $gwIpName2 --region $vpcRegion2 --format='get(address)')
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+```bash
+bartosz@cloudshell:~ (zadanie10)$ gcloud compute addresses list
+NAME           ADDRESS/RANGE  TYPE      PURPOSE  NETWORK  REGION        SUBNET  STATUS
+gw-cloud-ip    35.190.211.80  EXTERNAL                    europe-west1          RESERVED
+gw-on-prem-ip  35.238.233.74  EXTERNAL                    us-central1           RESERVED
+```
+![screen](./img/20200222202129.jpg)
+</details>
 ```
 
 <details>
