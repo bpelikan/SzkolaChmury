@@ -331,18 +331,29 @@ vm-onprem  us-central1-b   f1-micro                   10.2.0.2     34.70.176.28 
 #### Dodanie reguł firewall
 ```bash
 gcloud compute firewall-rules create vpnrule-$vpcNetwork1 --network $vpcNetwork1 --allow tcp,udp,icmp --source-ranges 10.2.0.0/16
-
 gcloud compute firewall-rules create vpnrule-$vpcNetwork2 --network $vpcNetwork2 --allow tcp,udp,icmp --source-ranges 10.1.0.0/16
 ```
 
 <details>
   <summary><b><i>Pomiar wydajności TCP</i></b></summary>
 
-cloud -> on-prem
+on-prem -> cloud
 ![screen](./img/20200222211512.jpg)
 ![screen](./img/20200222211514.jpg)
 
-on-prem-cloud
+cloud -> on-prem
 ![screen](./img/20200222211611.jpg)
 ![screen](./img/20200222211613.jpg)
+</details>
+
+<details>
+  <summary><b><i>Pomiar wydajności UDP</i></b></summary>
+
+on-prem -> cloud
+![screen](./img/20200222211844.jpg)
+![screen](./img/20200222211848.jpg)
+
+cloud -> on-prem
+![screen](./img/20200222212028.jpg)
+![screen](./img/20200222212031.jpg)
 </details>
