@@ -206,8 +206,7 @@ vpn-tunel-on-prem  us-central1   gw-on-prem  35.190.211.80
 routerInterfaceName1="$routerName1-interface-1"
 
 gcloud compute routers add-interface $routerName1 --interface-name $routerInterfaceName1 --vpn-tunnel $vpnTunelName1 --region $vpcRegion1 
-
-```
+``` 
 
 <details>
   <summary><b><i>Sprawdzenie</i></b></summary>
@@ -226,7 +225,6 @@ gcloud compute routers describe $routerName1 --region $vpcRegion1 --format="mult
 peerName1="bgp-peer-$routerInterfaceName1"
 
 gcloud compute routers add-bgp-peer $routerName1 --peer-name $peerName1 --peer-asn $asnRouter2 --interface $routerInterfaceName1 --advertisement-mode=DEFAULT --region $vpcRegion1
-
 
 # Zapisanie adresów IP
 bgpIpCloud=$(gcloud compute routers get-status $routerName1 --region $vpcRegion1 --format='get(result.bgpPeerStatus[0].ipAddress)')
@@ -252,7 +250,6 @@ result.bgpPeerStatus[0].peerIpAddress: 169.254.243.138
 ```bash
 routerInterfaceName2="$routerName2-interface-1"
 
-
 gcloud compute routers add-interface $routerName2 --interface-name $routerInterfaceName2 --vpn-tunnel $vpnTunelName2 --ip-address $bgpIpOnPrem --mask-length 30 --region $vpcRegion2
 ```
 <details>
@@ -270,8 +267,6 @@ interfaces[0].name:            router-cloud-interface-1
 ```bash
 peerName2="bgp-peer-$routerInterfaceName2"
 
-
-
 gcloud compute routers add-bgp-peer $routerName2 --peer-name $peerName2 --peer-asn $asnRouter1 --interface $routerInterfaceName2 --advertisement-mode=DEFAULT --peer-ip-address $bgpIpCloud --region $vpcRegion2
 ```
 
@@ -285,4 +280,20 @@ result.bgpPeerStatus[0].peerIpAddress: 169.254.243.137
 ```
 ![screen](./img/20200222204125.jpg)
 ![screen](./img/20200222204155.jpg)
+</details>
+
+### Sprawdzenie tablicy routingu
+
+<details>
+  <summary><b><i>Pokaż</i></b></summary>
+
+```bash
+bartosz@cloudshell:~ (zadanie10)$ gcloud compute routes list
+NAME                            NETWORK  DEST_RANGE   NEXT_HOP                  PRIORITY
+default-route-0d5571cf070d278a  cloud    10.1.0.0/16  cloud                     1000
+default-route-23012612f2eca906  cloud    0.0.0.0/0    default-internet-gateway  1000
+default-route-2ac5791fdbf6d6ff  on-prem  0.0.0.0/0    default-internet-gateway  1000
+default-route-7aec4aa938873722  on-prem  10.2.0.0/16  on-prem                   1000
+```
+![screen](./img/20200222204519.jpg)
 </details>
