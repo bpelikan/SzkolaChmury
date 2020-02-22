@@ -221,6 +221,28 @@ gcloud compute routers describe $routerName1 --region $vpcRegion1 --format="mult
 ```
 </details>
 
+#### 1.9.2 Powiązanie peeringu BGP do interfejsu
+```bash
+peerName1="bgp-peer-$routerInterfaceName1"
+
+gcloud compute routers add-bgp-peer $routerName1 --peer-name $peerName1 --peer-asn $asnRouter2 --interface $routerInterfaceName1 --advertisement-mode=DEFAULT --region $vpcRegion1
+
+
+# Zapisanie adresów IP
+bgpIpCloud=$(gcloud compute routers get-status $routerName1 --region $vpcRegion1 --format='get(result.bgpPeerStatus[0].ipAddress)')
+bgpIpOnPrem=$(gcloud compute routers get-status $routerName1 --region $vpcRegion1 --format='get(result.bgpPeerStatus[0].peerIpAddress)')
 ```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+```bash
+bartosz@cloudshell:~ (zadanie10)$ gcloud compute routers get-status $routerName1 --region $vpcRegion1 --format='flattened(result.bgpPeerStatu
+s[].ipAddress, result.bgpPeerStatus[].peerIpAddress)'
+result.bgpPeerStatus[0].ipAddress:     169.254.243.137
+result.bgpPeerStatus[0].peerIpAddress: 169.254.243.138
+```
+![screen](./img/20200222203503.jpg)
+![screen](./img/20200222203610.jpg)
 </details>
 
