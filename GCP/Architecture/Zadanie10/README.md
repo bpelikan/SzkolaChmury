@@ -245,4 +245,23 @@ result.bgpPeerStatus[0].peerIpAddress: 169.254.243.138
 ![screen](./img/20200222203503.jpg)
 ![screen](./img/20200222203610.jpg)
 </details>
-
+
+### 1.10 Konfiguracja sesji BGP w sieci `On-Prem`
+
+#### 1.10.1 Konfiguracja interfejsu routera
+```bash
+routerInterfaceName2="$routerName2-interface-1"
+
+
+gcloud compute routers add-interface $routerName2 --interface-name $routerInterfaceName2 --vpn-tunnel $vpnTunelName2 --ip-address $bgpIpOnPrem --mask-length 30 --region $vpcRegion2
+```
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+```bash
+bartosz@cloudshell:~ (zadanie10)$ gcloud compute routers describe $routerName1 --region $vpcRegion1 --format='flattened(interfaces)'
+interfaces[0].ipRange:         169.254.243.137/30
+interfaces[0].linkedVpnTunnel: https://www.googleapis.com/compute/v1/projects/zadanie10/regions/europe-west1/vpnTunnels/vpn-tunel-cloud
+interfaces[0].name:            router-cloud-interface-1
+```
+</details>
