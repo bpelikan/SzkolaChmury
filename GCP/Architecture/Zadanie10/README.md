@@ -1,14 +1,19 @@
 # [Zadanie domowe nr 10](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-10-cloud-hybrid-connectivity/zadanie-domowe-nr-10/)
 
 ## 1. Zadanie 1
+
+Utworzenie projektu przed przystąpieniem do zadania:
+```bash
+gcloud projects create "gcpzadanie10"
+```
+
 ### 1.1 Utworzenie VPC w celu symulacji sieci lokalnej oraz produkcyjnej
 ```bash
 vpcNetwork1="cloud"
 vpcNetwork2="on-prem"
-vpcRegion="europe-west1"
 
-gcloud compute networks create $vpcNetwork1 --subnet-mode=custom
-gcloud compute networks create $vpcNetwork2 --subnet-mode=custom
+gcloud compute networks create $vpcNetwork1 --subnet-mode=custom --bgp-routing-mode=global
+gcloud compute networks create $vpcNetwork2 --subnet-mode=custom --bgp-routing-mode=global
 ```
 
 <details>
