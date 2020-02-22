@@ -173,6 +173,32 @@ router-on-prem  us-central1   on-prem
 ```
 ![screen](./img/20200222202647.jpg)
 </details>
+
+### 1.8 Utworzenie tunelu VPN
+Wskazówki dotyczące utworzenia Shared Secret można znaleść w [dokumentacji](https://cloud.google.com/vpn/docs/how-to/generating-pre-shared-key).
+```bash
+vpnTunelName1="vpn-tunel-$vpcNetwork1"
+vpnTunelName2="vpn-tunel-$vpcNetwork2"
+sharedSecret=""
+
+# cloud
+gcloud compute vpn-tunnels create $vpnTunelName1 --peer-address $gwipAddress2 --ike-version 2 --shared-secret $sharedSecret --router $routerName1 --target-vpn-gateway $vpngwName1 --region $vpcRegion1
+# on-prem
+gcloud compute vpn-tunnels create $vpnTunelName2 --peer-address $gwipAddress1 --ike-version 2 --shared-secret $sharedSecret --router $routerName2 --target-vpn-gateway $vpngwName2 --region $vpcRegion2
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+```bash
+bartosz@cloudshell:~ (zadanie10)$ gcloud compute vpn-tunnels list
+NAME               REGION        GATEWAY     PEER_ADDRESS
+vpn-tunel-cloud    europe-west1  gw-cloud    35.238.233.74
+vpn-tunel-on-prem  us-central1   gw-on-prem  35.190.211.80
+```
+![screen](./img/20200222202955.jpg)
+</details>
+
 ```
 
 <details>
