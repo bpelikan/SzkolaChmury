@@ -119,6 +119,38 @@ gw-on-prem-ip  35.238.233.74  EXTERNAL                    us-central1           
 ```
 ![screen](./img/20200222202129.jpg)
 </details>
+
+### 1.6 Utworzenie reguł dla ruchu IPSec
+```bash
+frgwName1="fr-$vpngwName1"
+frgwName2="fr-$vpngwName2"
+
+# cloud
+gcloud compute forwarding-rules create $frgwName1-esp --ip-protocol ESP --address $gwIpName1 --target-vpn-gateway $vpngwName1 --region $vpcRegion1 
+gcloud compute forwarding-rules create $frgwName1-udp500 --ip-protocol UDP --ports 500 --address $gwIpName1 --target-vpn-gateway $vpngwName1 --region $vpcRegion1
+gcloud compute forwarding-rules create $frgwName1-udp4500 --ip-protocol UDP --ports 4500 --address $gwIpName1 --target-vpn-gateway $vpngwName1 --region $vpcRegion1
+
+# on-prem
+gcloud compute forwarding-rules create $frgwName2-esp --ip-protocol ESP --address $gwIpName2 --target-vpn-gateway $vpngwName2 --region $vpcRegion2
+gcloud compute forwarding-rules create $frgwName1-udp500 --ip-protocol UDP --ports 500 --address $gwIpName2 --target-vpn-gateway $vpngwName2 --region $vpcRegion2
+gcloud compute forwarding-rules create $frgwName1-udp4500 --ip-protocol UDP --ports 4500 --address $gwIpName2 --target-vpn-gateway $vpngwName2 --region $vpcRegion2
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+```bash
+bartosz@cloudshell:~ (zadanie10)$ gcloud compute forwarding-rules list
+NAME                 REGION        IP_ADDRESS     IP_PROTOCOL  TARGET
+fr-gw-cloud-esp      europe-west1  35.190.211.80  ESP          europe-west1/targetVpnGateways/gw-cloud
+fr-gw-cloud-udp4500  europe-west1  35.190.211.80  UDP          europe-west1/targetVpnGateways/gw-cloud
+fr-gw-cloud-udp500   europe-west1  35.190.211.80  UDP          europe-west1/targetVpnGateways/gw-cloud
+fr-gw-cloud-udp4500  us-central1   35.238.233.74  UDP          us-central1/targetVpnGateways/gw-on-prem
+fr-gw-cloud-udp500   us-central1   35.238.233.74  UDP          us-central1/targetVpnGateways/gw-on-prem
+fr-gw-on-prem-esp    us-central1   35.238.233.74  ESP          us-central1/targetVpnGateways/gw-on-prem
+```
+</details>
+
 ```
 
 <details>
