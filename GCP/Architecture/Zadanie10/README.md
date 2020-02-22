@@ -151,6 +151,28 @@ fr-gw-on-prem-esp    us-central1   35.238.233.74  ESP          us-central1/targe
 ```
 </details>
 
+### 1.7 Utworzenie Cloud Router
+```bash
+routerName1="router-$vpcNetwork1"
+routerName2="router-$vpcNetwork2"
+asnRouter1=65001
+asnRouter2=65002
+
+gcloud compute routers create $routerName1 --asn $asnRouter1 --network $vpcNetwork1 --region $vpcRegion1
+gcloud compute routers create $routerName2 --asn $asnRouter2 --network $vpcNetwork2 --region $vpcRegion2
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+```bash
+bartosz@cloudshell:~ (zadanie10)$ gcloud compute routers list
+NAME            REGION        NETWORK
+router-cloud    europe-west1  cloud
+router-on-prem  us-central1   on-prem
+```
+![screen](./img/20200222202647.jpg)
+</details>
 ```
 
 <details>
