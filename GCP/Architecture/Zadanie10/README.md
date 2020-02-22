@@ -74,8 +74,26 @@ on-prem-allow-ssh   on-prem  INGRESS    1000      tcp:22        False
 ![screen](./img/20200222201529.jpg)
 </details>
 
-gcloud compute networks subnets create $vpc1subnet1 --network=$vpcNetwork1 --region=$vpcRegion --range=10.1.0.0/16
-gcloud compute networks subnets create $vpc1subnet2 --network=$vpcNetwork2 --region=$vpcRegion --range=10.2.0.0/16
+### 1.4 Utworzenie target VPN gateway - Classic VPN
+```bash
+vpngwName1="gw-$vpcNetwork1"
+vpngwName2="gw-$vpcNetwork2"
+
+gcloud compute target-vpn-gateways create $vpngwName1 --network $vpcNetwork1 --region $vpcRegion1
+gcloud compute target-vpn-gateways create $vpngwName2 --network $vpcNetwork2 --region $vpcRegion2
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+```bash
+bartosz@cloudshell:~ (zadanie10)$ gcloud compute target-vpn-gateways list
+NAME        NETWORK  REGION
+gw-cloud    cloud    europe-west1
+gw-on-prem  on-prem  us-central1
+```
+![screen](./img/20200222201858.jpg)
+</details>
 ```
 
 <details>
