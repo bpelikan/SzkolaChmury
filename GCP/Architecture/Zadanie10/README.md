@@ -296,4 +296,34 @@ default-route-2ac5791fdbf6d6ff  on-prem  0.0.0.0/0    default-internet-gateway  
 default-route-7aec4aa938873722  on-prem  10.2.0.0/16  on-prem                   1000
 ```
 ![screen](./img/20200222204519.jpg)
+</details>
+
+### Utworzenie VM
+```bash
+vmName1="vm-cloud"
+vmZone1="$vpcRegion1-b"
+vmName2="vm-onprem"
+vmZone2="$vpcRegion2-b"
+vmType="f1-micro"
+
+gcloud compute instances create $vmName1 --zone=$vmZone1 --machine-type=$vmType --network-interface=network=$vpcNetwork1,subnet=$vpc1subnet1 --image-project=debian-cloud --image=debian-9-stretch-v20191210
+gcloud compute instances create $vmName2 --zone=$vmZone2 --machine-type=$vmType --network-interface=network=$vpcNetwork2,subnet=$vpc1subnet2 --image-project=debian-cloud --image=debian-9-stretch-v20191210
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+```bash
+bartosz@cloudshell:~ (zadanie10)$ gcloud compute instances list
+NAME       ZONE            MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP     STATUS
+vm-cloud   europe-west1-b  f1-micro                   10.1.0.2     35.195.115.163  RUNNING
+vm-onprem  us-central1-b   f1-micro                   10.2.0.2     34.70.176.28    RUNNING
+```
+</details>
+
+<details>
+  <summary><b><i>ping</i></b></summary>
+
+![screen](./img/20200222205734.jpg)
+![screen](./img/20200222205746.jpg)
 </details>
