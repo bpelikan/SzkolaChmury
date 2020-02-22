@@ -326,4 +326,11 @@ vm-onprem  us-central1-b   f1-micro                   10.2.0.2     34.70.176.28 
 
 ![screen](./img/20200222205734.jpg)
 ![screen](./img/20200222205746.jpg)
-</details>
+</details>
+
+#### Dodanie reguł firewall
+```bash
+gcloud compute firewall-rules create vpnrule-$vpcNetwork1 --network $vpcNetwork1 --allow tcp,udp,icmp --source-ranges 10.2.0.0/16
+
+gcloud compute firewall-rules create vpnrule-$vpcNetwork2 --network $vpcNetwork2 --allow tcp,udp,icmp --source-ranges 10.1.0.0/16
+```
