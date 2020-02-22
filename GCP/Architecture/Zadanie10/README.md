@@ -51,6 +51,28 @@ vpcnetwork1-sub2  us-central1   on-prem  10.2.0.0/16
 ![screen](./img/20200222201006.jpg)
 </details>
 
+### 1.3 Dodanie reguł firewall dla ruchu SSH oraz ICMP
+```bash
+gcloud compute firewall-rules create $vpcNetwork1-allow-icmp --direction=INGRESS --network=$vpcNetwork1 --action=ALLOW --rules=icmp --source-ranges=0.0.0.0/0
+gcloud compute firewall-rules create $vpcNetwork1-allow-ssh --direction=INGRESS --network=$vpcNetwork1 --action=ALLOW --rules=tcp:22 --source-ranges=0.0.0.0/0
+
+gcloud compute firewall-rules create $vpcNetwork2-allow-icmp --direction=INGRESS --network=$vpcNetwork2 --action=ALLOW --rules=icmp --source-ranges=0.0.0.0/0
+gcloud compute firewall-rules create $vpcNetwork2-allow-ssh --direction=INGRESS --network=$vpcNetwork2 --action=ALLOW --rules=tcp:22 --source-ranges=0.0.0.0/0
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+```bash
+bartosz@cloudshell:~ (zadanie10)$ gcloud compute firewall-rules list
+NAME                NETWORK  DIRECTION  PRIORITY  ALLOW   DENY  DISABLED
+cloud-allow-icmp    cloud    INGRESS    1000      icmp          False
+cloud-allow-ssh     cloud    INGRESS    1000      tcp:22        False
+on-prem-allow-icmp  on-prem  INGRESS    1000      icmp          False
+on-prem-allow-ssh   on-prem  INGRESS    1000      tcp:22        False
+```
+![screen](./img/20200222201529.jpg)
+</details>
 
 gcloud compute networks subnets create $vpc1subnet1 --network=$vpcNetwork1 --region=$vpcRegion --range=10.1.0.0/16
 gcloud compute networks subnets create $vpc1subnet2 --network=$vpcNetwork2 --region=$vpcRegion --range=10.2.0.0/16
