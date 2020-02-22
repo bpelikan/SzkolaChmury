@@ -199,16 +199,28 @@ vpn-tunel-on-prem  us-central1   gw-on-prem  35.190.211.80
 ![screen](./img/20200222202955.jpg)
 </details>
 
+### 1.9 Konfiguracja sesji BGP w sieci `Cloud`
+
+#### 1.9.1 Konfiguracja interfejsu routera
+```bash
+routerInterfaceName1="$routerName1-interface-1"
+
+gcloud compute routers add-interface $routerName1 --interface-name $routerInterfaceName1 --vpn-tunnel $vpnTunelName1 --region $vpcRegion1 
+
 ```
 
 <details>
   <summary><b><i>Sprawdzenie</i></b></summary>
 
 ```bash
-bartosz@cloudshell:~ (zad10-268721)$ gcloud compute networks subnets list
-NAME              REGION                   NETWORK  RANGE
-vpcnetwork1-sub1  europe-west1             cloud    10.1.0.0/16
-vpcnetwork1-sub2  europe-west1             on-prem  10.2.0.0/16
+bartosz@cloudshell:~ (zadanie10)$ gcloud compute routers describe $routerName1 --region $vpcRegion1 --format='flattened(interfaces)'
+interfaces[0].linkedVpnTunnel: https://www.googleapis.com/compute/v1/projects/zadanie10/regions/europe-west1/vpnTunnels/vpn-tunel-cloud
+interfaces[0].name:            router-cloud-interface-1
+# Wyświetlenie w tabeli
+gcloud compute routers describe $routerName1 --region $vpcRegion1 --format="multi(interfaces:format='table[box](name,linkedVpnTunnel)')"
+```
+</details>
+
 ```
 </details>
 
