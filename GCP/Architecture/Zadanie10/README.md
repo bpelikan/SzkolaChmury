@@ -264,4 +264,25 @@ interfaces[0].ipRange:         169.254.243.137/30
 interfaces[0].linkedVpnTunnel: https://www.googleapis.com/compute/v1/projects/zadanie10/regions/europe-west1/vpnTunnels/vpn-tunel-cloud
 interfaces[0].name:            router-cloud-interface-1
 ```
+</details>
+
+#### 1.10.2 Powiązanie peeringu BGP do interfejsu
+```bash
+peerName2="bgp-peer-$routerInterfaceName2"
+
+
+
+gcloud compute routers add-bgp-peer $routerName2 --peer-name $peerName2 --peer-asn $asnRouter1 --interface $routerInterfaceName2 --advertisement-mode=DEFAULT --peer-ip-address $bgpIpCloud --region $vpcRegion2
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+```bash
+bartosz@cloudshell:~ (zadanie10)$ gcloud compute routers get-status $routerName2 --region $vpcRegion2 --format='flattened(result.bgpPeerStatus[].ipAddress, result.bgpPeerStatus[].peerIpAddress)'
+result.bgpPeerStatus[0].ipAddress:     169.254.243.138
+result.bgpPeerStatus[0].peerIpAddress: 169.254.243.137
+```
+![screen](./img/20200222204125.jpg)
+![screen](./img/20200222204155.jpg)
 </details>
