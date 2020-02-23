@@ -437,7 +437,9 @@ vpcnetworkc-allow-ssh  vpcnetworkc  INGRESS    65534     tcp:22        False
 </details>
 
 ### 2.7 Sprawdzenie połączenia
-Dodanie kluczy SSH do metadanych projektów (niezalecane podejście), następnie połączenie się przez SSH przez C1->B2->B1->A1->A2, a następnie sprawdzenie połączenia do internetu
+1. Dodanie kluczy SSH do metadanych projektów (niezalecane podejście)
+2. Połączenie się przez SSH do C1->B2->B1->A1->A2
+3. Sprawdzenie połączenia do internetu
 
 <details>
   <summary><b><i>Console output</i></b></summary>
@@ -521,4 +523,4 @@ gcloud projects delete $projectA
 gcloud projects delete $projectB
 gcloud projects delete $projectC
 ```
-
+
