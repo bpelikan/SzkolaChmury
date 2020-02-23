@@ -11,7 +11,9 @@ gcloud projects create "zadanie10"
 vpcNetwork1="cloud"
 vpcNetwork2="on-prem"
 
+# cloud
 gcloud compute networks create $vpcNetwork1 --subnet-mode=custom --bgp-routing-mode=global
+# on-prem
 gcloud compute networks create $vpcNetwork2 --subnet-mode=custom --bgp-routing-mode=global
 ```
 
@@ -34,7 +36,9 @@ vpc1subnet2="vpcnetwork1-sub2"
 vpcRegion1="europe-west1"
 vpcRegion2="us-central1"
 
+# cloud
 gcloud compute networks subnets create $vpc1subnet1 --network=$vpcNetwork1 --range=10.1.0.0/16 --region=$vpcRegion1
+# on-prem
 gcloud compute networks subnets create $vpc1subnet2 --network=$vpcNetwork2 --range=10.2.0.0/16 --region=$vpcRegion2
 ```
 
@@ -53,9 +57,10 @@ vpcnetwork1-sub2  us-central1   on-prem  10.2.0.0/16
 
 ### 1.3 Dodanie reguł firewall dla ruchu SSH oraz ICMP
 ```bash
+# cloud
 gcloud compute firewall-rules create $vpcNetwork1-allow-icmp --direction=INGRESS --network=$vpcNetwork1 --action=ALLOW --rules=icmp --source-ranges=0.0.0.0/0
 gcloud compute firewall-rules create $vpcNetwork1-allow-ssh --direction=INGRESS --network=$vpcNetwork1 --action=ALLOW --rules=tcp:22 --source-ranges=0.0.0.0/0
-
+# on-prem
 gcloud compute firewall-rules create $vpcNetwork2-allow-icmp --direction=INGRESS --network=$vpcNetwork2 --action=ALLOW --rules=icmp --source-ranges=0.0.0.0/0
 gcloud compute firewall-rules create $vpcNetwork2-allow-ssh --direction=INGRESS --network=$vpcNetwork2 --action=ALLOW --rules=tcp:22 --source-ranges=0.0.0.0/0
 ```
@@ -79,7 +84,9 @@ on-prem-allow-ssh   on-prem  INGRESS    1000      tcp:22        False
 vpngwName1="gw-$vpcNetwork1"
 vpngwName2="gw-$vpcNetwork2"
 
+# cloud
 gcloud compute target-vpn-gateways create $vpngwName1 --network $vpcNetwork1 --region $vpcRegion1
+# on-prem
 gcloud compute target-vpn-gateways create $vpngwName2 --network $vpcNetwork2 --region $vpcRegion2
 ```
 
@@ -100,7 +107,9 @@ gw-on-prem  on-prem  us-central1
 gwIpName1="$vpngwName1-ip"
 gwIpName2="$vpngwName2-ip"
 
+# cloud
 gcloud compute addresses create $gwIpName1 --region $vpcRegion1
+# on-prem
 gcloud compute addresses create $gwIpName2 --region $vpcRegion2 
 
 # Zapisanie adresów do zmiennych
@@ -158,7 +167,9 @@ routerName2="router-$vpcNetwork2"
 asnRouter1=65001
 asnRouter2=65002
 
+# cloud
 gcloud compute routers create $routerName1 --asn $asnRouter1 --network $vpcNetwork1 --region $vpcRegion1
+# on-prem
 gcloud compute routers create $routerName2 --asn $asnRouter2 --network $vpcNetwork2 --region $vpcRegion2
 ```
 
@@ -282,7 +293,7 @@ result.bgpPeerStatus[0].peerIpAddress: 169.254.243.137
 ![screen](./img/20200222204155.jpg)
 </details>
 
-### Sprawdzenie tablicy routingu
+### 1.11 Sprawdzenie tablicy routingu
 
 <details>
   <summary><b><i>Pokaż</i></b></summary>
@@ -298,7 +309,7 @@ default-route-7aec4aa938873722  on-prem  10.2.0.0/16  on-prem                   
 ![screen](./img/20200222204519.jpg)
 </details>
 
-### Utworzenie VM
+### 1.12 Utworzenie VM
 ```bash
 vmName1="vm-cloud"
 vmZone1="$vpcRegion1-b"
@@ -328,7 +339,8 @@ vm-onprem  us-central1-b   f1-micro                   10.2.0.2     34.70.176.28 
 ![screen](./img/20200222205746.jpg)
 </details>
 
-#### Dodanie reguł firewall
+### 1.13 Test wydajności
+Dodanie reguł firewall
 ```bash
 gcloud compute firewall-rules create vpnrule-$vpcNetwork1 --network $vpcNetwork1 --allow tcp,udp,icmp --source-ranges 10.2.0.0/16
 gcloud compute firewall-rules create vpnrule-$vpcNetwork2 --network $vpcNetwork2 --allow tcp,udp,icmp --source-ranges 10.1.0.0/16
@@ -356,4 +368,15 @@ on-prem -> cloud
 cloud -> on-prem
 ![screen](./img/20200222212028.jpg)
 ![screen](./img/20200222212031.jpg)
-</details>
+</details>
+
+### 1.14 Usunięcie projektu
+```bash
+gcloud projects delete "zadanie10"
+```
+
+
+
+https://cloud.google.com/vpn/docs/how-to/creating-vpn-dynamic-routes
+https://cloud.google.com/vpn/docs/concepts/classic-topologies
+
