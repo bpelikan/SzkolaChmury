@@ -375,8 +375,39 @@ cloud -> on-prem
 gcloud projects delete "zadanie10"
 ```
 
+## 2. Zbudowanie odpowiedniego połączenia do aplikacji znajdującej się on-premises.
 
+Główne wymagania, które należy spełnić:
 
-https://cloud.google.com/vpn/docs/how-to/creating-vpn-dynamic-routes
-https://cloud.google.com/vpn/docs/concepts/classic-topologies
+* Przez aplikacje będzie przepływać około 70 GB danych dziennie z dużym natężeniem przez co jakakolwiek przerwa połączenia nie jest akceptowalna.
 
+* Dopasuj odpowiednie rozwiązanie, aby połączenie pomiędzy środowiskiem w Google Cloud, a środowiskiem lokalnym było dodatkowo szyfrowane oraz zawierało odpowiednie przepustowości, aby spełnić dzienny limit.
+
+* Jaki komponent dodałbyś do schematu ,aby przełączanie pomiędzy źródłami przesyłu danych było w pełni automatyczne podczas awarii?
+
+---
+
+Wymagania:
+
+* 70 GB danych dziennie
+* zapewnione SLA
+* szyfrowane połączenie z odpowiednią przepustowością
+* automatyczne przełączenie pomiędzy źródłami przesyłu danych
+
+Do wyboru mamy:
+* Dedicated Interconnect
+* Partner Interconnect
+* Direct Peering
+* Carrier Peering
+* Cloud VPN
+
+Odpowiednim wyborem będzie **HA Cloud VPN**:
+* Przy odpowienim skonfigurowaniu połączenia możemy osiągnąć odpowiednie SLA (GCP zapewnia SLA na poziomie 99.99%).
+* Możemy skonfigurować dodatkowe tunele używając kilku połączeń/dostawców zwiększając SLA.
+* Jeden tunel VPN może obsługiwać połączenie do 3 Gbps.
+* Brak uzależnienia się od providera/jednego połączenia.
+* Szyfrowane połączenie IPSec. 
+* Łączymy się przez VPN poza GCP, więc naliczane będą koszty zwykłego ruchu ([Cloud VPN pricing](https://cloud.google.com/vpn/pricing#cloud-vpn-pricing_1)), który jest o wiele tańszy w porównaniu z połączeniami Dedicated/Partner Interconnect ([Dedicated Interconnect Pricing tables](https://cloud.google.com/interconnect/pricing#dedicated-pricing-table), [Partner Interconnect Pricing tables](https://cloud.google.com/interconnect/pricing#partner-pricing-table)).
+* Direct/Carrier Peering nie zapewniają SLA.
+
+Automatyczne przełączenie pomiędzy źródłami przesyłu danych zapewni **Cloud Router**.
