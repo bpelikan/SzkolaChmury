@@ -18,6 +18,8 @@
 
 * [Zadanie 9 - VPC Networks, network peering, Firewall rules](./Zadanie9)
 
+* [Zadanie 10 - Cloud Hybrid Connectivity, VPN connection and BGP session, connection between Cloud and On-Prem](./Zadanie10)
+
 ## Inne
 
 * [Creating Snapshot](./Lekcja22)
