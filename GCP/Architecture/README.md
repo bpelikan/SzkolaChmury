@@ -20,6 +20,8 @@
 
 * [Zadanie 10 - Cloud Hybrid Connectivity, VPN connection and BGP session, connection between Cloud and On-Prem](./Zadanie10)
 
+* [Zadanie 11](./Zadanie11)
+
 ## Inne
 
 * [Creating Snapshot](./Lekcja22)
