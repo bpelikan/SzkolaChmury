@@ -28,4 +28,22 @@ gcloud compute instance-templates create $templateName \
 --machine-type=f1-micro \
 --metadata startup-script-url="https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/GCP/Architecture/Zadanie11/code/startup.sh"
 ```
+
+### 1.4 Utworzenie grup instancji
+```bash
+instanceGroupName1="web-server-group-1"
+instanceGroupRegion1="us-east1"
+instanceGroupName2="web-server-group-2"
+instanceGroupRegion2="europe-west1"
+
+gcloud compute instance-groups managed create $instanceGroupName1 \
+    --region $instanceGroupRegion1 \
+    --template $templateName \
+    --size 1
+
+gcloud compute instance-groups managed create $instanceGroupName2 \
+    --region $instanceGroupRegion2 \
+    --template $templateName \
+    --size 1
+```
 
