@@ -46,4 +46,32 @@ gcloud compute instance-groups managed create $instanceGroupName2 \
     --template $templateName \
     --size 1
 ```
+
+### 1.5 Konfiguracja autoskalowania
+```bash
+gcloud compute instance-groups managed set-autoscaling $instanceGroupName1 \
+    --region $instanceGroupRegion1 \
+    --min-num-replicas 1 \
+    --max-num-replicas 4 \
+    --target-load-balancing-utilization "0.8"
+
+gcloud compute instance-groups managed set-autoscaling $instanceGroupName2 \
+    --region $instanceGroupRegion2 \
+    --min-num-replicas 1 \
+    --max-num-replicas 4 \
+    --target-cpu-utilization "0.8"
+```
+
+<details>
+  <summary><b><i>Weryfikacja instancji</i></b></summary>
+
+```bash
+bartosz@cloudshell:~ (zadanie11)$ gcloud compute instances list
+NAME                     ZONE            MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP     STATUS
+web-server-group-2-dx5t  europe-west1-c  f1-micro                   10.132.0.3   35.205.180.217  RUNNING
+web-server-group-1-7023  us-east1-b      f1-micro                   10.142.0.3   35.243.149.41   RUNNING
+```
+![screen](./img/20200229161032.jpg)
+![screen](./img/20200229161051.jpg)
+</details>
 
