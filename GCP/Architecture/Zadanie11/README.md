@@ -213,4 +213,24 @@ gcloud compute forwarding-rules create $httpFwRuleName \
 Wynik wykonania połączenia z różnych regionów:
 ![screen](./img/20200302225431.jpg)
 </details>
-
+
+## 5. Test obciążenia
+### 5.1 Utworzenie dwóch instancji VM (us-central1-a, europe-west1-b) i wykonanie testu obciążenia
+```bash
+sudo apt-get -y install siege
+siege -c 250 http://34.102.225.4
+```
+
+<details>
+  <summary><b><i>Wyniki</i></b></summary>
+
+
+#### 1. 
+Ruch z jednego regionu - ruch jest równoważony pomiędzy regionami.
+![screen](./img/20200302230520.jpg)
+
+#### 2. 
+Test obciążenia - zauważyć tutaj można, że zadziałało autoskalowanie grupy instancji, jednak z powodu zbyt dużego obciążenia część VM nie przyjmują ruchu.
+![screen](./img/20200302230654.jpg)
+
+</details>
