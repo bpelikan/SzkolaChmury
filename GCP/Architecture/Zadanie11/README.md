@@ -146,5 +146,29 @@ gcloud compute backend-services create $backendServiceName \
 
 ![screen](./img/20200302222032.jpg)
 </details>
+
+### 4.3 Dodanie grup instancji do backend service
+```bash
+gcloud compute backend-services add-backend $backendServiceName \
+    --balancing-mode=RATE \
+    --max-rate-per-instance 50 \
+    --instance-group=$instanceGroupName1 \
+    --instance-group-region=$instanceGroupRegion1 \
+    --global
+
+gcloud compute backend-services add-backend $backendServiceName \
+    --balancing-mode=RATE \
+    --max-rate-per-instance 50 \
+    --instance-group=$instanceGroupName2 \
+    --instance-group-region=$instanceGroupRegion2 \
+    --global
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+![screen](./img/20200302222648.jpg)
+</details>
+
 </details>
 
