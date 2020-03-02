@@ -204,4 +204,13 @@ gcloud compute forwarding-rules create $httpFwRuleName \
 ![screen](./img/20200302224058.jpg)
 ![screen](./img/20200302224134.jpg)
 </details>
+
+<details>
+  <summary><b><i>Weryfikacja połączenia</i></b></summary>
+
+![screen](./img/20200302225007.jpg)
+
+Wynik wykonania połączenia z różnych regionów:
+![screen](./img/20200302225431.jpg)
+</details>
 
