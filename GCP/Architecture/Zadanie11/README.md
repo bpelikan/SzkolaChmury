@@ -100,6 +100,18 @@ web-server-group-1-882x  us-east1-b      f1-micro                   10.142.0.15 
 ![screen](./img/20200302220104.jpg)
 </details>
 
+### 1.6 Rezerwacja publicznego adresu IP
+```bash
+lbIPName="lb-ip4"
+gcloud compute addresses create $lbIPName --global
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+![screen](./img/20200302220218.jpg)
+</details>
+
 ```
 ![screen](./img/20200229161032.jpg)
 ![screen](./img/20200229161051.jpg)
