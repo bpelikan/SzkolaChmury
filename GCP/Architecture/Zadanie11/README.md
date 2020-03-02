@@ -132,5 +132,19 @@ gcloud compute health-checks create http $healthCheckName --port 80
 ![screen](./img/20200302220933.jpg)
 </details>
 
+### 4.2 Utworzenie backend service
+```bash
+backendServiceName="backend-service"
+gcloud compute backend-services create $backendServiceName \
+    --protocol HTTP \
+    --health-checks $healthCheckName \
+    --global
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+![screen](./img/20200302222032.jpg)
+</details>
 </details>
 
