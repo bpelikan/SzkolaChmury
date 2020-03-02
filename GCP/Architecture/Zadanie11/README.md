@@ -170,5 +170,15 @@ gcloud compute backend-services add-backend $backendServiceName \
 ![screen](./img/20200302222648.jpg)
 </details>
 
+### 4.4 Dodanie url map
+```bash
+webMap="web-map"
+gcloud compute url-maps create $webMap --default-service $backendServiceName
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+![screen](./img/20200302223744.jpg)
 </details>
 
