@@ -17,6 +17,12 @@ gcloud compute firewall-rules create $vpcName-allow-http --direction=INGRESS --n
 gcloud compute firewall-rules create $vpcName-allow-health-check --direction=INGRESS --network=$vpcName --action=ALLOW --rules=tcp --priority=1000 --source-ranges=130.211.0.0/22,35.191.0.0/16 --target-tags=$firewallTag
 ```
 
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+![screen](./img/20200302215355.jpg)
+</details>
+
 ### 1.3 Utworzenie Instance Template
 ```bash
 templateName="web-server-template"
@@ -28,6 +34,12 @@ gcloud compute instance-templates create $templateName \
 --machine-type=f1-micro \
 --metadata startup-script-url="https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/GCP/Architecture/Zadanie11/code/startup.sh"
 ```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+![screen](./img/20200302215533.jpg)
+</details>
 
 ### 1.4 Utworzenie grup instancji
 ```bash
@@ -47,6 +59,12 @@ gcloud compute instance-groups managed create $instanceGroupName2 \
     --size 1
 ```
 
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+![screen](./img/20200302215726.jpg)
+</details>
+
 ### 1.5 Konfiguracja autoskalowania
 ```bash
 gcloud compute instance-groups managed set-autoscaling $instanceGroupName1 \
@@ -59,8 +77,14 @@ gcloud compute instance-groups managed set-autoscaling $instanceGroupName2 \
     --region $instanceGroupRegion2 \
     --min-num-replicas 1 \
     --max-num-replicas 4 \
-    --target-cpu-utilization "0.8"
+    --target-load-balancing-utilization "0.8"
 ```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+![screen](./img/20200302215824.jpg)
+</details>
 
 <details>
   <summary><b><i>Weryfikacja instancji</i></b></summary>
@@ -68,8 +92,14 @@ gcloud compute instance-groups managed set-autoscaling $instanceGroupName2 \
 ```bash
 bartosz@cloudshell:~ (zadanie11)$ gcloud compute instances list
 NAME                     ZONE            MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP     STATUS
-web-server-group-2-dx5t  europe-west1-c  f1-micro                   10.132.0.3   35.205.180.217  RUNNING
-web-server-group-1-7023  us-east1-b      f1-micro                   10.142.0.3   35.243.149.41   RUNNING
+web-server-group-2-xp9b  europe-west1-b  f1-micro                   10.132.0.11  35.190.213.185  RUNNING
+web-server-group-1-882x  us-east1-b      f1-micro                   10.142.0.15  104.196.170.97  RUNNING
+```
+![screen](./img/20200302215948.jpg)
+![screen](./img/20200302220100.jpg)
+![screen](./img/20200302220104.jpg)
+</details>
+
 ```
 ![screen](./img/20200229161032.jpg)
 ![screen](./img/20200229161051.jpg)
