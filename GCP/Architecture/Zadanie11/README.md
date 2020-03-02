@@ -233,4 +233,21 @@ Ruch z jednego regionu - ruch jest równoważony pomiędzy regionami.
 Test obciążenia - zauważyć tutaj można, że zadziałało autoskalowanie grupy instancji, jednak z powodu zbyt dużego obciążenia część VM nie przyjmują ruchu.
 ![screen](./img/20200302230654.jpg)
 
-</details>
+</details>
+
+### 5.2 Zmniejszenie przepustowości ruchu do backendu
+```bash
+gcloud compute backend-services update-backend $backendServiceName \
+    --balancing-mode=RATE \
+    --max-rate-per-instance 10 \
+    --instance-group=$instanceGroupName1 \
+    --instance-group-region=$instanceGroupRegion1 \
+    --global
+
+gcloud compute backend-services update-backend $backendServiceName \
+    --balancing-mode=RATE \
+    --max-rate-per-instance 10 \
+    --instance-group=$instanceGroupName2 \
+    --instance-group-region=$instanceGroupRegion2 \
+    --global
+```
