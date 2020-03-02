@@ -1,13 +1,15 @@
 # [Zadanie domowe nr 11](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-11-load-balancing/zadanie-domowe-nr-11/)
 
-## 1. Zadanie 1
+# Zadanie 1
 
-### 1.1 Utworzenie projektu
+### 1. Utworzenie projektu
 ```bash
 gcloud projects create "zadanie11"
 ```
 
-### 1.2 Utworzenie reguł firewall
+## 2. Konfiguracja reguł zapory sieciowej HTTP
+
+### 2.1 Utworzenie reguł firewall
 Poniższe reguły pozwolą na ruch http z dowolnego źródła oraz ruch health-check z Load Balancera. Dodatkowo reguły wiążemy tagiem `http-server` w celu automatycznego przypisywania do maszym z tym tagiem.
 ```bash
 vpcName="default"
@@ -23,7 +25,9 @@ gcloud compute firewall-rules create $vpcName-allow-health-check --direction=ING
 ![screen](./img/20200302215355.jpg)
 </details>
 
-### 1.3 Utworzenie Instance Template
+## 3. Tworzenie zarządzanych grup instancji
+
+### 3.1 Utworzenie Instance Template
 ```bash
 templateName="web-server-template"
 
@@ -41,7 +45,7 @@ gcloud compute instance-templates create $templateName \
 ![screen](./img/20200302215533.jpg)
 </details>
 
-### 1.4 Utworzenie grup instancji
+### 3.2 Utworzenie grup instancji
 ```bash
 instanceGroupName1="web-server-group-1"
 instanceGroupRegion1="us-east1"
@@ -65,7 +69,7 @@ gcloud compute instance-groups managed create $instanceGroupName2 \
 ![screen](./img/20200302215726.jpg)
 </details>
 
-### 1.5 Konfiguracja autoskalowania
+### 3.2 Konfiguracja autoskalowania
 ```bash
 gcloud compute instance-groups managed set-autoscaling $instanceGroupName1 \
     --region $instanceGroupRegion1 \
@@ -100,7 +104,9 @@ web-server-group-1-882x  us-east1-b      f1-micro                   10.142.0.15 
 ![screen](./img/20200302220104.jpg)
 </details>
 
-### 1.6 Rezerwacja publicznego adresu IP
+## 4. [Konfiguracja Load Balancera](https://cloud.google.com/load-balancing/docs/https/https-load-balancer-example)
+
+### 4.1 Rezerwacja publicznego adresu IP
 ```bash
 lbIPName="lb-ip4"
 
