@@ -235,6 +235,7 @@ Test obciążenia - zauważyć tutaj można, że zadziałało autoskalowanie gru
 
 </details>
 
+
 ### 5.2 Zmniejszenie przepustowości ruchu do backendu
 ```bash
 gcloud compute backend-services update-backend $backendServiceName \
@@ -250,4 +251,17 @@ gcloud compute backend-services update-backend $backendServiceName \
     --instance-group=$instanceGroupName2 \
     --instance-group-region=$instanceGroupRegion2 \
     --global
-```
+```
+
+### 5.3 Zmiana parametru testu obciążeniowego
+```bash
+siege -c 60 http://34.102.225.4
+```
+
+<details>
+  <summary><b><i>Wyniki</i></b></summary>
+
+Widać równoważenie ruchu w przypadku kiedy dany region nie jest w stanie obsłużyć ruchu
+![screen](./img/ezgif-7-befd791c597a.gif)
+
+</details>
