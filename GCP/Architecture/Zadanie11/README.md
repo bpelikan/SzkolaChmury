@@ -225,11 +225,9 @@ siege -c 250 http://34.102.225.4
   <summary><b><i>Wyniki</i></b></summary>
 
 
-#### 1. 
 Ruch z jednego regionu - ruch jest równoważony pomiędzy regionami.
 ![screen](./img/20200302230520.jpg)
 
-#### 2. 
 Test obciążenia - zauważyć tutaj można, że zadziałało autoskalowanie grupy instancji, jednak z powodu zbyt dużego obciążenia część VM nie przyjmują ruchu.
 ![screen](./img/20200302230654.jpg)
 
@@ -275,6 +273,14 @@ siege -c 20 http://34.102.225.4
   <summary><b><i>Wyniki</i></b></summary>
 
 ![screen](./img/ezgif-7-0179ae47ed8b.gif)
+
+</details>
+
+<details>
+  <summary><b><i>Końcowy wykres po wykonaniu testu</i></b></summary>
+
+Widać przy większym obciążeniu danego regionu jak ruch kierowany był do drugiego regionu
+![screen](./img/20200302235409.jpg)
 
 </details>
 
