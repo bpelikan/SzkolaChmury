@@ -264,4 +264,17 @@ siege -c 60 http://34.102.225.4
 Widać równoważenie ruchu w przypadku kiedy dany region nie jest w stanie obsłużyć ruchu
 ![screen](./img/ezgif-7-befd791c597a.gif)
 
-</details>
+</details>
+
+### 5.4 Zmiana parametru testu obciążeniowego
+```bash
+siege -c 20 http://34.102.225.4
+```
+
+<details>
+  <summary><b><i>Wyniki</i></b></summary>
+
+![screen](./img/ezgif-7-0179ae47ed8b.gif)
+
+</details>
+
