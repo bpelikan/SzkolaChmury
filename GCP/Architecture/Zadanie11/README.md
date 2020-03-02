@@ -187,4 +187,21 @@ gcloud compute url-maps create $webMap --default-service $backendServiceName
 httpProxy="http-lb-proxy"
 gcloud compute target-http-proxies create $httpProxy --url-map $webMap
 ```
+
+### 4.6 Utworzenie forwarding-rules
+```bash
+httpFwRuleName="http-content-rule"
+gcloud compute forwarding-rules create $httpFwRuleName \
+    --address=$lbIPName\
+    --global \
+    --target-http-proxy=$httpProxy \
+    --ports=80
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+![screen](./img/20200302224058.jpg)
+![screen](./img/20200302224134.jpg)
+</details>
 
