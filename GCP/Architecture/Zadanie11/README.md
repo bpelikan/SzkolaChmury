@@ -181,4 +181,10 @@ gcloud compute url-maps create $webMap --default-service $backendServiceName
 
 ![screen](./img/20200302223744.jpg)
 </details>
+
+### 4.5 Dodanie HTTP Proxy
+```bash
+httpProxy="http-lb-proxy"
+gcloud compute target-http-proxies create $httpProxy --url-map $webMap
+```
 
