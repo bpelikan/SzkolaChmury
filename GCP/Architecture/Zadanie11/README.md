@@ -323,4 +323,17 @@ gcloud compute backend-services update $backendServiceName --security-policy $se
 ![screen](./img/20200304001541.jpg)
 ![screen](./img/20200304001549.jpg)
 
+</details>
+
+<details>
+  <summary><b><i>Sprawdzenie połączenia z VM</i></b></summary>
+
+Utworzenie VM
+![screen](./img/20200304001437.jpg)
+
+Sprawdzenie połaczenia
+![screen](./img/20200304001422.jpg)
+![screen](./img/20200304001423.jpg)
+![screen](./img/20200304001424.jpg)
+
 </details>
