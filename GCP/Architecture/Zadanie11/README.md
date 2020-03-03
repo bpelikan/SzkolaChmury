@@ -310,4 +310,17 @@ Mała uwaga - chcąc korzystać z parametu `--expression` i wyrażenia `origin.r
 ![screen](./img/20200303224510.jpg)
 ![screen](./img/20200303224532.jpg)
 
+</details>
+
+#### 6.3 Przypięcie reguły do Backend Service
+```bash
+gcloud compute backend-services update $backendServiceName --security-policy $securityPolicyName --global
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+![screen](./img/20200304001541.jpg)
+![screen](./img/20200304001549.jpg)
+
 </details>
