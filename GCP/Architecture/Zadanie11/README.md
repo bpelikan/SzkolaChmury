@@ -336,4 +336,14 @@ Sprawdzenie połaczenia
 ![screen](./img/20200304001423.jpg)
 ![screen](./img/20200304001424.jpg)
 
-</details>
+</details>
+
+<details>
+  <summary><b><i>Symulacja ruchu z VM</i></b></summary>
+
+Symulacja ruchu z VM
+![screen](./img/20200304003953.jpg)
+![screen](./img/20200304003744.jpg)
+![screen](./img/20200304003859.jpg)
+</details>
+
