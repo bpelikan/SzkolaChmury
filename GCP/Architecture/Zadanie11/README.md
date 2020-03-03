@@ -303,4 +303,11 @@ gcloud compute security-policies rules create 1000 \
 ```
 
 Mała uwaga - chcąc korzystać z parametu `--expression` i wyrażenia `origin.region_code` należy pamiętać, że region ten jest brany z rejestru adresów IP (warto to zweryfikować na jednej ze stron [IP WHOIS Lookup](https://www.whatismyip.com/ip-whois-lookup/))
-
+
+<details>
+  <summary><b><i>Sprawdzenie połączenia przed dodaniem reguły</i></b></summary>
+
+![screen](./img/20200303224510.jpg)
+![screen](./img/20200303224532.jpg)
+
+</details>
