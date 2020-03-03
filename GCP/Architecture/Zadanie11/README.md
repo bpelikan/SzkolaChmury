@@ -283,4 +283,12 @@ Widać przy większym obciążeniu danego regionu jak ruch kierowany był do dru
 ![screen](./img/20200302235409.jpg)
 
 </details>
+
+### 6. Cloud Armor
+#### 6.1 Utworzenie Google Cloud Armor security policies
+```bash
+securityPolicyName="vm-decline-policy"
+gcloud compute security-policies create $securityPolicyName \
+    --description "policy for decline traffic from VM"
+```
 
