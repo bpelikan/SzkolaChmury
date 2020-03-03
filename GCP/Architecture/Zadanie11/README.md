@@ -293,7 +293,7 @@ gcloud compute security-policies create $securityPolicyName \
 ```
 
 #### 6.2 Dodanie reguły do Google Cloud Armor security policies
-Zablokowanie ruchu z adresów IP 35.187.75.169 oraz 34.66.42.225
+Zablokowanie ruchu z adresów IP `35.187.75.169` oraz `34.66.42.225`
 ```bash
 gcloud compute security-policies rules create 1000 \
     --security-policy $securityPolicyName \
@@ -341,9 +341,9 @@ Sprawdzenie połaczenia
 <details>
   <summary><b><i>Symulacja ruchu z VM</i></b></summary>
 
-Symulacja ruchu z VM
+Wywołanie polecania `siege -c 10 http://34.102.225.4` na powyższych VM i sprawdzenie blokowania ruchu
 ![screen](./img/20200304003953.jpg)
-![screen](./img/20200304003744.jpg)
-![screen](./img/20200304003859.jpg)
+![screen](./img/20200304005124.jpg)
+![screen](./img/20200304005214.jpg)
 </details>
 
