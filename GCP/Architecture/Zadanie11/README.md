@@ -381,4 +381,23 @@ bartosz@cloudshell:~ (zadanie11)$ gcloud compute backend-buckets list
 NAME            GCS_BUCKET_NAME   ENABLE_CDN
 backend-bucket  zad11cloudbucket  False
 ```
+</details>
+
+### 7.4 Zdefiniowanie ścieżek w URL Map
+```bash
+webServerMap="web-map"
+gcloud compute url-maps add-path-matcher $webServerMap \
+    --default-service $backendServiceName \
+    --path-matcher-name pathmap \
+    --backend-bucket-path-rules="/img/*=$backendBucketName" \
+    --global
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+![screen](./img/20200304221609.jpg)
+![screen](./img/20200304221611.jpg)
+![screen](./img/20200304221614.jpg)
+
 </details>
