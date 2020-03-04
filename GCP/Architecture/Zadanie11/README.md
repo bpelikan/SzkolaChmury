@@ -365,4 +365,20 @@ gsutil cp gs://gcp-external-http-lb-with-bucket/two-dogs.jpg gs://$bucketName/im
 ### 7.3 Udostępnienie bucketa
 ```bash
 gsutil iam ch allUsers:objectViewer gs://$bucketName
-```
+```
+
+### 7.4 Utworzenie Backend Bucket
+```bash
+backendBucketName="backend-bucket"
+gcloud compute backend-buckets create $backendBucketName --gcs-bucket-name=$bucketName
+```
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+```bash
+bartosz@cloudshell:~ (zadanie11)$ gcloud compute backend-buckets list
+NAME            GCS_BUCKET_NAME   ENABLE_CDN
+backend-bucket  zad11cloudbucket  False
+```
+</details>
