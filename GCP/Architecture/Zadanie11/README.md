@@ -412,4 +412,10 @@ Sprawdzenie działania CDN
 
 ![architecture](./img/architecture.png)
 </details>
-
+
+---
+
+### Usunięcie projektu
+```bash
+gcloud projects delete $projectName
+```
