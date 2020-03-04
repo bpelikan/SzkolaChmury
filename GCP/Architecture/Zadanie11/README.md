@@ -354,4 +354,11 @@ Wywołanie polecania `siege -c 10 http://34.102.225.4` na powyższych VM i spraw
 bucketName="zad11cloudbucket"
 bucketLocation="europe-west1"
 gsutil mb -c STANDARD -l $bucketLocation -b on gs://$bucketName
-```
+```
+
+### 7.2 Skopiowanie przykładowych plików
+```bash
+gsutil cp gs://gcp-external-http-lb-with-bucket/three-cats.jpg gs://$bucketName/img/
+gsutil cp gs://gcp-external-http-lb-with-bucket/two-dogs.jpg gs://$bucketName/img/
+```
+
