@@ -400,4 +400,13 @@ gcloud compute url-maps add-path-matcher $webServerMap \
 ![screen](./img/20200304221611.jpg)
 ![screen](./img/20200304221614.jpg)
 
-</details>
+</details>
+
+## 8. Schemat końcowej architektury
+
+<details>
+  <summary><b><i>Pokaż</i></b></summary>
+
+![architecture](./img/architecture.png)
+</details>
+
