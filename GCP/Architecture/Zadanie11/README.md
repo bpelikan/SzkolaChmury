@@ -361,4 +361,8 @@ gsutil mb -c STANDARD -l $bucketLocation -b on gs://$bucketName
 gsutil cp gs://gcp-external-http-lb-with-bucket/three-cats.jpg gs://$bucketName/img/
 gsutil cp gs://gcp-external-http-lb-with-bucket/two-dogs.jpg gs://$bucketName/img/
 ```
-
+
+### 7.3 Udostępnienie bucketa
+```bash
+gsutil iam ch allUsers:objectViewer gs://$bucketName
+```
