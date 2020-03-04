@@ -20,6 +20,8 @@
 
 * [Zadanie 10 - Cloud Hybrid Connectivity, VPN connection and BGP session, connection between Cloud and On-Prem](./Zadanie10)
 
+* [Zadanie 11 - Konfiguracja HTTP Load Balancera, Cloud Armor, CDN](./Zadanie11)
+
 ## Inne
 
 * [Creating Snapshot](./Lekcja22)
