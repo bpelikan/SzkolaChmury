@@ -4,7 +4,8 @@
 
 ### 1. Utworzenie projektu
 ```bash
-gcloud projects create "zadanie11"
+projectName="zadanie11"
+gcloud projects create $projectName
 ```
 
 ## 2. Konfiguracja reguł zapory sieciowej HTTP
@@ -132,7 +133,7 @@ gcloud compute health-checks create http $healthCheckName --port 80
 ![screen](./img/20200302220933.jpg)
 </details>
 
-### 4.2 Utworzenie backend service
+### 4.2 Utworzenie Backend Service
 ```bash
 backendServiceName="backend-service"
 gcloud compute backend-services create $backendServiceName \
@@ -346,4 +347,11 @@ Wywołanie polecania `siege -c 10 http://34.102.225.4` na powyższych VM i spraw
 ![screen](./img/20200304005124.jpg)
 ![screen](./img/20200304005214.jpg)
 </details>
-
+
+## 7. Dodanie Cloud Storage do Load Balancera
+### 7.1 Utworzenie Cloud Storage
+```bash
+bucketName="zad11cloudbucket"
+bucketLocation="europe-west1"
+gsutil mb -c STANDARD -l $bucketLocation -b on gs://$bucketName
+```
