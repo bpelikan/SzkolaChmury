@@ -348,7 +348,7 @@ Wywołanie polecania `siege -c 10 http://34.102.225.4` na powyższych VM i spraw
 ![screen](./img/20200304005214.jpg)
 </details>
 
-## 7. Dodanie Cloud Storage do Load Balancera
+## 7. [Dodanie Cloud Storage do Load Balancera](https://cloud.google.com/load-balancing/docs/https/adding-backend-buckets-to-load-balancers)
 ### 7.1 Utworzenie Cloud Storage
 ```bash
 bucketName="zad11cloudbucket"
@@ -370,7 +370,7 @@ gsutil iam ch allUsers:objectViewer gs://$bucketName
 ### 7.4 Utworzenie Backend Bucket
 ```bash
 backendBucketName="backend-bucket"
-gcloud compute backend-buckets create $backendBucketName --gcs-bucket-name=$bucketName
+gcloud compute backend-buckets create $backendBucketName --gcs-bucket-name=$bucketName --enable-cdn
 ```
 
 <details>
@@ -399,6 +399,9 @@ gcloud compute url-maps add-path-matcher $webServerMap \
 ![screen](./img/20200304221609.jpg)
 ![screen](./img/20200304221611.jpg)
 ![screen](./img/20200304221614.jpg)
+
+Sprawdzenie działania CDN
+![screen](./img/20200304231716.jpg)
 
 </details>
 
