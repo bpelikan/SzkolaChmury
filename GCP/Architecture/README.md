@@ -22,6 +22,8 @@
 
 * [Zadanie 11 - Konfiguracja HTTP Load Balancera, Cloud Armor, CDN](./Zadanie11)
 
+* [Zadanie 12](./Zadanie12)
+
 ## Inne
 
 * [Creating Snapshot](./Lekcja22)
