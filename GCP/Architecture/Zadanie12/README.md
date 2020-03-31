@@ -5,3 +5,11 @@
 projectName="zadanie12"
 gcloud projects create $projectName
 ```
+
+#### Utworzenie reguły firewall
+```bash
+vpcName="default"
+firewallTag="http-server"
+gcloud compute firewall-rules create $vpcName-allow-http --direction=INGRESS --network=$vpcName --action=ALLOW --rules=tcp:80 --priority=1000 --source-ranges=0.0.0.0/0 --target-tags=$firewallTag
+```
+
