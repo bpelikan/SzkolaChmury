@@ -21,6 +21,21 @@ subscriptionName="subscriptionName"
 gcloud pubsub subscriptions create $subscriptionName --topic $topicName --ack-deadline=20
 ```
 
+#### Sprawdzenie
+```bash
+bartosz@cloudshell:~ (zadanie12)$ gcloud pubsub topics list
+---
+name: projects/zadanie12/topics/topicName
+bartosz@cloudshell:~ (zadanie12)$ gcloud pubsub subscriptions list
+---
+ackDeadlineSeconds: 20
+expirationPolicy:
+  ttl: 2678400s
+messageRetentionDuration: 604800s
+name: projects/zadanie12/subscriptions/subscriptionName
+pushConfig: {}
+topic: projects/zadanie12/topics/topicName
+```
 </details>
 
 ```bash
