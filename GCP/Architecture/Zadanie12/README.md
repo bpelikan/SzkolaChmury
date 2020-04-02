@@ -6,7 +6,17 @@ projectName="zadanie12"
 gcloud projects create $projectName
 ```
 
-#### Utworzenie reguły firewall
+<details>
+  <summary><b><i>Utworzenie Cloud Pub/Sub</i></b></summary>
+
+#### Topic
+```bash
+topicName="topicName"
+gcloud pubsub topics create $topicName
+```
+
+</details>
+
 ```bash
 vpcName="default"
 firewallTag="http-server"
