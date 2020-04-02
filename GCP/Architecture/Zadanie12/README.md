@@ -15,6 +15,12 @@ topicName="topicName"
 gcloud pubsub topics create $topicName
 ```
 
+#### Subskrypcja
+```bash
+subscriptionName="subscriptionName"
+gcloud pubsub subscriptions create $subscriptionName --topic $topicName --ack-deadline=20
+```
+
 </details>
 
 ```bash
