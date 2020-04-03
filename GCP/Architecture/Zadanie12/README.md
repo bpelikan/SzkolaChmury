@@ -49,5 +49,17 @@ gcloud compute instance-templates create $templateName \
 --machine-type=f1-micro \
 --metadata=startup-script=\#\!/bin/bash$'\n'wget\ https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/GCP/Architecture/Zadanie12/code/read.sh$'\n'bash\ read.sh\ $subscriptionName\ 1\ 10
 ```
+
+#### Utworzenie grupy instancji
+```bash
+instanceGroupName="vm-group-1"
+instanceGroupZone="europe-west1-b"
+
+gcloud compute instance-groups managed create $instanceGroupName \
+    --zone $instanceGroupZone \
+    --template $templateName \
+    --size 0
+```
+
 ```
 
