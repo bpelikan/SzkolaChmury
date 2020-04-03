@@ -61,5 +61,26 @@ gcloud compute instance-groups managed create $instanceGroupName \
     --size 0
 ```
 
+#### Konfiguracja autoskalowania
+Autoskalowanie na podstawie niestandardowej metryki jaką jest ilości wiadomości do przetworzenia w kolejce Cloud Pub/Sub. 
+W związku z tym, że użyty została **per-group metrics** typu **instance assignment** możliwe jest skalowanie grupy instancji do 0 w przypadku braku wiadomości/ruchu w kolejce.
+```bash
+gcloud beta compute instance-groups managed set-autoscaling $instanceGroupName \
+--zone=$instanceGroupZone \
+--max-num-replicas=8 \
+--min-num-replicas=0 \
+--update-stackdriver-metric='pubsub.googleapis.com/subscription/num_undelivered_messages' \
+--stackdriver-metric-filter="resource.type = pubsub_subscription AND resource.label.subscription_id = $subscriptionName" \
+--stackdriver-metric-single-instance-assignment=60
+
+gcloud beta compute instance-groups managed set-autoscaling $instanceGroupName \
+--zone=$instanceGroupZone \
+--max-num-replicas=8 \
+--min-num-replicas=0 \
+--update-stackdriver-metric='pubsub.googleapis.com/topic/send_request_count' \
+--stackdriver-metric-filter="resource.type = pubsub_topic AND resource.label.topic_id = $topicName" \
+--stackdriver-metric-single-instance-assignment=0.0875
+```
+
 ```
 
