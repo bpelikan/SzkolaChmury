@@ -38,21 +38,16 @@ topic: projects/zadanie12/topics/topicName
 ```
 </details>
 
-```bash
-vpcName="default"
-firewallTag="http-server"
-gcloud compute firewall-rules create $vpcName-allow-http --direction=INGRESS --network=$vpcName --action=ALLOW --rules=tcp:80 --priority=1000 --source-ranges=0.0.0.0/0 --target-tags=$firewallTag
-```
-
 #### Utworzenie Instance Template
+Instancja VM pobierać będzie 1 wiadomość na 10 sekund.
 ```bash
-templateName="web-server-template"
+templateName="vm-template"
 
 gcloud compute instance-templates create $templateName \
 --image-family debian-9 \
 --image-project debian-cloud \
---tags=$firewallTag \
 --machine-type=f1-micro \
---metadata startup-script-url="https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/GCP/Architecture/Zadanie11/code/startup.sh"
+--metadata=startup-script=\#\!/bin/bash$'\n'wget\ https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/GCP/Architecture/Zadanie12/code/read.sh$'\n'bash\ read.sh\ $subscriptionName\ 1\ 10
+```
 ```
 
