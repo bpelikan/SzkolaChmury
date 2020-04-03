@@ -9,20 +9,19 @@ gcloud projects create $projectName
 <details>
   <summary><b><i>Utworzenie Cloud Pub/Sub</i></b></summary>
 
-#### Topic
 ```bash
+# Topic
 topicName="topicName"
 gcloud pubsub topics create $topicName
-```
 
-#### Subskrypcja
-```bash
+# Subskrypcja
 subscriptionName="subscriptionName"
 gcloud pubsub subscriptions create $subscriptionName --topic $topicName --ack-deadline=20
 ```
 
-#### Sprawdzenie
+#### 
 ```bash
+# Sprawdzenie
 bartosz@cloudshell:~ (zadanie12)$ gcloud pubsub topics list
 ---
 name: projects/zadanie12/topics/topicName
@@ -63,7 +62,7 @@ gcloud compute instance-groups managed create $instanceGroupName \
 
 #### Konfiguracja autoskalowania
 Autoskalowanie na podstawie niestandardowej metryki jaką jest ilości wiadomości do przetworzenia w kolejce Cloud Pub/Sub. 
-W związku z tym, że użyty została **per-group metrics** typu **instance assignment** możliwe jest skalowanie grupy instancji do 0 w przypadku braku wiadomości/ruchu w kolejce.
+W związku z tym, że użyta została **per-group metrics** typu **instance assignment** możliwe jest skalowanie grupy instancji do 0 w przypadku braku wiadomości/ruchu w kolejce.
 ```bash
 gcloud beta compute instance-groups managed set-autoscaling $instanceGroupName \
 --zone=$instanceGroupZone \
