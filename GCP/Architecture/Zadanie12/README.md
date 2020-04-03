@@ -81,5 +81,17 @@ gcloud beta compute instance-groups managed set-autoscaling $instanceGroupName \
 --stackdriver-metric-single-instance-assignment=0.0875
 ```
 
+<details>
+  <summary><b><i>Metryki</i></b></summary>
+
+![screen](./img/20200404000150.jpg)
+![screen](./img/20200404000520.jpg)
+
+Wniosek: metryka **pubsub.googleapis.com/topic/send_request_count** nie jest najlepsza w celu skalowania do 0:
+![screen](./img/20200403234048.jpg)
+![screen](./img/20200403233931.jpg)
+
+
+</details>
 ```
 
