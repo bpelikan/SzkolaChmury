@@ -90,6 +90,15 @@ gcloud beta compute instance-groups managed set-autoscaling $instanceGroupName \
 Wniosek: metryka **pubsub.googleapis.com/topic/send_request_count** nie jest najlepsza w celu skalowania do 0:
 ![screen](./img/20200403234048.jpg)
 ![screen](./img/20200403233931.jpg)
+</details>
+
+#### Wygenerowanie ruchu
+Utworzenie VM z poziomu consoli GCP i rozpoczęcie wysyłania wiadomości do Cloud Pub/Sub.
+```bash
+topicName="topicName"
+wget https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/GCP/Architecture/Zadanie12/code/send.sh
+bash send.sh $topicName 10
+```
 
 
 </details>
