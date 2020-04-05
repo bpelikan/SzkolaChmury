@@ -100,6 +100,16 @@ wget https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/GCP/Architec
 bash send.sh $topicName 10
 ```
 
+## Zadanie 2
+
+#### Utworzenie Cloud Storage
+```bash
+bucketName1="computeadminactivitylogs"
+bucketName2="bucketactivitylogs"
+bucketLocation="EUROPE-WEST1"
+gsutil mb -c STANDARD -l $bucketLocation gs://${bucketName1}/
+gsutil mb -c STANDARD -l $bucketLocation gs://${bucketName2}/
+```
 
 </details>
 ```
