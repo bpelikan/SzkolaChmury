@@ -111,6 +111,12 @@ gsutil mb -c STANDARD -l $bucketLocation gs://${bucketName1}/
 gsutil mb -c STANDARD -l $bucketLocation gs://${bucketName2}/
 ```
 
+#### Włączenie logowania
+<details>
+  <summary><b><i>Audit Logs</i></b></summary>
+
+![screen](./img/20200404151314.jpg)
+</details>
 </details>
 ```
 
