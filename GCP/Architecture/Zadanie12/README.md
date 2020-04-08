@@ -117,6 +117,16 @@ gsutil mb -c STANDARD -l $bucketLocation gs://${bucketName2}/
 
 ![screen](./img/20200404151314.jpg)
 </details>
+
+#### Eksport logów do bucketa
+```bash
+sinkName1="exportComputeAdminActivityLogs"
+sinkName2="exportBucketActivityLogs"
+#gcloud logging sinks create  $sinkName  storage.googleapis.com/${bucketName}  --log-filter="resource.type=gce_instance"
+gcloud logging sinks create  $sinkName1  storage.googleapis.com/${bucketName1}  --log-filter="resource.type=\"gce_instance\" AND log_name=\"projects/$projectName/logs/cloudaudit.googleapis.com%2Factivity\""
+gcloud logging sinks create  $sinkName2  storage.googleapis.com/${bucketName2}  --log-filter="resource.type=\"gcs_bucket\" AND log_name=\"projects/zadanie12/logs/cloudaudit.googleapis.com%2Factivity\""
+```
+
 </details>
 ```
 
