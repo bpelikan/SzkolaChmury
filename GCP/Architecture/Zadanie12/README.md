@@ -127,6 +127,36 @@ gcloud logging sinks create  $sinkName1  storage.googleapis.com/${bucketName1}  
 gcloud logging sinks create  $sinkName2  storage.googleapis.com/${bucketName2}  --log-filter="resource.type=\"gcs_bucket\" AND log_name=\"projects/zadanie12/logs/cloudaudit.googleapis.com%2Factivity\""
 ```
 
+#### Pobranie nazwy service accounta
+
+<details>
+  <summary><b><i>gcloud logging sinks describe</i></b></summary>
+
+```bash
+bartosz@cloudshell:~ (zadanie12)$ gcloud logging sinks list
+NAME                            DESTINATION                                      FILTER
+exportBucketActivityLogs        storage.googleapis.com/bucketactivitylogs        resource.type="gcs_bucket" AND log_name="projects/zadanie12/logs/cloudaudit.googleapis.com%2Factivity"
+exportComputeAdminActivityLogs  storage.googleapis.com/computeadminactivitylogs  resource.type="gce_instance" AND log_name="projects/zadanie12/logs/cloudaudit.googleapis.com%2Factivity"
+
+bartosz@cloudshell:~ (zadanie12)$ gcloud logging sinks describe $sinkName1
+createTime: '2020-04-04T18:46:53.147258296Z'
+destination: storage.googleapis.com/computeadminactivitylogs
+filter: resource.type="gce_instance" AND log_name="projects/zadanie12/logs/cloudaudit.googleapis.com%2Factivity"
+name: exportComputeAdminActivityLogs
+outputVersionFormat: V2
+updateTime: '2020-04-04T18:46:53.147258296Z'
+writerIdentity: serviceAccount:p913410739349-430717@gcp-sa-logging.iam.gserviceaccount.com
+
+bartosz@cloudshell:~ (zadanie12)$ gcloud logging sinks describe $sinkName2
+createTime: '2020-04-04T18:46:56.310208758Z'
+destination: storage.googleapis.com/bucketactivitylogs
+filter: resource.type="gcs_bucket" AND log_name="projects/zadanie12/logs/cloudaudit.googleapis.com%2Factivity"
+name: exportBucketActivityLogs
+outputVersionFormat: V2
+updateTime: '2020-04-04T18:46:56.310208758Z'
+writerIdentity: serviceAccount:p913410739349-108804@gcp-sa-logging.iam.gserviceaccount.com
+```
+
 </details>
 ```
 
