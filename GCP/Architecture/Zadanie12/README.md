@@ -158,5 +158,17 @@ writerIdentity: serviceAccount:p913410739349-108804@gcp-sa-logging.iam.gservicea
 ```
 
 </details>
+
+```bash
+serviceAccount1="p913410739349-430717@gcp-sa-logging.iam.gserviceaccount.com"
+serviceAccount2="p913410739349-108804@gcp-sa-logging.iam.gserviceaccount.com"
+```
+
+#### Nadanie uprawnień do bucketa
+```bash
+gsutil iam ch serviceAccount:$serviceAccount1:roles/storage.objectCreator gs://${bucketName1}
+gsutil iam ch serviceAccount:$serviceAccount2:roles/storage.objectCreator gs://${bucketName2}
+```
+
 ```
 
