@@ -170,5 +170,22 @@ gsutil iam ch serviceAccount:$serviceAccount1:roles/storage.objectCreator gs://$
 gsutil iam ch serviceAccount:$serviceAccount2:roles/storage.objectCreator gs://${bucketName2}
 ```
 
+Wygenerowanie logów poprzez utworzenie/usuwanie VM/Bucketów oraz odczekanie na export logów:
+`Log entries are saved to Cloud Storage buckets in hourly batches. It might take from 2 to 3 hours before the first entries begin to appear.`
+
+<details>
+  <summary><b><i>Sprawdzenie</i></b></summary>
+
+```bash
+bartosz@cloudshell:~ (zadanie12)$ gsutil ls -r gs://${bucketName1}/**
+gs://computeadminactivitylogs/cloudaudit.googleapis.com/activity/2020/04/04/18:00:00_18:59:59_S0.json
+gs://computeadminactivitylogs/cloudaudit.googleapis.com/activity/2020/04/04/19:00:00_19:59:59_S0.json
+gs://computeadminactivitylogs/cloudaudit.googleapis.com/activity/2020/04/04/20:00:00_20:59:59_S0.json
+
+bartosz@cloudshell:~ (zadanie12)$ gsutil ls -r gs://${bucketName2}/**
+gs://bucketactivitylogs/cloudaudit.googleapis.com/activity/2020/04/04/18:00:00_18:59:59_S0.json
+gs://bucketactivitylogs/cloudaudit.googleapis.com/activity/2020/04/04/18:00:00_18:59:59_S1.json
+```
+</details>
 ```
 
