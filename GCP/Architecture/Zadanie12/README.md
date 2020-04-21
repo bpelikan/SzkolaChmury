@@ -207,5 +207,16 @@ gs://bucketactivitylogs/cloudaudit.googleapis.com/activity/2020/04/04/18:00:00_1
 
 > * **Logging** + ew. **Monitoring**
 
+## Zadanie 4
+
+#### Utworzenie metryki na podstawie logów
+
+```bash
+myMetricName="instance_create_count"
+gcloud logging metrics create $myMetricName \
+    --description "Number of created VM." \
+    --log-filter "resource.type=gce_instance AND protoPayload.methodName:compute.instances.insert AND operation.first=true"
+```
+
 ```
 
