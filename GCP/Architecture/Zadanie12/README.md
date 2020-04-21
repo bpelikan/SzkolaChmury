@@ -226,5 +226,10 @@ gcloud logging metrics create $myMetricName \
 ![screen](./img/20200422000210.jpg)
 </details>
 
-```
-
+#### Dodanie nowej VM - sprawdzenie alertu
+
+<details>
+  <summary><b><i>Pokaż</i></b></summary>
+
+![screen](./img/20200422000813.jpg)
+</details>
