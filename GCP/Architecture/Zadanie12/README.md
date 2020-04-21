@@ -190,5 +190,22 @@ gs://bucketactivitylogs/cloudaudit.googleapis.com/activity/2020/04/04/18:00:00_1
 gs://bucketactivitylogs/cloudaudit.googleapis.com/activity/2020/04/04/18:00:00_18:59:59_S1.json
 ```
 </details>
+
+## Zadanie 3
+
+1. Zainstalowałeś aplikację, którą umieściłeś na Managed Instance Group'ie, która używa SQL dla backendowej bazy danych. Otrzymałeś powiadomienia, że aplikacja nie jest w stanie połączyć się z bazą danych. Dział zarządzania prosi o raport pośmiertny na temat tego, co poszło nie tak. Co powinieneś zrobić i z jakiego elementu Stackdriver'a skorzystasz?
+
+> * Sprawdzić usługę **Logging** oraz **Error Reporting** w poszukiwaniu informacji w logach lub otrzymanych błędów.
+> * Zdebugować aplikację za pomocą **Debuggera** w celu dokładniejszego zbadania problemu.
+> * Sprawdzić connection stringa, konfigurację bazy + firewall.
+
+2. Masz stronę internetową, która znajduje się na App Engine. Po ostatniej aktualizacji, otrzymujesz raporty, że niektóre części strony ładują się z opóźnieniem do 20 sekund. Powolne czasy ładowania wystąpiły po ostatniej aktualizacji. Co powinieneś zrobić i z jakiego elementu Stackdriver'a skorzystasz, aby zdiagnozować jaki komponent w Twojej aplikacji generuje opóźnienia?
+
+> * Wykorzystać **Trace** do zdiagnozowania miejsca opóźnienia + **Profiler** do sprawdzenia zużycia zasobów.
+
+3. Twoja organizacja prowadzi klaster na Kubernetes Engine dla aplikacji internetowej. Otrzymałeś zgłoszenia, że określona część aplikacji przestała odpowiadać. Ponadto, wszystkie pod'y w Twoim wdrożeniu restartują się co 2 sekundy. Aplikacja zapisuje logi poprzez domyślne ustawienia wyjścia. Jak najlepiej sprawdzić logi, aby znaleźć przyczynę problemu?
+
+> * **Logging** + ew. **Monitoring**
+
 ```
 
