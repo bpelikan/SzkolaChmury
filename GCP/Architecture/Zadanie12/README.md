@@ -1,10 +1,12 @@
 # [Zadanie domowe nr 12](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-12-monitoring-with-stackdriver/zadanie-domowe-nr-12/)
 
-#### 1. Utworzenie projektu
+#### Utworzenie projektu
 ```bash
 projectName="zadanie12"
 gcloud projects create $projectName
 ```
+
+## Zadanie 1
 
 <details>
   <summary><b><i>Utworzenie Cloud Pub/Sub</i></b></summary>
@@ -25,6 +27,7 @@ gcloud pubsub subscriptions create $subscriptionName --topic $topicName --ack-de
 bartosz@cloudshell:~ (zadanie12)$ gcloud pubsub topics list
 ---
 name: projects/zadanie12/topics/topicName
+
 bartosz@cloudshell:~ (zadanie12)$ gcloud pubsub subscriptions list
 ---
 ackDeadlineSeconds: 20
@@ -81,8 +84,16 @@ gcloud beta compute instance-groups managed set-autoscaling $instanceGroupName \
 --stackdriver-metric-single-instance-assignment=0.0875
 ```
 
+#### Wygenerowanie ruchu
+Utworzenie VM z poziomu consoli GCP i rozpoczęcie wysyłania wiadomości do Cloud Pub/Sub.
+```bash
+topicName="topicName"
+wget https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/GCP/Architecture/Zadanie12/code/send.sh
+bash send.sh $topicName 10
+```
+
 <details>
-  <summary><b><i>Metryki</i></b></summary>
+  <summary><b><i>Metryki oraz wnioski</i></b></summary>
 
 ![screen](./img/20200404000150.jpg)
 ![screen](./img/20200404000520.jpg)
@@ -91,14 +102,6 @@ Wniosek: metryka **pubsub.googleapis.com/topic/send_request_count** nie jest naj
 ![screen](./img/20200403234048.jpg)
 ![screen](./img/20200403233931.jpg)
 </details>
-
-#### Wygenerowanie ruchu
-Utworzenie VM z poziomu consoli GCP i rozpoczęcie wysyłania wiadomości do Cloud Pub/Sub.
-```bash
-topicName="topicName"
-wget https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/GCP/Architecture/Zadanie12/code/send.sh
-bash send.sh $topicName 10
-```
 
 ## Zadanie 2
 
@@ -122,7 +125,7 @@ gsutil mb -c STANDARD -l $bucketLocation gs://${bucketName2}/
 ```bash
 sinkName1="exportComputeAdminActivityLogs"
 sinkName2="exportBucketActivityLogs"
-#gcloud logging sinks create  $sinkName  storage.googleapis.com/${bucketName}  --log-filter="resource.type=gce_instance"
+
 gcloud logging sinks create  $sinkName1  storage.googleapis.com/${bucketName1}  --log-filter="resource.type=\"gce_instance\" AND log_name=\"projects/$projectName/logs/cloudaudit.googleapis.com%2Factivity\""
 gcloud logging sinks create  $sinkName2  storage.googleapis.com/${bucketName2}  --log-filter="resource.type=\"gcs_bucket\" AND log_name=\"projects/zadanie12/logs/cloudaudit.googleapis.com%2Factivity\""
 ```
@@ -171,7 +174,7 @@ gsutil iam ch serviceAccount:$serviceAccount2:roles/storage.objectCreator gs://$
 ```
 
 Wygenerowanie logów poprzez utworzenie/usuwanie VM/Bucketów oraz odczekanie na export logów:
-`Log entries are saved to Cloud Storage buckets in hourly batches. It might take from 2 to 3 hours before the first entries begin to appear.`
+> `Log entries are saved to Cloud Storage buckets in hourly batches. It might take from 2 to 3 hours before the first entries begin to appear.`
 
 <details>
   <summary><b><i>Sprawdzenie</i></b></summary>
