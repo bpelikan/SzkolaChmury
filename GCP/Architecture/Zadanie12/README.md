@@ -218,5 +218,13 @@ gcloud logging metrics create $myMetricName \
     --log-filter "resource.type=gce_instance AND protoPayload.methodName:compute.instances.insert AND operation.first=true"
 ```
 
+#### Utworzenie polityki ostrzegania
+
+<details>
+  <summary><b><i>Pokaż</i></b></summary>
+
+![screen](./img/20200422000210.jpg)
+</details>
+
 ```
 
