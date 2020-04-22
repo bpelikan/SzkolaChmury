@@ -6,7 +6,7 @@ projectName="zadanie12"
 gcloud projects create $projectName
 ```
 
-## Zadanie 1
+## 1. Zadanie 1
 
 <details>
   <summary><b><i>Utworzenie Cloud Pub/Sub</i></b></summary>
@@ -40,7 +40,7 @@ topic: projects/zadanie12/topics/topicName
 ```
 </details>
 
-#### Utworzenie Instance Template
+#### 1.1 Instance Template
 Instancja VM pobierać będzie 1 wiadomość na 10 sekund.
 ```bash
 templateName="vm-template"
@@ -52,7 +52,7 @@ gcloud compute instance-templates create $templateName \
 --metadata=startup-script=\#\!/bin/bash$'\n'wget\ https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/GCP/Architecture/Zadanie12/code/read.sh$'\n'bash\ read.sh\ $subscriptionName\ 1\ 10
 ```
 
-#### Utworzenie grupy instancji
+#### 1.2 Instance Group
 ```bash
 instanceGroupName="vm-group-1"
 instanceGroupZone="europe-west1-b"
@@ -63,7 +63,7 @@ gcloud compute instance-groups managed create $instanceGroupName \
     --size 0
 ```
 
-#### Konfiguracja autoskalowania
+#### 1.3 Konfiguracja autoskalowania
 Autoskalowanie na podstawie niestandardowej metryki jaką jest ilości wiadomości do przetworzenia w kolejce Cloud Pub/Sub. 
 W związku z tym, że użyta została **per-group metrics** typu **instance assignment** możliwe jest skalowanie grupy instancji do 0 w przypadku braku wiadomości/ruchu w kolejce.
 ```bash
@@ -84,7 +84,7 @@ gcloud beta compute instance-groups managed set-autoscaling $instanceGroupName \
 --stackdriver-metric-single-instance-assignment=0.0875
 ```
 
-#### Wygenerowanie ruchu
+#### 1.4 Wygenerowanie ruchu
 Utworzenie VM z poziomu consoli GCP i rozpoczęcie wysyłania wiadomości do Cloud Pub/Sub.
 ```bash
 topicName="topicName"
@@ -103,18 +103,19 @@ Wniosek: metryka **pubsub.googleapis.com/topic/send_request_count** nie jest naj
 ![screen](./img/20200403233931.jpg)
 </details>
 
-## Zadanie 2
+## 2. Zadanie 2
 
-#### Utworzenie Cloud Storage
+#### 2.1 Cloud Storage
 ```bash
 bucketName1="computeadminactivitylogs"
 bucketName2="bucketactivitylogs"
 bucketLocation="EUROPE-WEST1"
+
 gsutil mb -c STANDARD -l $bucketLocation gs://${bucketName1}/
 gsutil mb -c STANDARD -l $bucketLocation gs://${bucketName2}/
 ```
 
-#### Włączenie logowania
+#### 2.2 Włączenie logowania
 <details>
   <summary><b><i>Audit Logs</i></b></summary>
 
@@ -126,11 +127,11 @@ gsutil mb -c STANDARD -l $bucketLocation gs://${bucketName2}/
 sinkName1="exportComputeAdminActivityLogs"
 sinkName2="exportBucketActivityLogs"
 
-gcloud logging sinks create  $sinkName1  storage.googleapis.com/${bucketName1}  --log-filter="resource.type=\"gce_instance\" AND log_name=\"projects/$projectName/logs/cloudaudit.googleapis.com%2Factivity\""
-gcloud logging sinks create  $sinkName2  storage.googleapis.com/${bucketName2}  --log-filter="resource.type=\"gcs_bucket\" AND log_name=\"projects/zadanie12/logs/cloudaudit.googleapis.com%2Factivity\""
+gcloud logging sinks create $sinkName1 storage.googleapis.com/${bucketName1} --log-filter="resource.type=\"gce_instance\" AND log_name=\"projects/$projectName/logs/cloudaudit.googleapis.com%2Factivity\""
+gcloud logging sinks create $sinkName2 storage.googleapis.com/${bucketName2} --log-filter="resource.type=\"gcs_bucket\" AND log_name=\"projects/$projectName/logs/cloudaudit.googleapis.com%2Factivity\""
 ```
 
-#### Pobranie nazwy service accounta
+#### 2.3 Pobranie nazwy service accounta
 
 <details>
   <summary><b><i>gcloud logging sinks describe</i></b></summary>
@@ -167,7 +168,7 @@ serviceAccount1="p913410739349-430717@gcp-sa-logging.iam.gserviceaccount.com"
 serviceAccount2="p913410739349-108804@gcp-sa-logging.iam.gserviceaccount.com"
 ```
 
-#### Nadanie uprawnień do bucketa
+#### 2.4 Nadanie uprawnień do bucketa
 ```bash
 gsutil iam ch serviceAccount:$serviceAccount1:roles/storage.objectCreator gs://${bucketName1}
 gsutil iam ch serviceAccount:$serviceAccount2:roles/storage.objectCreator gs://${bucketName2}
@@ -191,7 +192,7 @@ gs://bucketactivitylogs/cloudaudit.googleapis.com/activity/2020/04/04/18:00:00_1
 ```
 </details>
 
-## Zadanie 3
+## 3. Zadanie 3
 
 1. Zainstalowałeś aplikację, którą umieściłeś na Managed Instance Group'ie, która używa SQL dla backendowej bazy danych. Otrzymałeś powiadomienia, że aplikacja nie jest w stanie połączyć się z bazą danych. Dział zarządzania prosi o raport pośmiertny na temat tego, co poszło nie tak. Co powinieneś zrobić i z jakiego elementu Stackdriver'a skorzystasz?
 
@@ -207,18 +208,19 @@ gs://bucketactivitylogs/cloudaudit.googleapis.com/activity/2020/04/04/18:00:00_1
 
 > * **Logging** + ew. **Monitoring**
 
-## Zadanie 4
+## 4. Zadanie 4
 
-#### Utworzenie metryki na podstawie logów
+#### 4.1 Utworzenie metryki na podstawie logów
 
 ```bash
 myMetricName="instance_create_count"
+
 gcloud logging metrics create $myMetricName \
     --description "Number of created VM." \
     --log-filter "resource.type=gce_instance AND protoPayload.methodName:compute.instances.insert AND operation.first=true"
 ```
 
-#### Utworzenie polityki ostrzegania
+#### 4.2 Utworzenie polityki ostrzegania
 
 <details>
   <summary><b><i>Pokaż</i></b></summary>
@@ -226,10 +228,17 @@ gcloud logging metrics create $myMetricName \
 ![screen](./img/20200422000210.jpg)
 </details>
 
-#### Dodanie nowej VM - sprawdzenie alertu
+#### 4.3 Dodanie nowej VM - sprawdzenie alertu
 
 <details>
   <summary><b><i>Pokaż</i></b></summary>
 
 ![screen](./img/20200422000813.jpg)
 </details>
+
+---
+
+#### Usunięcie projektu
+```bash
+gcloud projects delete $projectName
+```
