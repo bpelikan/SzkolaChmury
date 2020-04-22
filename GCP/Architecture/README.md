@@ -22,6 +22,8 @@
 
 * [Zadanie 11 - Konfiguracja HTTP Load Balancera, Cloud Armor, CDN](./Zadanie11)
 
+* [Zadanie 12 - Autoscaling based on Logs-based metrics, Stackdriver Logs Router and Log Sinks, Alerting Policy](./Zadanie12)
+
 ## Inne
 
 * [Creating Snapshot](./Lekcja22)
