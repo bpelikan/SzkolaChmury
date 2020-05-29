@@ -37,4 +37,13 @@ gcloud builds submit --tag gcr.io/$projectId/iotdevice
 # deploy obrazu do Cloud Run
 gcloud run deploy --image gcr.io/$projectId/iotdevice --platform managed --region=us-central1
 ```
-
+
+#### Utworzenie Storage Bucket
+```bash
+# storage bucket
+bucketName=$projectId-bucket
+bucketLocation="us-central1"
+
+gsutil mb -c STANDARD -l $bucketLocation gs://${bucketName}/
+#--retention
+```
