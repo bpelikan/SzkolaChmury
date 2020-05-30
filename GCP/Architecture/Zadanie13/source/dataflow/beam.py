@@ -1,10 +1,15 @@
 from __future__ import absolute_import
 import argparse
+import logging
 
 import apache_beam as beam
 from apache_beam.options.pipeline_options import PipelineOptions
 from apache_beam.options.pipeline_options import SetupOptions
 from apache_beam.options.pipeline_options import StandardOptions
+
+class LogElement(beam.DoFn):
+    def process(self, element):
+        logging.info('ELEMENT: {}'.format(element))
 
 def run(argv=None):
     """Build and run the pipeline"""
@@ -23,6 +28,7 @@ def run(argv=None):
 
     p = beam.Pipeline(options=options)
     ( p | 'Read from PubSub' >> beam.io.ReadFromPubSub(topic=args.topic)
+        | 'Log element' >> beam.ParDo(LogElement())
         | 'Write to file' >> beam.io.WriteToText(args.output)
     )
 
@@ -30,4 +36,5 @@ def run(argv=None):
     result.wait_until_finish()
 
 if __name__ == '__main__':
+    logging.getLogger().setLevel(logging.INFO)
     run()
