@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 import argparse
 import logging
+import json
 
 import apache_beam as beam
 from apache_beam.options.pipeline_options import PipelineOptions
@@ -28,6 +29,7 @@ def run(argv=None):
 
     p = beam.Pipeline(options=options)
     ( p | 'Read from PubSub' >> beam.io.ReadFromPubSub(topic=args.topic)
+        | 'Parse JSON to Dict' >> beam.Map(lambda e: json.loads(e))
         | 'Log element' >> beam.ParDo(LogElement())
         | 'Write to file' >> beam.io.WriteToText(args.output)
     )
