@@ -28,10 +28,12 @@ def run(argv=None):
     options.view_as(StandardOptions).streaming = True
 
     p = beam.Pipeline(options=options)
-    ( p | 'Read from PubSub' >> beam.io.ReadFromPubSub(topic=args.topic)
-        | 'Parse JSON to Dict' >> beam.Map(lambda e: json.loads(e))
-        | 'Log element' >> beam.ParDo(LogElement())
-        | 'Write to file' >> beam.io.WriteToText(args.output)
+    
+    records = ( p | 'Read from PubSub' >> beam.io.ReadFromPubSub(topic=args.topic)
+                  | 'Parse JSON to Dict' >> beam.Map(lambda e: json.loads(e)))
+
+    ( records | 'Log element' >> beam.ParDo(LogElement())
+              | 'Write to file' >> beam.io.WriteToText(args.output)
     )
 
     result = p.run()
