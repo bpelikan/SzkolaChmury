@@ -12,15 +12,11 @@ gcloud projects create $projectName
 projectId=$(gcloud config get-value core/project)
 ```
 
-#### Utworzenie Cloud Pub/Sub
+#### Utworzenie topica w Cloud Pub/Sub
 ```bash
 # Topic
 topicName="rawdata"
 gcloud pubsub topics create $topicName
-
-# Subskrypcja
-subscriptionName="rawdatasub"
-gcloud pubsub subscriptions create $subscriptionName --topic $topicName --ack-deadline=20
 ```
 
 
@@ -40,10 +36,9 @@ gcloud run deploy --image gcr.io/$projectId/iotdevice --platform managed --regio
 
 #### Utworzenie Storage Bucket
 ```bash
-# storage bucket
 bucketName=$projectId-bucket
 bucketLocation="us-central1"
 
 gsutil mb -c STANDARD -l $bucketLocation gs://${bucketName}/
-#--retention
+```
 ```
