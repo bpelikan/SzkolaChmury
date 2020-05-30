@@ -7,38 +7,38 @@
 
 #### Utworzenie projektu
 ```bash
-projectName="zadanie13"
-gcloud projects create $projectName
-projectId=$(gcloud config get-value core/project)
+PROJECT_NAME="zadanie13"
+gcloud projects create $PROJECT_NAME
+PROJECT_ID=$(gcloud config get-value core/project)
 ```
 
 #### Utworzenie topica w Cloud Pub/Sub
 ```bash
 # Topic
-topicName="rawdata"
-gcloud pubsub topics create $topicName
+TOPIC_NAME="rawdata"
+gcloud pubsub topics create $TOPIC_NAME
 ```
 
 
 #### Symulacja działania urządzenia IoT
 ```bash
 git clone https://github.com/damiansmazurek/gcp-pubsub-iotdevice.git
-sed -i "s|\"PROJECT_ID\"|${projectId}|g" gcp-pubsub-iotdevice/Dockerfile
-sed -i "s|\"TOPIC_NAME\"|${topicName}|g" gcp-pubsub-iotdevice/Dockerfile
+sed -i "s|\"PROJECT_ID\"|${PROJECT_ID}|g" gcp-pubsub-iotdevice/Dockerfile
+sed -i "s|\"TOPIC_NAME\"|${TOPIC_NAME}|g" gcp-pubsub-iotdevice/Dockerfile
 
 # zbudowanie obrazu za pomocą Cloud Build i umieszczenie go w Container Registry
-gcloud builds submit --tag gcr.io/$projectId/iotdevice gcp-pubsub-iotdevice
+gcloud builds submit --tag gcr.io/$PROJECT_ID/iotdevice gcp-pubsub-iotdevice
 
 # deploy obrazu do Cloud Run
-gcloud run deploy --image gcr.io/$projectId/iotdevice --platform managed --region=us-central1
+gcloud run deploy --image gcr.io/$PROJECT_ID/iotdevice --platform managed --region=us-central1
 ```
 
-#### Utworzenie Storage Bucket
+#### Utworzenie Bucketa
 ```bash
-bucketName=$projectId-bucket
-region="us-central1"
+BUCKET_NAME=$PROJECT_ID-bucket
+REGION="us-central1"
 
-gsutil mb -c STANDARD -l $region gs://${bucketName}/
+gsutil mb -c STANDARD -l $REGION gs://${BUCKET_NAME}/
 ```
 
 #### Przygotowanie środowiska dla Apache Beam
