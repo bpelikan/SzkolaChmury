@@ -10,7 +10,8 @@ from apache_beam.options.pipeline_options import StandardOptions
 
 class LogElement(beam.DoFn):
     def process(self, element):
-        logging.info('ELEMENT: {}'.format(element))
+        logging.info('ELEMENT: {0} {1}'.format(type(element), element))
+        return [(element)]
 
 class Schema(object):
     @staticmethod
@@ -45,9 +46,8 @@ def run(argv=None):
     options.view_as(StandardOptions).streaming = True
 
     p = beam.Pipeline(options=options)
-    
-    records = ( p | 'Read from PubSub' >> beam.io.ReadFromPubSub(topic=args.topic)
-                  | 'Parse JSON to Dict' >> beam.Map(lambda e: json.loads(e)))
+    pubsub_stream = ( p | 'Read from PubSub' >> beam.io.ReadFromPubSub(topic=args.topic))
+    records = ( pubsub_stream | 'Parse JSON to Dict' >> beam.Map(lambda e: json.loads(e)))
 
     # stream to BigQuery
     (
@@ -59,9 +59,11 @@ def run(argv=None):
     )
 
     # stream to Bucket
-    ( records | 'Log element' >> beam.ParDo(LogElement())
-              | 'Write to file' >> beam.io.WriteToText(args.output_bucket)
-    )
+    ( pubsub_stream | 'Log element' >> beam.ParDo(LogElement())
+                    | 'Write to file' >> beam.io.WriteToText(args.output_bucket))
+
+    # log element
+    # ( records | 'Log element' >> beam.ParDo(LogElement()))    
 
     result = p.run()
     result.wait_until_finish()
