@@ -2,8 +2,11 @@
 
 
 
-![schemat](./img/schemat.jpg)
+<details>
+  <summary><b><i>Architektura</i></b></summary>
 
+![schemat](./img/schemat.jpg)
+</details>
 
 #### Utworzenie projektu
 ```bash
