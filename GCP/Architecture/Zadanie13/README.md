@@ -62,6 +62,12 @@ python beam.py \
   --output gs://$BUCKET_NAME/samples/output \
   --runner DirectRunner 
 ```
+#### Create BigQuery Dataset
+```bash
+# Utworzenie datasetu
+DATASET_NAME="IoTData"
+bq mk --dataset $PROJECT_ID:$DATASET_NAME
+```
   --input gs://dataflow-samples/shakespeare/kinglear.txt \
   --output gs://$BUCKET_NAME/wordcount/outputs \
   --runner DataflowRunner
