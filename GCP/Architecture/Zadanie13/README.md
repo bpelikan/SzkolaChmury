@@ -43,14 +43,25 @@ gsutil mb -c STANDARD -l $REGION gs://${BUCKET_NAME}/
 
 #### Przygotowanie środowiska dla Apache Beam
 ```bash
-# python3 --version
-# pip3 --version
 sudo pip3 install -U pip
 sudo pip3 install --upgrade virtualenv
 virtualenv -p python3.7 env
 source env/bin/activate
 
 pip install apache-beam[gcp]
+```
+
+#### Uruchomienie
+```bash
+python beam.py \
+  --project $PROJECT_ID \
+  --topic projects/$PROJECT_ID/topics/$TOPIC_NAME \
+  --output gs://$BUCKET_NAME/samples/output \
+  --runner DirectRunner 
+```
+  --input gs://dataflow-samples/shakespeare/kinglear.txt \
+  --output gs://$BUCKET_NAME/wordcount/outputs \
+  --runner DataflowRunner
 ```
 ```
 ```
