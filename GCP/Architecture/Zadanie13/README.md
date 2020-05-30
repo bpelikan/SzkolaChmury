@@ -59,14 +59,17 @@ pip install apache-beam[gcp]
 python beam.py \
   --project $PROJECT_ID \
   --topic projects/$PROJECT_ID/topics/$TOPIC_NAME \
-  --output gs://$BUCKET_NAME/samples/output \
-  --runner DirectRunner 
+  --output_bucket gs://$BUCKET_NAME/samples/output \
+  --output_bigquery $PROJECT_ID:$DATASET_NAME.engine \
+  --runner DirectRunner
 ```
 #### Create BigQuery Dataset
 ```bash
 # Utworzenie datasetu
 DATASET_NAME="IoTData"
-bq mk --dataset $PROJECT_ID:$DATASET_NAME
+bq mk --dataset \
+--default_table_expiration 7948800 \
+$PROJECT_ID:$DATASET_NAME
 ```
   --input gs://dataflow-samples/shakespeare/kinglear.txt \
   --output gs://$BUCKET_NAME/wordcount/outputs \
