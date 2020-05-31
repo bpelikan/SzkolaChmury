@@ -55,6 +55,15 @@ pip install apache-beam[gcp]
 pip install strict_rfc3339
 ```
 
+#### Create BigQuery Dataset
+```bash
+DATASET_NAME="IoTData"
+bq mk --dataset \
+--default_table_expiration 7948800 \
+$PROJECT_ID:$DATASET_NAME
+```
+
+
 #### Uruchomienie
 ```bash
 python beam.py \
@@ -62,6 +71,7 @@ python beam.py \
   --topic projects/$PROJECT_ID/topics/$TOPIC_NAME \
   --output_bucket gs://$BUCKET_NAME/samples/output \
   --output_bigquery $PROJECT_ID:$DATASET_NAME.engine \
+  --output_bigquery_avg $PROJECT_ID:$DATASET_NAME.engine_avr \
   --runner DirectRunner
 ```
 #### Create BigQuery Dataset

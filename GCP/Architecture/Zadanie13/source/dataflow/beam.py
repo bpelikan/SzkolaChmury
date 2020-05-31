@@ -8,6 +8,7 @@ import apache_beam as beam
 from apache_beam.options.pipeline_options import PipelineOptions
 from apache_beam.options.pipeline_options import SetupOptions
 from apache_beam.options.pipeline_options import StandardOptions
+from apache_beam.io import BigQueryDisposition
 
 class LogElement(beam.DoFn):
     def process(self, element):
@@ -23,6 +24,15 @@ class Schema(object):
                       'U:FLOAT, '
                       'Tm:FLOAT')
         return schema_str
+
+    @staticmethod
+    def get_bigquery_avg_schema():
+        schema_avg = ('timestamp:TIMESTAMP, '
+                      'deviceid:STRING, '
+                      'I:FLOAT, '
+                      'U:FLOAT, '
+                      'Tm:FLOAT')
+        return schema_avg
 
 class AddTimestampToDict(beam.DoFn):
     def process(self, element):
@@ -84,6 +94,12 @@ def run(argv=None):
             'Output BigQuery table: '
             'PROJECT:DATASET.TABLE '
             'or DATASET.TABLE.'))
+    parser.add_argument(
+        '--output_bigquery_avg',
+        default='DeviceData.engine_avr',
+        help=(
+            'Output BigQuery table for averages: '
+            'PROJECT:DATASET.TABLE or DATASET.TABLE.'))
     args, pipeline_args = parser.parse_known_args(argv)
     options = PipelineOptions(pipeline_args)
     options.view_as(SetupOptions).save_main_session = True
@@ -110,6 +126,11 @@ def run(argv=None):
               | 'Dict to KeyValue' >> beam.ParDo(AddKeyToDict())
               | 'Group by Key' >> beam.GroupByKey()
               | 'Count average' >> beam.ParDo(CountAverages())
+              | 'Write Avg to BigQuery' >> beam.io.WriteToBigQuery(
+                    args.output_bigquery_avg,
+                    schema=Schema.get_bigquery_avg_schema(),
+                    create_disposition=BigQueryDisposition.CREATE_IF_NEEDED,
+                    write_disposition=BigQueryDisposition.WRITE_APPEND)
     )
 
     # log element
