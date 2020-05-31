@@ -29,6 +29,11 @@ class AddTimestampToDict(beam.DoFn):
         return [beam.window.TimestampedValue(
             element, element['timestamp'])]
 
+class AddKeyToDict(beam.DoFn):
+    def process(self, element):
+        logging.debug('AddKeyToDict: %s %r' % (type(element), element))
+        return [(element['deviceid'], element)]
+
 def run(argv=None):
     """Build and run the pipeline"""
     parser = argparse.ArgumentParser()
@@ -69,6 +74,7 @@ def run(argv=None):
 
     ( records | 'Add timestamp' >> beam.ParDo(AddTimestampToDict())
               | 'Window' >> beam.WindowInto(beam.window.SlidingWindows(30, 10, offset=0))
+              | 'Dict to KeyValue' >> beam.ParDo(AddKeyToDict())
     )
 
     # log element
