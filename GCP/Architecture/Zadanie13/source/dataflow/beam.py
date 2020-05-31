@@ -68,6 +68,7 @@ def run(argv=None):
     ( pubsub_stream | 'Log element' >> beam.ParDo(LogElement())
 
     ( records | 'Add timestamp' >> beam.ParDo(AddTimestampToDict())
+              | 'Window' >> beam.WindowInto(beam.window.SlidingWindows(30, 10, offset=0))
     )
 
     # log element
