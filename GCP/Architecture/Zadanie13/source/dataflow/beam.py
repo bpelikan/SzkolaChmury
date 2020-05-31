@@ -75,6 +75,7 @@ def run(argv=None):
     ( records | 'Add timestamp' >> beam.ParDo(AddTimestampToDict())
               | 'Window' >> beam.WindowInto(beam.window.SlidingWindows(30, 10, offset=0))
               | 'Dict to KeyValue' >> beam.ParDo(AddKeyToDict())
+              | 'Group by Key' >> beam.GroupByKey()
     )
 
     # log element
