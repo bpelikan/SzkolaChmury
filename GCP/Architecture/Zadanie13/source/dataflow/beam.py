@@ -74,7 +74,7 @@ class CountAverages(beam.DoFn):
                 avg_e[key] = 0
             else:
                 avg_e[key] = value[0] / value[1]
-        logging.debug('CountAverages end: {}'.format(avg_e))
+        logging.info('CountAverages end: {}'.format(avg_e))
 
         return [avg_e]
 
@@ -85,7 +85,7 @@ class WriteBatchesToGCS(beam.DoFn):
     def process(self, batch, window=beam.DoFn.WindowParam):
         """Write one batch per file to a Google Cloud Storage bucket. """
 
-        ts_format = "%H:%M"
+        ts_format = "%Y%m%d%H%M"
         window_start = window.start.to_utc_datetime().strftime(ts_format)
         window_end = window.end.to_utc_datetime().strftime(ts_format)
         filename = "-".join([self.output_path, window_start, window_end])
@@ -93,7 +93,6 @@ class WriteBatchesToGCS(beam.DoFn):
 
         with beam.io.gcp.gcsio.GcsIO().open(filename=filename, mode="w") as f:
             for element in batch:
-                logging.info("{}\n".format(json.dumps(element)).encode("utf-8"))
                 f.write("{}\n".format(json.dumps(element)).encode("utf-8"))
 
 
@@ -131,7 +130,8 @@ def run(argv=None):
     p = beam.Pipeline(options=options)
     pubsub_stream = ( p | 'Read from PubSub' >> beam.io.ReadFromPubSub(topic=args.topic))
     records = ( pubsub_stream | 'Parse JSON to Dict' >> beam.Map(lambda e: json.loads(e))
-                              | 'Add timestamp' >> beam.ParDo(AddTimestampToDict()))
+                              | 'Add timestamp' >> beam.ParDo(AddTimestampToDict())
+                              )
 
     # stream to BigQuery
     (
@@ -146,8 +146,8 @@ def run(argv=None):
     # ( pubsub_stream | 'Write to file' >> beam.io.WriteToText(args.output_bucket))
 
     # averages
-    ( records | 'Window' >> beam.WindowInto(beam.window.SlidingWindows(30, 10, offset=0))
-              | 'Dict to KeyValue' >> beam.ParDo(AddKeyToDict())
+    ( records | "Window for avg" >> beam.WindowInto(window.FixedWindows(60))
+              | 'Add deviceId Key' >> beam.ParDo(AddKeyToDict())
               | 'Group by Key' >> beam.GroupByKey()
               | 'Count average' >> beam.ParDo(CountAverages())
               | 'Write Avg to BigQuery' >> beam.io.WriteToBigQuery(
@@ -157,13 +157,12 @@ def run(argv=None):
                     write_disposition=BigQueryDisposition.WRITE_APPEND)
     )
 
-    ( records | "Window into Fixed Intervals" >> beam.WindowInto(window.FixedWindows(60))
+    ( records | "Window for bucket" >> beam.WindowInto(window.FixedWindows(60))
               | "Add Dummy Key" >> beam.Map(lambda elem: (None, elem))
-              | "Groupby" >> beam.GroupByKey()
+              | "Group by Dummy Key" >> beam.GroupByKey()
               | "Abandon Dummy Key" >> beam.MapTuple(lambda _, val: val)
               | "Write to GCS" >> beam.ParDo(WriteBatchesToGCS(args.output_bucket_win))
     )
-
 
     result = p.run()
     result.wait_until_finish()
