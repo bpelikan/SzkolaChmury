@@ -23,6 +23,12 @@ class Schema(object):
                       'Tm:FLOAT')
         return schema_str
 
+class AddTimestampToDict(beam.DoFn):
+    def process(self, element):
+        logging.debug('AddTimestampToDict: %s %r' % (type(element), element))
+        return [beam.window.TimestampedValue(
+            element, element['timestamp'])]
+
 def run(argv=None):
     """Build and run the pipeline"""
     parser = argparse.ArgumentParser()
@@ -60,7 +66,9 @@ def run(argv=None):
 
     # stream to Bucket
     ( pubsub_stream | 'Log element' >> beam.ParDo(LogElement())
-                    | 'Write to file' >> beam.io.WriteToText(args.output_bucket))
+
+    ( records | 'Add timestamp' >> beam.ParDo(AddTimestampToDict())
+    )
 
     # log element
     # ( records | 'Log element' >> beam.ParDo(LogElement()))    
