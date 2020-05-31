@@ -52,6 +52,7 @@ virtualenv -p python3.7 env
 source env/bin/activate
 
 pip install apache-beam[gcp]
+pip install strict_rfc3339
 ```
 
 #### Uruchomienie

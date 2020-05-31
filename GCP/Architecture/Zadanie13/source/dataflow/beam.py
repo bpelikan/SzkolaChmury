@@ -2,6 +2,7 @@ from __future__ import absolute_import
 import argparse
 import logging
 import json
+import strict_rfc3339
 
 import apache_beam as beam
 from apache_beam.options.pipeline_options import PipelineOptions
@@ -33,6 +34,38 @@ class AddKeyToDict(beam.DoFn):
     def process(self, element):
         logging.debug('AddKeyToDict: %s %r' % (type(element), element))
         return [(element['deviceid'], element)]
+
+class CountAverages(beam.DoFn):
+    def process(self, element):
+        logging.debug('CountAverages start: %s %r' % (type(element), element))
+        stat_names = ["I",
+                      "U",
+                      "Tm"]
+
+        avg_e = {}
+        aggr = {}
+        for k in stat_names:
+            aggr[k] = (0, 0)
+
+        avg_e['deviceid'] = element[0]
+        avg_e['timestamp'] = strict_rfc3339.now_to_rfc3339_localoffset()
+
+        # Emit sum and count for each metric
+        for elem_map in element[1]:
+            for key in stat_names:
+                if key in elem_map:
+                    value = elem_map[key]
+                    aggr[key] = (aggr[key][0] + value, aggr[key][1] + 1)
+
+        # Calculate average and set in return map
+        for key, value in aggr.items():
+            if value[1] == 0:
+                avg_e[key] = 0
+            else:
+                avg_e[key] = value[0] / value[1]
+        logging.info('CountAverages end: {}'.format(avg_e))
+
+        return [avg_e]
 
 def run(argv=None):
     """Build and run the pipeline"""
@@ -76,6 +109,7 @@ def run(argv=None):
               | 'Window' >> beam.WindowInto(beam.window.SlidingWindows(30, 10, offset=0))
               | 'Dict to KeyValue' >> beam.ParDo(AddKeyToDict())
               | 'Group by Key' >> beam.GroupByKey()
+              | 'Count average' >> beam.ParDo(CountAverages())
     )
 
     # log element
