@@ -74,7 +74,7 @@ class CountAverages(beam.DoFn):
                 avg_e[key] = 0
             else:
                 avg_e[key] = value[0] / value[1]
-        logging.info('CountAverages end: {}'.format(avg_e))
+        logging.debug('CountAverages end: {}'.format(avg_e))
 
         return [avg_e]
 
@@ -130,7 +130,8 @@ def run(argv=None):
 
     p = beam.Pipeline(options=options)
     pubsub_stream = ( p | 'Read from PubSub' >> beam.io.ReadFromPubSub(topic=args.topic))
-    records = ( pubsub_stream | 'Parse JSON to Dict' >> beam.Map(lambda e: json.loads(e)))
+    records = ( pubsub_stream | 'Parse JSON to Dict' >> beam.Map(lambda e: json.loads(e))
+                              | 'Add timestamp' >> beam.ParDo(AddTimestampToDict()))
 
     # stream to BigQuery
     (
@@ -142,10 +143,10 @@ def run(argv=None):
     )
 
     # stream to Bucket
-    ( pubsub_stream | 'Log element' >> beam.ParDo(LogElement())
+    # ( pubsub_stream | 'Write to file' >> beam.io.WriteToText(args.output_bucket))
 
-    ( records | 'Add timestamp' >> beam.ParDo(AddTimestampToDict())
-              | 'Window' >> beam.WindowInto(beam.window.SlidingWindows(30, 10, offset=0))
+    # averages
+    ( records | 'Window' >> beam.WindowInto(beam.window.SlidingWindows(30, 10, offset=0))
               | 'Dict to KeyValue' >> beam.ParDo(AddKeyToDict())
               | 'Group by Key' >> beam.GroupByKey()
               | 'Count average' >> beam.ParDo(CountAverages())
