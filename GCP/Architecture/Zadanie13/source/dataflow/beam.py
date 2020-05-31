@@ -9,6 +9,7 @@ from apache_beam.options.pipeline_options import PipelineOptions
 from apache_beam.options.pipeline_options import SetupOptions
 from apache_beam.options.pipeline_options import StandardOptions
 from apache_beam.io import BigQueryDisposition
+import apache_beam.transforms.window as window
 
 class LogElement(beam.DoFn):
     def process(self, element):
@@ -77,6 +78,25 @@ class CountAverages(beam.DoFn):
 
         return [avg_e]
 
+class WriteBatchesToGCS(beam.DoFn):
+    def __init__(self, output_path):
+        self.output_path = output_path
+
+    def process(self, batch, window=beam.DoFn.WindowParam):
+        """Write one batch per file to a Google Cloud Storage bucket. """
+
+        ts_format = "%H:%M"
+        window_start = window.start.to_utc_datetime().strftime(ts_format)
+        window_end = window.end.to_utc_datetime().strftime(ts_format)
+        filename = "-".join([self.output_path, window_start, window_end])
+        filename = filename + ".json"
+
+        with beam.io.gcp.gcsio.GcsIO().open(filename=filename, mode="w") as f:
+            for element in batch:
+                logging.info("{}\n".format(json.dumps(element)).encode("utf-8"))
+                f.write("{}\n".format(json.dumps(element)).encode("utf-8"))
+
+
 def run(argv=None):
     """Build and run the pipeline"""
     parser = argparse.ArgumentParser()
@@ -87,6 +107,9 @@ def run(argv=None):
     parser.add_argument(
         "--output_bucket",
         help=('Output local filemane'))
+    parser.add_argument(
+        "--output_bucket_win",
+        help=('Output local filemane for win'))
     parser.add_argument(
         '--output_bigquery',
         default='IoTData.engine',
@@ -133,8 +156,13 @@ def run(argv=None):
                     write_disposition=BigQueryDisposition.WRITE_APPEND)
     )
 
-    # log element
-    # ( records | 'Log element' >> beam.ParDo(LogElement()))    
+    ( records | "Window into Fixed Intervals" >> beam.WindowInto(window.FixedWindows(60))
+              | "Add Dummy Key" >> beam.Map(lambda elem: (None, elem))
+              | "Groupby" >> beam.GroupByKey()
+              | "Abandon Dummy Key" >> beam.MapTuple(lambda _, val: val)
+              | "Write to GCS" >> beam.ParDo(WriteBatchesToGCS(args.output_bucket_win))
+    )
+
 
     result = p.run()
     result.wait_until_finish()

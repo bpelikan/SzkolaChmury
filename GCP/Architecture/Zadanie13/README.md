@@ -70,6 +70,7 @@ python beam.py \
   --project $PROJECT_ID \
   --topic projects/$PROJECT_ID/topics/$TOPIC_NAME \
   --output_bucket gs://$BUCKET_NAME/samples/output \
+  --output_bucket_win gs://$BUCKET_NAME/samples/output-win \
   --output_bigquery $PROJECT_ID:$DATASET_NAME.engine \
   --output_bigquery_avg $PROJECT_ID:$DATASET_NAME.engine_avr \
   --runner DirectRunner
