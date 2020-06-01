@@ -17,11 +17,55 @@ PROJECT_ID=$(gcloud config get-value core/project)
 
 #### Utworzenie topica w Cloud Pub/Sub
 ```bash
-# Topic
 TOPIC_NAME="rawdata"
 gcloud pubsub topics create $TOPIC_NAME
 ```
 
+#### Utworzenie Bucketa na dane archiwalne
+```bash
+BUCKET_NAME=$PROJECT_ID-bucket
+REGION="us-central1"
+
+gsutil mb -c STANDARD -l $REGION gs://${BUCKET_NAME}/
+```
+
+#### Utworzenie BigQuery Dataset
+```bash
+DATASET_NAME_10="IoTData_10"
+DATASET_NAME_90="IoTData_90"
+
+bq mk --dataset \
+--default_table_expiration 864000 \
+$PROJECT_ID:$DATASET_NAME_10
+
+bq mk --dataset \
+--default_table_expiration 7948800 \
+$PROJECT_ID:$DATASET_NAME_90
+```
+
+#### Przygotowanie środowiska dla Apache Beam
+```bash
+sudo pip3 install -U pip
+sudo pip3 install --upgrade virtualenv
+virtualenv -p python3.7 env
+source env/bin/activate
+
+pip install apache-beam[gcp]
+pip install strict_rfc3339
+
+# deactivate
+```
+
+#### Uruchomienie streamingu danych
+```bash
+python beam.py \
+  --project $PROJECT_ID \
+  --topic projects/$PROJECT_ID/topics/$TOPIC_NAME \
+  --output_bucket gs://$BUCKET_NAME/samples/output \
+  --output_bigquery $PROJECT_ID:$DATASET_NAME_10.engine \
+  --output_bigquery_avg $PROJECT_ID:$DATASET_NAME_90.engine_avr \
+  --runner DirectRunner
+```
 
 #### Symulacja działania urządzenia IoT
 ```bash
@@ -34,54 +78,6 @@ gcloud builds submit --tag gcr.io/$PROJECT_ID/iotdevice gcp-pubsub-iotdevice
 
 # deploy obrazu do Cloud Run
 gcloud run deploy --image gcr.io/$PROJECT_ID/iotdevice --platform managed --region=us-central1
-```
-
-#### Utworzenie Bucketa
-```bash
-BUCKET_NAME=$PROJECT_ID-bucket
-REGION="us-central1"
-
-gsutil mb -c STANDARD -l $REGION gs://${BUCKET_NAME}/
-```
-
-#### Przygotowanie środowiska dla Apache Beam
-```bash
-sudo pip3 install -U pip
-sudo pip3 install --upgrade virtualenv
-virtualenv -p python3.7 env
-source env/bin/activate
-
-pip install apache-beam[gcp]
-pip install strict_rfc3339
-```
-
-#### Create BigQuery Dataset
-```bash
-DATASET_NAME="IoTData"
-bq mk --dataset \
---default_table_expiration 7948800 \
-$PROJECT_ID:$DATASET_NAME
-```
-
-
-#### Uruchomienie
-```bash
-python beam.py \
-  --project $PROJECT_ID \
-  --topic projects/$PROJECT_ID/topics/$TOPIC_NAME \
-  --output_bucket gs://$BUCKET_NAME/samples/output \
-  --output_bucket_win gs://$BUCKET_NAME/samples/output-win \
-  --output_bigquery $PROJECT_ID:$DATASET_NAME.engine \
-  --output_bigquery_avg $PROJECT_ID:$DATASET_NAME.engine_avr \
-  --runner DirectRunner
-```
-#### Create BigQuery Dataset
-```bash
-# Utworzenie datasetu
-DATASET_NAME="IoTData"
-bq mk --dataset \
---default_table_expiration 7948800 \
-$PROJECT_ID:$DATASET_NAME
 ```
   --input gs://dataflow-samples/shakespeare/kinglear.txt \
   --output gs://$BUCKET_NAME/wordcount/outputs \
