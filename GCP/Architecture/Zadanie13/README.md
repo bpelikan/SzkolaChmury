@@ -33,12 +33,13 @@ gsutil mb -c STANDARD -l $REGION gs://${BUCKET_NAME}/
 ```bash
 DATASET_NAME_10="IoTData_10"
 DATASET_NAME_90="IoTData_90"
+BG_LOCATION="us-east1"
 
-bq mk --dataset \
+bq mk --dataset --location $BG_LOCATION \
 --default_table_expiration 864000 \
 $PROJECT_ID:$DATASET_NAME_10
 
-bq mk --dataset \
+bq mk --dataset --location $BG_LOCATION \
 --default_table_expiration 7948800 \
 $PROJECT_ID:$DATASET_NAME_90
 ```
