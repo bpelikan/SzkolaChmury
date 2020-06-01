@@ -92,7 +92,6 @@ class WriteBatchesToGCS(beam.DoFn):
             for element in batch:
                 f.write("{}\n".format(json.dumps(element)).encode("utf-8"))
 
-
 def run(argv=None):
     """Build and run the pipeline"""
     parser = argparse.ArgumentParser()
@@ -103,9 +102,6 @@ def run(argv=None):
     parser.add_argument(
         "--output_bucket",
         help=('Output local filemane'))
-    parser.add_argument(
-        "--output_bucket_win",
-        help=('Output local filemane for win'))
     parser.add_argument(
         '--output_bigquery',
         default='IoTData.engine',
@@ -139,9 +135,6 @@ def run(argv=None):
         write_disposition=beam.io.BigQueryDisposition.WRITE_APPEND)
     )
 
-    # stream to Bucket
-    # ( pubsub_stream | 'Write to file' >> beam.io.WriteToText(args.output_bucket))
-
     # averages
     ( records | "Window for avg" >> beam.WindowInto(window.FixedWindows(60))
               | 'Add deviceId Key' >> beam.ParDo(AddKeyToDict())
@@ -158,7 +151,7 @@ def run(argv=None):
               | "Add Dummy Key" >> beam.Map(lambda elem: (None, elem))
               | "Group by Dummy Key" >> beam.GroupByKey()
               | "Abandon Dummy Key" >> beam.MapTuple(lambda _, val: val)
-              | "Write to GCS" >> beam.ParDo(WriteBatchesToGCS(args.output_bucket_win))
+              | "Write to GCS" >> beam.ParDo(WriteBatchesToGCS(args.output_bucket))
     )
 
     result = p.run()
