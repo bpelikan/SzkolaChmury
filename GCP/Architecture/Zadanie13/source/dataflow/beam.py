@@ -10,6 +10,8 @@ from apache_beam.options.pipeline_options import SetupOptions
 from apache_beam.options.pipeline_options import StandardOptions
 from apache_beam.io import BigQueryDisposition
 import apache_beam.transforms.window as window
+# from apache_beam.io.gcp.bigtableio import WriteToBigTable
+# from google.cloud.bigtable import row, column_family
 
 class LogElement(beam.DoFn):
     def process(self, element):
@@ -92,6 +94,14 @@ class WriteBatchesToGCS(beam.DoFn):
             for element in batch:
                 f.write("{}\n".format(json.dumps(element)).encode("utf-8"))
 
+# class AddBT(beam.DoFn):
+#     def process(self, element):
+#         logging.debug('AddKeyToDict: %s %r' % (type(element), element))
+#         return row.DirectRow(row_key=str(element['timestamp']).encode("utf-8")).set_cell(
+#                     "data", 
+#                     "deviceid",
+#                     element['deviceid'],
+#                     datetime.datetime.now())
 
 def run(argv=None):
     """Build and run the pipeline"""
@@ -160,6 +170,14 @@ def run(argv=None):
               | "Abandon Dummy Key" >> beam.MapTuple(lambda _, val: val)
               | "Write to GCS" >> beam.ParDo(WriteBatchesToGCS(args.output_bucket_win))
     )
+
+    # (
+    #   records | 'Make row' >> beam.ParDo(AddBT())
+    #           | "Write to bigtable" >> WriteToBigTable(
+    #                 project_id="zadanie13", 
+    #                 instance_id="btengineinstance", 
+    #                 table_id="engine")
+    # )
 
     result = p.run()
     result.wait_until_finish()
