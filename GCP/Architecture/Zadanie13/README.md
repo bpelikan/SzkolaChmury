@@ -257,6 +257,12 @@ Waiting on bqjob_r1cdb239400cbc722_000001727713605a_1 ... (0s) Current status: D
 ![schemat](./img/20200603005145.jpg)
 </details>
 
+<details>
+  <summary><b><i>Weryfikacja czy raport jest publiczny</i></b></summary>
+
+![schemat](./img/20200603005327.jpg)
+</details>
+
   --input gs://dataflow-samples/shakespeare/kinglear.txt \
   --output gs://$BUCKET_NAME/wordcount/outputs \
   --runner DataflowRunner
