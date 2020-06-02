@@ -132,6 +132,11 @@ python dataflow/beam.py \
 ![schemat](./img/20200602212556.jpg)
 </details>
 
+#### Topic Pub/Sub dla powiadomień
+```bash
+TOPIC_NAME="notification_engine_overheat"
+gcloud pubsub topics create $TOPIC_NAME
+```
   --input gs://dataflow-samples/shakespeare/kinglear.txt \
   --output gs://$BUCKET_NAME/wordcount/outputs \
   --runner DataflowRunner
