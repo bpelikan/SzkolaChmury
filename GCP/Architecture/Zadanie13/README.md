@@ -16,6 +16,8 @@ Dodatkowo:
 * obciążenie na poziomie 100 000 urządzeń
 * rozwiązanie optymalne kosztowo
 
+---
+
 <details>
   <summary><b><i>Architektura</i></b></summary>
 
@@ -71,9 +73,11 @@ pip install strict_rfc3339
 # deactivate
 ```
 
-#### Uruchomienie streamingu danych
+#### Pobranie plików źródłowych
 ```bash
-python beam.py \
+git clone https://github.com/bpelikan/SzkolaChmury.git
+cd SzkolaChmury/GCP/Architecture/Zadanie13/source
+```
   --project $PROJECT_ID \
   --topic projects/$PROJECT_ID/topics/$TOPIC_NAME \
   --output_bucket gs://$BUCKET_NAME/samples/output \
