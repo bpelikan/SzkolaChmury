@@ -40,9 +40,17 @@ gcloud pubsub topics create $TOPIC_NAME
 #### Utworzenie Bucketa na dane archiwalne
 ```bash
 BUCKET_NAME=$PROJECT_ID-bucket
+BUCKET_NAME_TEMP=$PROJECT_ID-bucket-temp
 REGION="us-central1"
 
 gsutil mb -c STANDARD -l $REGION gs://${BUCKET_NAME}/
+gsutil mb -c STANDARD -l $REGION gs://${BUCKET_NAME_TEMP}/
+```
+
+#### Polityka cyklu życia obiektów w Buckecie
+```bash
+gsutil lifecycle set bucketPolicy.json gs://$BUCKET_NAME
+gsutil lifecycle get gs://$BUCKET_NAME
 ```
 
 #### Utworzenie BigQuery Dataset
@@ -122,7 +130,7 @@ python dataflow/beam.py \
   --output_bigquery_avg $PROJECT_ID:$DATASET_NAME_90.engine_avr \
   --setup_file dataflow/setup.py \
   --runner DataflowRunner \
-  --temp_location=gs://$BUCKET_NAME/temp
+  --temp_location=gs://$BUCKET_NAME_TEMP/temp
 ```
 
 #### Customowe metryki bazujące na logach
