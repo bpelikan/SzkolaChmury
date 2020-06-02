@@ -92,15 +92,23 @@ python dataflow/beam.py \
 
 #### Symulacja działania urządzenia IoT
 ```bash
-git clone https://github.com/damiansmazurek/gcp-pubsub-iotdevice.git
-sed -i "s|\"PROJECT_ID\"|${PROJECT_ID}|g" gcp-pubsub-iotdevice/Dockerfile
-sed -i "s|\"TOPIC_NAME\"|${TOPIC_NAME}|g" gcp-pubsub-iotdevice/Dockerfile
+sed -i "s|\"PROJECT_ID\"|${PROJECT_ID}|g" emulator/Dockerfile
+sed -i "s|\"TOPIC_NAME\"|${TOPIC_NAME}|g" emulator/Dockerfile
+sed -i "s|\"PROJECT_ID\"|${PROJECT_ID}|g" emulator_overheat/Dockerfile
+sed -i "s|\"TOPIC_NAME\"|${TOPIC_NAME}|g" emulator_overheat/Dockerfile
 
 # zbudowanie obrazu za pomocą Cloud Build i umieszczenie go w Container Registry
-gcloud builds submit --tag gcr.io/$PROJECT_ID/iotdevice gcp-pubsub-iotdevice
+gcloud builds submit --tag gcr.io/$PROJECT_ID/iotdevice:emulator emulator
+gcloud builds submit --tag gcr.io/$PROJECT_ID/iotdevice:overheat emulator_overheat
 
 # deploy obrazu do Cloud Run
-gcloud run deploy --image gcr.io/$PROJECT_ID/iotdevice --platform managed --region=us-central1
+# gcloud run deploy --image gcr.io/$PROJECT_ID/iotdevice:emulator --platform managed --region=us-central1
+# gcloud run deploy --image gcr.io/$PROJECT_ID/iotdevice:overheat --platform managed --region=us-central1
+
+# uruchomienie lokalnie
+docker run -d gcr.io/$PROJECT_ID/iotdevice:emulator
+docker run -d gcr.io/$PROJECT_ID/iotdevice:overheat
+docker kill $(docker ps -q)
 ```
   --input gs://dataflow-samples/shakespeare/kinglear.txt \
   --output gs://$BUCKET_NAME/wordcount/outputs \
