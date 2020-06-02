@@ -130,11 +130,13 @@ python dataflow/beam.py \
   <summary><b><i>Custom metric</i></b></summary>
 
 ![schemat](./img/20200602212556.jpg)
+![schemat](./img/20200602232910.jpg)
+![schemat](./img/20200602232924.jpg)
 </details>
 
 #### Topic Pub/Sub dla powiadomień
 ```bash
-TOPIC_NAME="notification_engine_overheat"
+TOPIC_NAME_NOTIFICATION="notification_engine_overheat"
 gcloud pubsub topics create $TOPIC_NAME
 ```
 
