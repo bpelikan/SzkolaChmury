@@ -137,6 +137,35 @@ python dataflow/beam.py \
 TOPIC_NAME="notification_engine_overheat"
 gcloud pubsub topics create $TOPIC_NAME
 ```
+
+#### Utworzenie alertu
+
+<details>
+  <summary><b><i>Dodanie nowego kanału powiadomień</i></b></summary>
+
+![schemat](./img/20200602213620.jpg)
+</details>
+
+<details>
+  <summary><b><i>Konfiguracja metryki</i></b></summary>
+
+![schemat](./img/20200602213729.jpg)
+</details>
+
+<details>
+  <summary><b><i>Konfiguracja alertu</i></b></summary>
+
+![schemat](./img/20200602222006.jpg)
+</details>
+
+<details>
+  <summary><b><i>Test wywołania alertu</i></b></summary>
+
+![schemat](./img/20200602232012.jpg)
+![schemat](./img/20200602232050.jpg)
+![schemat](./img/20200602232141.jpg)
+</details>
+
   --input gs://dataflow-samples/shakespeare/kinglear.txt \
   --output gs://$BUCKET_NAME/wordcount/outputs \
   --runner DataflowRunner
