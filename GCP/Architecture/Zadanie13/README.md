@@ -124,6 +124,14 @@ python dataflow/beam.py \
   --runner DataflowRunner \
   --temp_location=gs://$BUCKET_NAME/temp
 ```
+
+#### Customowe metryki bazujące na logach
+<details>
+  <summary><b><i>Custom metric</i></b></summary>
+
+![schemat](./img/20200602212556.jpg)
+</details>
+
   --input gs://dataflow-samples/shakespeare/kinglear.txt \
   --output gs://$BUCKET_NAME/wordcount/outputs \
   --runner DataflowRunner
