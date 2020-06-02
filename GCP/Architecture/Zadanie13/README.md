@@ -2,6 +2,20 @@
 
 
 
+#### Wymagania klienta
+Wymagania:
+* Dane archiwalne przechowywane przez 5 lat.
+* Dostęp do danych archiwalnych przy pomocy zapytań SQL
+* Możliwość szybkiego odczytu i odpytywania danych z ostatnich 10 dni
+* Raz na 3 dni wymagane jest stworzenie raportów porównawczych, pokazujących średnią dzienną pracę silnika przez ostatnie 3 miesiące, oraz jego obciążenie.
+* Należy powiadomić użytkownika poprzez dedykowane zdarzenie o przegrzaniach silnika (temperatura powyżej 110 stopni celcjusza utrzymująca się ponad 5 min)
+
+Dodatkowo:
+* zdarzenia o przegrzaniach powinny być wysyłane do topica pub/sub
+* przegranie silnika po stronie chmury
+* obciążenie na poziomie 100 000 urządzeń
+* rozwiązanie optymalne kosztowo
+
 <details>
   <summary><b><i>Architektura</i></b></summary>
 
