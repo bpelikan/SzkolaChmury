@@ -237,6 +237,13 @@ Waiting on bqjob_r1cdb239400cbc722_000001727713605a_1 ... (0s) Current status: D
 +--------------------------------------+-------+--------------------+
 ```
 </details>
+
+#### Raport
+<details>
+  <summary><b><i>Generowanie co 3 dni zapytania</i></b></summary>
+
+![schemat](./img/20200603005019.jpg)
+</details>
   --input gs://dataflow-samples/shakespeare/kinglear.txt \
   --output gs://$BUCKET_NAME/wordcount/outputs \
   --runner DataflowRunner
