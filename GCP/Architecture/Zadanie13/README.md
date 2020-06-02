@@ -110,6 +110,20 @@ docker run -d gcr.io/$PROJECT_ID/iotdevice:emulator
 docker run -d gcr.io/$PROJECT_ID/iotdevice:overheat
 docker kill $(docker ps -q)
 ```
+
+#### Streaming danych w DataFlow
+```bash
+python dataflow/beam.py \
+  --project $PROJECT_ID \
+  --region $REGION \
+  --topic projects/$PROJECT_ID/topics/$TOPIC_NAME \
+  --output_bucket gs://$BUCKET_NAME/samples/enginedata \
+  --output_bigquery $PROJECT_ID:$DATASET_NAME_10.engine \
+  --output_bigquery_avg $PROJECT_ID:$DATASET_NAME_90.engine_avr \
+  --setup_file dataflow/setup.py \
+  --runner DataflowRunner \
+  --temp_location=gs://$BUCKET_NAME/temp
+```
   --input gs://dataflow-samples/shakespeare/kinglear.txt \
   --output gs://$BUCKET_NAME/wordcount/outputs \
   --runner DataflowRunner
