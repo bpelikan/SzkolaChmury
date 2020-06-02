@@ -177,6 +177,17 @@ gcloud pubsub topics create $TOPIC_NAME
 ![schemat](./img/20200602232012.jpg)
 </details>
 
+#### Odpytanie danych archiwalnych
+```bash
+bq query \
+--external_table_definition=engineExtr::timestamp:TIMESTAMP,deviceid:STRING,I:FLOAT,U:FLOAT,Tm:FLOAT@NEWLINE_DELIMITED_JSON=gs://$BUCKET_NAME/samples/engine*.json \
+'SELECT
+  deviceid, count(*) as count, avg(Tm) as temp_avr
+FROM
+  engineExtr
+GROUP BY deviceid
+'
+```
   --input gs://dataflow-samples/shakespeare/kinglear.txt \
   --output gs://$BUCKET_NAME/wordcount/outputs \
   --runner DataflowRunner
