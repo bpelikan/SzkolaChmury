@@ -78,9 +78,13 @@ pip install strict_rfc3339
 git clone https://github.com/bpelikan/SzkolaChmury.git
 cd SzkolaChmury/GCP/Architecture/Zadanie13/source
 ```
+
+#### Uruchomienie lokalnie streamingu danych w celach testowych
+```bash
+python dataflow/beam.py \
   --project $PROJECT_ID \
   --topic projects/$PROJECT_ID/topics/$TOPIC_NAME \
-  --output_bucket gs://$BUCKET_NAME/samples/output \
+  --output_bucket gs://$BUCKET_NAME/samples/enginedate \
   --output_bigquery $PROJECT_ID:$DATASET_NAME_10.engine \
   --output_bigquery_avg $PROJECT_ID:$DATASET_NAME_90.engine_avr \
   --runner DirectRunner
