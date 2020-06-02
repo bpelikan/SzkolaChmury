@@ -163,9 +163,10 @@ gcloud pubsub topics create $TOPIC_NAME
 <details>
   <summary><b><i>Test wywołania alertu</i></b></summary>
 
-![schemat](./img/20200602232012.jpg)
-![schemat](./img/20200602232050.jpg)
 ![schemat](./img/20200602232141.jpg)
+![schemat](./img/20200602232050.jpg)
+![schemat](./img/20200602235337.jpg)
+![schemat](./img/20200602232012.jpg)
 </details>
 
   --input gs://dataflow-samples/shakespeare/kinglear.txt \
