@@ -1,41 +1,38 @@
 # [Zadanie domowe nr 13](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-13-serverless-i-big-data/zadanie-domowe-nr-13/)
 
-#### Wymagania klienta
-Wymagania:
-* Dane archiwalne przechowywane przez 5 lat.
-* Dostęp do danych archiwalnych przy pomocy zapytań SQL
-* Możliwość szybkiego odczytu i odpytywania danych z ostatnich 10 dni
-* Raz na 3 dni wymagane jest stworzenie raportów porównawczych, pokazujących średnią dzienną pracę silnika przez ostatnie 3 miesiące, oraz jego obciążenie.
-* Należy powiadomić użytkownika poprzez dedykowane zdarzenie o przegrzaniach silnika (temperatura powyżej 110 stopni celcjusza utrzymująca się ponad 5 min)
+Wymagania klienta:
+* Dane archiwalne przechowywane przez 5 lat. [[4](#4-polityka-cyklu-życia-obiektów-w-buckecie)]
+* Dostęp do danych archiwalnych przy pomocy zapytań SQL [[13](#13-odpytanie-danych-archiwalnych)]
+* Możliwość szybkiego odczytu i odpytywania danych z ostatnich 10 dni [[5](#5-utworzenie-bigquery-dataset)]
+* Raz na 3 dni wymagane jest stworzenie raportów porównawczych, pokazujących średnią dzienną pracę silnika przez ostatnie 3 miesiące, oraz jego obciążenie. [[14](#14-raport)]
+* Należy powiadomić użytkownika poprzez dedykowane zdarzenie o przegrzaniach silnika (temperatura powyżej 110 stopni celcjusza utrzymująca się ponad 5 min) [[12](#12-utworzenie-alertu)]
 
 Dodatkowo:
-* zdarzenia o przegrzaniach powinny być wysyłane do topica pub/sub
-* przegranie silnika po stronie chmury
+* zdarzenia o przegrzaniu powinny być wysyłane do topica pub/sub
+* przegrzanie silnika po stronie chmury
 * obciążenie na poziomie 100 000 urządzeń
 * rozwiązanie optymalne kosztowo
 
----
-
-<details>
-  <summary><b><i>Architektura</i></b></summary>
+## Architektura
 
 ![schemat](./img/schemat.jpg)
-</details>
 
-#### 1. Utworzenie projektu
+## Realizacja
+
+### 1. Utworzenie projektu
 ```bash
 PROJECT_NAME="zadanie13"
 gcloud projects create $PROJECT_NAME
 PROJECT_ID=$(gcloud config get-value core/project)
 ```
 
-#### 2. Topic w Cloud Pub/Sub
+### 2. Topic w Cloud Pub/Sub
 ```bash
 TOPIC_NAME="rawdata"
 gcloud pubsub topics create $TOPIC_NAME
 ```
 
-#### 3. Bucket na dane archiwalne
+### 3. Bucket na dane archiwalne
 ```bash
 BUCKET_NAME=$PROJECT_ID-bucket
 BUCKET_NAME_TEMP=$PROJECT_ID-bucket-temp
@@ -45,13 +42,13 @@ gsutil mb -c STANDARD -l $REGION gs://${BUCKET_NAME}/
 gsutil mb -c STANDARD -l $REGION gs://${BUCKET_NAME_TEMP}/
 ```
 
-#### 4. Polityka cyklu życia obiektów w Buckecie
+### 4. Polityka cyklu życia obiektów w Buckecie
 ```bash
 gsutil lifecycle set bucketPolicy.json gs://$BUCKET_NAME
 gsutil lifecycle get gs://$BUCKET_NAME
 ```
 
-#### 5. Utworzenie BigQuery Dataset
+### 5. Utworzenie BigQuery Dataset
 ```bash
 DATASET_NAME_10="IoTData_10"
 DATASET_NAME_90="IoTData_90"
@@ -61,37 +58,13 @@ bq mk --dataset --location $BG_LOCATION --default_table_expiration 864000 $PROJE
 bq mk --dataset --location $BG_LOCATION --default_table_expiration 7948800 $PROJECT_ID:$DATASET_NAME_90
 ```
 
-#### 6. Przygotowanie środowiska dla Apache Beam
-```bash
-sudo pip3 install -U pip
-sudo pip3 install --upgrade virtualenv
-virtualenv -p python3.7 env
-source env/bin/activate
-
-pip install apache-beam[gcp]
-pip install strict_rfc3339
-
-# deactivate
-```
-
-#### 7. Pobranie plików źródłowych
+### 6. Pobranie plików źródłowych
 ```bash
 git clone https://github.com/bpelikan/SzkolaChmury.git
 cd SzkolaChmury/GCP/Architecture/Zadanie13/source
 ```
 
-#### 8. Uruchomienie lokalnie streamingu danych w celach testowych
-```bash
-python dataflow/beam.py \
-  --project $PROJECT_ID \
-  --topic projects/$PROJECT_ID/topics/$TOPIC_NAME \
-  --output_bucket gs://$BUCKET_NAME/samples/enginedate \
-  --output_bigquery $PROJECT_ID:$DATASET_NAME_10.engine \
-  --output_bigquery_avg $PROJECT_ID:$DATASET_NAME_90.engine_avr \
-  --runner DirectRunner
-```
-
-#### 9. Symulacja działania urządzenia IoT
+### 7. Symulacja działania urządzenia IoT
 ```bash
 sed -i "s|\"PROJECT_ID\"|${PROJECT_ID}|g" emulator/Dockerfile
 sed -i "s|\"TOPIC_NAME\"|${TOPIC_NAME}|g" emulator/Dockerfile
@@ -112,7 +85,32 @@ docker run -d gcr.io/$PROJECT_ID/iotdevice:overheat
 docker kill $(docker ps -q)
 ```
 
-#### 10. Streaming danych w DataFlow
+### 8. Uruchomienie lokalnie streamingu danych w celach testowych
+#### 8.1 Przygotowanie środowiska dla Apache Beam
+```bash
+sudo pip3 install -U pip
+sudo pip3 install --upgrade virtualenv
+virtualenv -p python3.7 env
+source env/bin/activate
+
+pip install apache-beam[gcp]
+pip install strict_rfc3339
+
+# deactivate
+```
+
+#### 8.2 Uruchomienie 
+```bash
+python dataflow/beam.py \
+  --project $PROJECT_ID \
+  --topic projects/$PROJECT_ID/topics/$TOPIC_NAME \
+  --output_bucket gs://$BUCKET_NAME/samples/enginedate \
+  --output_bigquery $PROJECT_ID:$DATASET_NAME_10.engine \
+  --output_bigquery_avg $PROJECT_ID:$DATASET_NAME_90.engine_avr \
+  --runner DirectRunner
+```
+
+### 9. Streaming danych w DataFlow
 ```bash
 python dataflow/beam.py \
   --project $PROJECT_ID \
@@ -126,7 +124,7 @@ python dataflow/beam.py \
   --temp_location=gs://$BUCKET_NAME_TEMP/temp
 ```
 
-#### 11. Customowe metryki bazujące na logach
+### 10. Customowe metryki bazujące na logach
 <details>
   <summary><b><i>Custom metric</i></b></summary>
 
@@ -143,13 +141,13 @@ Odczyt temparatury:
 ![schemat](./img/20200602232924.jpg)
 </details>
 
-#### 12. Topic Pub/Sub dla powiadomień
+### 11. Topic Pub/Sub dla powiadomień
 ```bash
 TOPIC_NAME_NOTIFICATION="notification_engine_overheat"
 gcloud pubsub topics create $TOPIC_NAME
 ```
 
-#### 13. Utworzenie alertu
+### 12. Utworzenie alertu
 <details>
   <summary><b><i>Dodanie nowego kanału powiadomień</i></b></summary>
 
@@ -188,7 +186,7 @@ Powiadomienie email:
 ![schemat](./img/20200602232012.jpg)
 </details>
 
-#### 14. Odpytanie danych archiwalnych
+### 13. Odpytanie danych archiwalnych
 ```bash
 bq query \
 --external_table_definition=engineExtr::timestamp:TIMESTAMP,deviceid:STRING,I:FLOAT,U:FLOAT,Tm:FLOAT@NEWLINE_DELIMITED_JSON=gs://$BUCKET_NAME/samples/engine*.json \
@@ -249,7 +247,7 @@ Waiting on bqjob_r1cdb239400cbc722_000001727713605a_1 ... (0s) Current status: D
 ```
 </details>
 
-#### 15. Raport
+### 14. Raport
 <details>
   <summary><b><i>Generowanie co 3 dni zapytania dla raportu</i></b></summary>
 
@@ -282,7 +280,7 @@ Data Studio umożliwia utworzenie raportu i udostępnienie go. Dzięki temu rapo
 
 ---
 
-#### 16. Wyczyszczenie środowiska
+### 15. Wyczyszczenie środowiska
 ```bash
 gcloud projects delete $projectName
 docker rm $(docker ps -a -q)
