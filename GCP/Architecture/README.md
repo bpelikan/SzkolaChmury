@@ -24,6 +24,8 @@
 
 * [Zadanie 12 - Autoscaling based on Logs-based metrics, Stackdriver Logs Router and Log Sinks, Alerting Policy](./Zadanie12)
 
+* [Zadanie 13 ](./Zadanie13)
+
 ## Inne
 
 * [Creating Snapshot](./Lekcja22)
