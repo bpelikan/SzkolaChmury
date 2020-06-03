@@ -1,7 +1,5 @@
 # [Zadanie domowe nr 13](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-13-serverless-i-big-data/zadanie-domowe-nr-13/)
 
-
-
 #### Wymagania klienta
 Wymagania:
 * Dane archiwalne przechowywane przez 5 lat.
@@ -24,20 +22,20 @@ Dodatkowo:
 ![schemat](./img/schemat.jpg)
 </details>
 
-#### Utworzenie projektu
+#### 1. Utworzenie projektu
 ```bash
 PROJECT_NAME="zadanie13"
 gcloud projects create $PROJECT_NAME
 PROJECT_ID=$(gcloud config get-value core/project)
 ```
 
-#### Utworzenie topica w Cloud Pub/Sub
+#### 2. Topic w Cloud Pub/Sub
 ```bash
 TOPIC_NAME="rawdata"
 gcloud pubsub topics create $TOPIC_NAME
 ```
 
-#### Utworzenie Bucketa na dane archiwalne
+#### 3. Bucket na dane archiwalne
 ```bash
 BUCKET_NAME=$PROJECT_ID-bucket
 BUCKET_NAME_TEMP=$PROJECT_ID-bucket-temp
@@ -47,28 +45,23 @@ gsutil mb -c STANDARD -l $REGION gs://${BUCKET_NAME}/
 gsutil mb -c STANDARD -l $REGION gs://${BUCKET_NAME_TEMP}/
 ```
 
-#### Polityka cyklu życia obiektów w Buckecie
+#### 4. Polityka cyklu życia obiektów w Buckecie
 ```bash
 gsutil lifecycle set bucketPolicy.json gs://$BUCKET_NAME
 gsutil lifecycle get gs://$BUCKET_NAME
 ```
 
-#### Utworzenie BigQuery Dataset
+#### 5. Utworzenie BigQuery Dataset
 ```bash
 DATASET_NAME_10="IoTData_10"
 DATASET_NAME_90="IoTData_90"
-BG_LOCATION="us-east1"
+BG_LOCATION="US"
 
-bq mk --dataset --location $BG_LOCATION \
---default_table_expiration 864000 \
-$PROJECT_ID:$DATASET_NAME_10
-
-bq mk --dataset --location $BG_LOCATION \
---default_table_expiration 7948800 \
-$PROJECT_ID:$DATASET_NAME_90
+bq mk --dataset --location $BG_LOCATION --default_table_expiration 864000 $PROJECT_ID:$DATASET_NAME_10
+bq mk --dataset --location $BG_LOCATION --default_table_expiration 7948800 $PROJECT_ID:$DATASET_NAME_90
 ```
 
-#### Przygotowanie środowiska dla Apache Beam
+#### 6. Przygotowanie środowiska dla Apache Beam
 ```bash
 sudo pip3 install -U pip
 sudo pip3 install --upgrade virtualenv
@@ -81,13 +74,13 @@ pip install strict_rfc3339
 # deactivate
 ```
 
-#### Pobranie plików źródłowych
+#### 7. Pobranie plików źródłowych
 ```bash
 git clone https://github.com/bpelikan/SzkolaChmury.git
 cd SzkolaChmury/GCP/Architecture/Zadanie13/source
 ```
 
-#### Uruchomienie lokalnie streamingu danych w celach testowych
+#### 8. Uruchomienie lokalnie streamingu danych w celach testowych
 ```bash
 python dataflow/beam.py \
   --project $PROJECT_ID \
@@ -98,7 +91,7 @@ python dataflow/beam.py \
   --runner DirectRunner
 ```
 
-#### Symulacja działania urządzenia IoT
+#### 9. Symulacja działania urządzenia IoT
 ```bash
 sed -i "s|\"PROJECT_ID\"|${PROJECT_ID}|g" emulator/Dockerfile
 sed -i "s|\"TOPIC_NAME\"|${TOPIC_NAME}|g" emulator/Dockerfile
@@ -119,7 +112,7 @@ docker run -d gcr.io/$PROJECT_ID/iotdevice:overheat
 docker kill $(docker ps -q)
 ```
 
-#### Streaming danych w DataFlow
+#### 10. Streaming danych w DataFlow
 ```bash
 python dataflow/beam.py \
   --project $PROJECT_ID \
@@ -133,23 +126,30 @@ python dataflow/beam.py \
   --temp_location=gs://$BUCKET_NAME_TEMP/temp
 ```
 
-#### Customowe metryki bazujące na logach
+#### 11. Customowe metryki bazujące na logach
 <details>
   <summary><b><i>Custom metric</i></b></summary>
 
+Konfiguracja metryki na podstawie logów:
+
 ![schemat](./img/20200602212556.jpg)
+
+Odczyt deviceid:
+
 ![schemat](./img/20200602232910.jpg)
+
+Odczyt temparatury:
+
 ![schemat](./img/20200602232924.jpg)
 </details>
 
-#### Topic Pub/Sub dla powiadomień
+#### 12. Topic Pub/Sub dla powiadomień
 ```bash
 TOPIC_NAME_NOTIFICATION="notification_engine_overheat"
 gcloud pubsub topics create $TOPIC_NAME
 ```
 
-#### Utworzenie alertu
-
+#### 13. Utworzenie alertu
 <details>
   <summary><b><i>Dodanie nowego kanału powiadomień</i></b></summary>
 
@@ -171,13 +171,24 @@ gcloud pubsub topics create $TOPIC_NAME
 <details>
   <summary><b><i>Test wywołania alertu</i></b></summary>
 
+Metryka:
+
 ![schemat](./img/20200602232141.jpg)
+
+Zdarzenia:
+
 ![schemat](./img/20200602232050.jpg)
+
+Powiadomienia w Pub/Sub:
+
 ![schemat](./img/20200602235337.jpg)
+
+Powiadomienie email:
+
 ![schemat](./img/20200602232012.jpg)
 </details>
 
-#### Odpytanie danych archiwalnych
+#### 14. Odpytanie danych archiwalnych
 ```bash
 bq query \
 --external_table_definition=engineExtr::timestamp:TIMESTAMP,deviceid:STRING,I:FLOAT,U:FLOAT,Tm:FLOAT@NEWLINE_DELIMITED_JSON=gs://$BUCKET_NAME/samples/engine*.json \
@@ -238,9 +249,11 @@ Waiting on bqjob_r1cdb239400cbc722_000001727713605a_1 ... (0s) Current status: D
 ```
 </details>
 
-#### Raport
+#### 15. Raport
 <details>
   <summary><b><i>Generowanie co 3 dni zapytania dla raportu</i></b></summary>
+
+Co 3 dni wywoływane będzie zapytanie, którego wynik zapisywany będzie w odpowiedniej tabeli.
 
 ![schemat](./img/20200603005019.jpg)
 </details>
@@ -248,24 +261,28 @@ Waiting on bqjob_r1cdb239400cbc722_000001727713605a_1 ... (0s) Current status: D
 <details>
   <summary><b><i>Eksport danych do Data Studio</i></b></summary>
 
+Wygenerowana wcześniej tabela służyć będzie jako źródło danych dla Data Studio.
+
 ![schemat](./img/20200603005109.jpg)
 </details>
 
 <details>
   <summary><b><i>Utworzenie raportu i udostępnienie</i></b></summary>
 
+Data Studio umożliwia utworzenie raportu i udostępnienie go. Dzięki temu raport będzie publicznie dostępny oraz aktualizowany wraz z aktualizacją danych w tabeli źródłowej.
+
 ![schemat](./img/20200603005145.jpg)
 </details>
 
 <details>
-  <summary><b><i>Weryfikacja czy raport jest publiczny</i></b></summary>
+  <summary><b><i>Weryfikacja czy raport jest dostępny publicznie</i></b></summary>
 
 ![schemat](./img/20200603005327.jpg)
 </details>
 
 ---
 
-#### Wyczyszczenie środoiska
+#### 16. Wyczyszczenie środowiska
 ```bash
 gcloud projects delete $projectName
 docker rm $(docker ps -a -q)

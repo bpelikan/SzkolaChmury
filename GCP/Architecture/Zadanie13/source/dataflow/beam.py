@@ -37,17 +37,14 @@ class Schema(object):
 
 class AddTimestampToDict(beam.DoFn):
     def process(self, element):
-        logging.debug('AddTimestampToDict: %s %r' % (type(element), element))
         return [beam.window.TimestampedValue(element, element['timestamp'])]
 
 class AddKeyToDict(beam.DoFn):
     def process(self, element):
-        logging.debug('AddKeyToDict: %s %r' % (type(element), element))
         return [(element['deviceid'], element)]
 
 class CountAverages(beam.DoFn):
     def process(self, element):
-        logging.debug('CountAverages start: %s %r' % (type(element), element))
         stat_names = ["I","U","Tm"]
 
         avg_e = {}
@@ -71,7 +68,7 @@ class CountAverages(beam.DoFn):
                 avg_e[key] = 0
             else:
                 avg_e[key] = value[0] / value[1]
-        logging.info('CountAverages end: {}'.format(avg_e))
+        logging.info('Engine_avr: {}'.format(avg_e))
 
         return [avg_e]
 
