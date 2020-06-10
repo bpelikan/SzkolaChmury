@@ -177,5 +177,31 @@ web    Deployment/web   0%/80%    1         10        1          10m
 web    Deployment/web   0%/80%    1         10        1          16m
 ```
 </details>
+
+<details>
+  <summary><b><i>kubectl describe hpa web</i></b></summary>
+
+```bash
+bartosz@cloudshell:~/zad14 (zadanie14)$ kubectl describe hpa web
+Name:                     web
+Namespace:                default
+Labels:                   <none>
+Annotations:              autoscaling.alpha.kubernetes.io/conditions:
+                            [{"type":"AbleToScale","status":"True","lastTransitionTime":"2020-06-10T20:25:35Z","reason":"ReadyForNewScale","message":"recommended size...
+                          autoscaling.alpha.kubernetes.io/current-metrics:
+                            [{"type":"Resource","resource":{"name":"cpu","currentAverageUtilization":0,"currentAverageValue":"0"}}]
+CreationTimestamp:        Wed, 10 Jun 2020 22:25:20 +0200
+Reference:                Deployment/web
+Target CPU utilization:   80%
+Current CPU utilization:  0%
+Min replicas:             1
+Max replicas:             10
+Deployment pods:          1 current / 1 desired
+Events:
+  Type    Reason             Age    From                       Message
+  ----    ------             ----   ----                       -------
+  Normal  SuccessfulRescale  8m14s  horizontal-pod-autoscaler  New size: 4; reason: cpu resource utilization (percentage of request) above target
+  Normal  SuccessfulRescale  114s   horizontal-pod-autoscaler  New size: 3; reason: All metrics below target
+  Normal  SuccessfulRescale  84s    horizontal-pod-autoscaler  New size: 1; reason: All metrics below target
 ```
 </details>
