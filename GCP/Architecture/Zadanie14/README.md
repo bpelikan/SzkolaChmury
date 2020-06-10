@@ -178,6 +178,12 @@ web    Deployment/web   0%/80%    1         10        1          16m
 ```
 </details>
 
+<details>
+  <summary><b><i>Metryki</i></b></summary>
+
+![metryki](./img/20200610230606.jpg "metryki")
+</details>
+
 #### Usunięcie HPA
 ```
 kubectl delete -f web-hpa.yaml
