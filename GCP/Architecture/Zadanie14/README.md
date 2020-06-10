@@ -204,4 +204,11 @@ Events:
   Normal  SuccessfulRescale  114s   horizontal-pod-autoscaler  New size: 3; reason: All metrics below target
   Normal  SuccessfulRescale  84s    horizontal-pod-autoscaler  New size: 1; reason: All metrics below target
 ```
-</details>
+</details>
+
+
+#### Usunięcie HPA
+```
+kubectl delete -f web-hpa.yaml
+```
+
