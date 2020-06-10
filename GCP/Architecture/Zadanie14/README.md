@@ -75,4 +75,14 @@ Events:
 ```bash
 wget https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/GCP/Architecture/Zadanie14/code/web-hpa.yaml
 kubectl apply -f web-hpa.yaml
-```
+```
+
+<details>
+  <summary><b><i>kubectl get hpa</i></b></summary>
+
+```bash
+bartosz@cloudshell:~/zad14 (zadanie14)$ kubectl get hpa
+NAME   REFERENCE        TARGETS         MINPODS   MAXPODS   REPLICAS   AGE
+web    Deployment/web   <unknown>/80%   1         10        0          4s
+```
+</details>
