@@ -163,5 +163,19 @@ web    Deployment/web   150%/80%   1         10        4          3m10s
 web    Deployment/web   75%/80%   1         10        4          3m42s
 ```
 </details>
+
+<details>
+  <summary><b><i>Po zakończeniu symulacji</i></b></summary>
+
+```bash
+bartosz@cloudshell:~ (zadanie14)$ kubectl get hpa -w
+NAME   REFERENCE        TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
+web    Deployment/web   75%/80%   1         10        4          4m36s
+web    Deployment/web   0%/80%    1         10        4          5m12s
+web    Deployment/web   0%/80%    1         10        4          10m
+web    Deployment/web   0%/80%    1         10        1          10m
+web    Deployment/web   0%/80%    1         10        1          16m
+```
+</details>
 ```
 </details>
