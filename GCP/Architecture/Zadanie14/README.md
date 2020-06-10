@@ -16,4 +16,10 @@ gcloud container clusters create $CLUSTER_NANE --num-nodes 3 --zone $CLUSTER_ZON
 # pobranie credantiali
 gcloud container clusters get-credentials $CLUSTER_NANE --zone $CLUSTER_ZONE --project $PROJECT_NAME
 ```
+
+### Deployment
+```bash
+wget https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/GCP/Architecture/Zadanie14/code/deployment.yaml
+kubectl apply -f deployment.yaml
+```
 
