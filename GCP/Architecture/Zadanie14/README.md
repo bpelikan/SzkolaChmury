@@ -109,6 +109,24 @@ Deployment pods:          1 current / 1 desired
 Events:                   <none>
 ```
 </details>
+
+
+### Podłączenie się do kontenera
+
+<details>
+  <summary><b><i>kubectl get pod</i></b></summary>
+
+```bash
+bartosz@cloudshell:~/zad14 (zadanie14)$ kubectl get pod
+NAME                  READY   STATUS    RESTARTS   AGE
+web-c7759f966-jd54k   1/1     Running   0          2m29s
+```
+</details>
+
+```bash
+kubectl exec -it web-c7759f966-jd54k /bin/bash
+```
+
 <details>
   <summary><b><i>kubectl get pod</i></b></summary>
 
