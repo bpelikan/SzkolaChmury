@@ -135,11 +135,17 @@ stress -c 5
 ```
 
 <details>
-  <summary><b><i>kubectl get pod</i></b></summary>
+  <summary><b><i>Przed symulacją</i></b></summary>
 
 ```bash
-bartosz@cloudshell:~/zad14 (zadanie14)$ kubectl get pod
+bartosz@cloudshell:~ (zadanie14)$ kubectl get hpa
+NAME   REFERENCE        TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
+web    Deployment/web   0%/80%    1         10        1          64s
+
+bartosz@cloudshell:~ (zadanie14)$ kubectl get pod
 NAME                  READY   STATUS    RESTARTS   AGE
-web-c7759f966-jd54k   1/1     Running   0          2m29s
+web-c7759f966-jd54k   1/1     Running   0          3m9s
+```
+</details>
 ```
 </details>
