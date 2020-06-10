@@ -26,6 +26,8 @@
 
 * [Zadanie 13 - Data streaming in Dataflow, Serverless, Big Data](./Zadanie13)
 
+* [Zadanie 14 ](./Zadanie14)
+
 ## Inne
 
 * [Creating Snapshot](./Lekcja22)
