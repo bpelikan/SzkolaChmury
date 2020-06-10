@@ -85,4 +85,27 @@ bartosz@cloudshell:~/zad14 (zadanie14)$ kubectl get hpa
 NAME   REFERENCE        TARGETS         MINPODS   MAXPODS   REPLICAS   AGE
 web    Deployment/web   <unknown>/80%   1         10        0          4s
 ```
+</details>
+
+<details>
+  <summary><b><i>kubectl describe hpa web</i></b></summary>
+
+```bash
+bartosz@cloudshell:~/zad14 (zadanie14)$ kubectl describe hpa web
+Name:                     web
+Namespace:                default
+Labels:                   <none>
+Annotations:              autoscaling.alpha.kubernetes.io/conditions:
+                            [{"type":"AbleToScale","status":"True","lastTransitionTime":"2020-06-10T20:08:06Z","reason":"ScaleDownStabilized","message":"recent recomm...
+                          autoscaling.alpha.kubernetes.io/current-metrics:
+                            [{"type":"Resource","resource":{"name":"cpu","currentAverageUtilization":0,"currentAverageValue":"0"}}]
+CreationTimestamp:        Wed, 10 Jun 2020 22:08:01 +0200
+Reference:                Deployment/web
+Target CPU utilization:   80%
+Current CPU utilization:  0%
+Min replicas:             1
+Max replicas:             10
+Deployment pods:          1 current / 1 desired
+Events:                   <none>
+```
 </details>
