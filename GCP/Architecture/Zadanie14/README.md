@@ -66,4 +66,13 @@ Events:
   ----    ------             ----  ----                   -------
   Normal  ScalingReplicaSet  5s    deployment-controller  Scaled up replica set web-c7759f966 to 1
 ```
-</details>
+</details>
+
+
+## Zadanie 1
+
+### Horizontal Pod Autoscaler
+```bash
+wget https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/GCP/Architecture/Zadanie14/code/web-hpa.yaml
+kubectl apply -f web-hpa.yaml
+```
