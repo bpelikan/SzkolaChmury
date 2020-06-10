@@ -147,5 +147,21 @@ NAME                  READY   STATUS    RESTARTS   AGE
 web-c7759f966-jd54k   1/1     Running   0          3m9s
 ```
 </details>
+
+
+<details>
+  <summary><b><i>W trakcie symulacji</i></b></summary>
+
+```bash
+bartosz@cloudshell:~ (zadanie14)$ kubectl get hpa -w
+NAME   REFERENCE        TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
+web    Deployment/web   0%/80%    1         10        1          89s
+web    Deployment/web   119%/80%   1         10        2          2m33s
+web    Deployment/web   301%/80%   1         10        2          2m43s
+web    Deployment/web   301%/80%   1         10        4          2m56s
+web    Deployment/web   150%/80%   1         10        4          3m10s
+web    Deployment/web   75%/80%   1         10        4          3m42s
+```
+</details>
 ```
 </details>
