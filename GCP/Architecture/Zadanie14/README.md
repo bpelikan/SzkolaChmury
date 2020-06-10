@@ -127,6 +127,13 @@ web-c7759f966-jd54k   1/1     Running   0          2m29s
 kubectl exec -it web-c7759f966-jd54k /bin/bash
 ```
 
+#### Symulacja obciążenia
+```
+apt-get update
+apt-get install stress
+stress -c 5
+```
+
 <details>
   <summary><b><i>kubectl get pod</i></b></summary>
 
