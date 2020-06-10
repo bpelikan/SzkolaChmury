@@ -178,6 +178,25 @@ web    Deployment/web   0%/80%    1         10        1          16m
 ```
 </details>
 
+#### Usunięcie HPA
+```
+kubectl delete -f web-hpa.yaml
+```
+
+## Zadanie 2
+
+> Wymień jeden przykład, w którym mógłbyś utworzyć HPA, aby zapewnić działanie swojego środowiska. Opis powinien zawierać:
+> 1) Jakiego typu aplikacja (frontend, backend)
+> 2) Za co odpowiada, jakie operacje wykonuje
+> 3) Z jakich metryk byś skorzystał ?
+> 4) Pamiętaj, ze CPU i RAM to nie jedyne metryki.
+
+1) Backend - obróbka plików wideo
+2) Konwertowanie do różnych rozdzielczości plików wysyłanych na bucketa 
+3) Ilość plików wideo pozostałych do obróbki, czyli na podstawie ilości wiadomości w kolejce Pub/Sub - dodanie pliku do bucketa generowałoby wiadomość w kolejce Pub/Sub
+
+## Zadanie dodatkowe
+
 <details>
   <summary><b><i>kubectl describe hpa web</i></b></summary>
 
@@ -206,21 +225,7 @@ Events:
 ```
 </details>
 
+## Zadanie 3
 
-#### Usunięcie HPA
-```
-kubectl delete -f web-hpa.yaml
-```
 
-## Zadanie 2
-
-> Wymień jeden przykład, w którym mógłbyś utworzyć HPA, aby zapewnić działanie swojego środowiska. Opis powinien zawierać:
-> 1) Jakiego typu aplikacja (frontend, backend)
-> 2) Za co odpowiada, jakie operacje wykonuje
-> 3) Z jakich metryk byś skorzystał ?
-> 4) Pamiętaj, ze CPU i RAM to nie jedyne metryki.
-
-1) Backend - obróbka plików wideo
-2) Konwertowanie do różnych rozdzielczości plików wysyłanych na bucketa 
-3) Ilość plików wideo pozostałych do obróbki, czyli na podstawie ilości wiadomości w kolejce Pub/Sub - dodanie pliku do bucketa generowałoby wiadomość w kolejce Pub/Sub
 
