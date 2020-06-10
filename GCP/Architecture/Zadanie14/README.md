@@ -22,4 +22,48 @@ gcloud container clusters get-credentials $CLUSTER_NANE --zone $CLUSTER_ZONE --p
 wget https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/GCP/Architecture/Zadanie14/code/deployment.yaml
 kubectl apply -f deployment.yaml
 ```
-
+
+<details>
+  <summary><b><i>kubectl describe deployment web</i></b></summary>
+
+```bash
+bartosz@cloudshell:~/zad14 (zadanie14)$ kubectl describe deployment web
+Name:                   web
+Namespace:              default
+CreationTimestamp:      Wed, 10 Jun 2020 22:06:07 +0200
+Labels:                 <none>
+Annotations:            deployment.kubernetes.io/revision: 1
+Selector:               app=nginx
+Replicas:               1 desired | 1 updated | 1 total | 0 available | 1 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  app=nginx
+  Containers:
+   nginx:
+    Image:      nginx:latest
+    Port:       80/TCP
+    Host Port:  0/TCP
+    Limits:
+      cpu:     300m
+      memory:  500Mi
+    Requests:
+      cpu:        100m
+      memory:     250Mi
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      False   MinimumReplicasUnavailable
+  Progressing    True    ReplicaSetUpdated
+OldReplicaSets:  <none>
+NewReplicaSet:   web-c7759f966 (1/1 replicas created)
+Events:
+  Type    Reason             Age   From                   Message
+  ----    ------             ----  ----                   -------
+  Normal  ScalingReplicaSet  5s    deployment-controller  Scaled up replica set web-c7759f966 to 1
+```
+</details>
