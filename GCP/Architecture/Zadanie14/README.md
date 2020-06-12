@@ -1,23 +1,26 @@
 # [Zadanie domowe nr 14](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-14-kontenery-w-gcp/zadanie-domowe-nr-14/)
 
+## 1. Przygotowanie środowiska
 
-### 1. Utworzenie projektu
+#### 1.1 Utworzenie projektu
 ```bash
 PROJECT_NAME="zadanie14"
 gcloud projects create $PROJECT_NAME
 ```
 
-### Utworzenie klastra Google Kubernetes Engine
+#### 1.2 Utworzenie klastra Google Kubernetes Engine
 ```bash
 CLUSTER_NANE="cluster-zad14"
 CLUSTER_ZONE="us-central1-c"
+
 # utworzenie klastra
 gcloud container clusters create $CLUSTER_NANE --num-nodes 3 --zone $CLUSTER_ZONE --machine-type "n1-standard-1"
-# pobranie credantiali
+
+# pobranie credentiali
 gcloud container clusters get-credentials $CLUSTER_NANE --zone $CLUSTER_ZONE --project $PROJECT_NAME
 ```
 
-### Deployment
+#### 1.3 Deployment
 ```bash
 wget https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/GCP/Architecture/Zadanie14/code/deployment.yaml
 kubectl apply -f deployment.yaml
@@ -68,10 +71,9 @@ Events:
 ```
 </details>
 
+## 2. Zadanie 1
 
-## Zadanie 1
-
-### Horizontal Pod Autoscaler
+#### 2.1 Horizontal Pod Autoscaler
 ```bash
 wget https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/GCP/Architecture/Zadanie14/code/web-hpa.yaml
 kubectl apply -f web-hpa.yaml
@@ -110,8 +112,7 @@ Events:                   <none>
 ```
 </details>
 
-
-### Podłączenie się do kontenera
+#### 2.2 Podłączenie się do kontenera
 
 <details>
   <summary><b><i>kubectl get pod</i></b></summary>
@@ -127,7 +128,7 @@ web-c7759f966-jd54k   1/1     Running   0          2m29s
 kubectl exec -it web-c7759f966-jd54k /bin/bash
 ```
 
-#### Symulacja obciążenia
+#### 2.3 Symulacja obciążenia
 ```
 apt-get update
 apt-get install stress
@@ -147,7 +148,6 @@ NAME                  READY   STATUS    RESTARTS   AGE
 web-c7759f966-jd54k   1/1     Running   0          3m9s
 ```
 </details>
-
 
 <details>
   <summary><b><i>W trakcie symulacji</i></b></summary>
@@ -184,12 +184,12 @@ web    Deployment/web   0%/80%    1         10        1          16m
 ![metryki](./img/20200610230606.jpg "metryki")
 </details>
 
-#### Usunięcie HPA
+#### 2.4 Usunięcie HPA
 ```
 kubectl delete -f web-hpa.yaml
 ```
 
-## Zadanie 2
+## 3. Zadanie 2
 
 > Wymień jeden przykład, w którym mógłbyś utworzyć HPA, aby zapewnić działanie swojego środowiska. Opis powinien zawierać:
 > 1) Jakiego typu aplikacja (frontend, backend)
@@ -198,10 +198,10 @@ kubectl delete -f web-hpa.yaml
 > 4) Pamiętaj, ze CPU i RAM to nie jedyne metryki.
 
 1) Backend - obróbka plików wideo
-2) Konwertowanie do różnych rozdzielczości plików wysyłanych na bucketa 
+2) Konwertowanie do różnych rozdzielczości plików wysyłanych do bucketa 
 3) Ilość plików wideo pozostałych do obróbki, czyli na podstawie ilości wiadomości w kolejce Pub/Sub - dodanie pliku do bucketa generowałoby wiadomość w kolejce Pub/Sub
 
-## Zadanie dodatkowe
+## 4. Zadanie dodatkowe
 
 <details>
   <summary><b><i>kubectl describe hpa web</i></b></summary>
@@ -230,8 +230,3 @@ Events:
   Normal  SuccessfulRescale  84s    horizontal-pod-autoscaler  New size: 1; reason: All metrics below target
 ```
 </details>
-
-## Zadanie 3
-
-
-
