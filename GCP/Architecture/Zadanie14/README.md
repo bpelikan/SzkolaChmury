@@ -230,3 +230,8 @@ Events:
   Normal  SuccessfulRescale  84s    horizontal-pod-autoscaler  New size: 1; reason: All metrics below target
 ```
 </details>
+
+## 5. Wyczyszczenie środowiska
+```bash
+gcloud projects delete $projectName
+```
