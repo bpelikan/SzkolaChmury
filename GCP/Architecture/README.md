@@ -26,7 +26,7 @@
 
 * [Zadanie 13 - Data streaming in Dataflow, Serverless, Big Data](./Zadanie13)
 
-* [Zadanie 14 ](./Zadanie14)
+* [Zadanie 14 - Google Kubernetes Engine, Deployment, Horizontal Pod Autoscaler](./Zadanie14)
 
 ## Inne
 

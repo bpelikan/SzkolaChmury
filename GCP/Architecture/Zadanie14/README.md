@@ -198,8 +198,8 @@ kubectl delete -f web-hpa.yaml
 > 4) Pamiętaj, ze CPU i RAM to nie jedyne metryki.
 
 1) Backend - obróbka plików wideo
-2) Konwertowanie do różnych rozdzielczości plików wysyłanych do bucketa 
-3) Ilość plików wideo pozostałych do obróbki, czyli na podstawie ilości wiadomości w kolejce Pub/Sub - dodanie pliku do bucketa generowałoby wiadomość w kolejce Pub/Sub
+2) Konwertowanie do różnych rozdzielczości plików wideo wysyłanych do bucketa 
+3) Ilość plików wideo pozostałych do obróbki, czyli na podstawie ilości wiadomości pozostałych w kolejce Pub/Sub - dodanie pliku do bucketa generowałoby wiadomość w kolejce Pub/Sub
 
 ## 4. Zadanie dodatkowe
 
@@ -233,7 +233,7 @@ Events:
 
 ## 5. Wyczyszczenie środowiska
 ```bash
-gcloud projects delete $projectName
+gcloud projects delete $PROJECT_NAME
 ```
 
 ## Pliki
