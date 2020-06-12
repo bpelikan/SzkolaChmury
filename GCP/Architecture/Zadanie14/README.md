@@ -234,4 +234,9 @@ Events:
 ## 5. Wyczyszczenie środowiska
 ```bash
 gcloud projects delete $projectName
-```
+```
+
+## Pliki
+
+* [deployment.yaml](./code/deployment.yaml)
+* [web-hpa.yaml](./code/web-hpa.yaml)
