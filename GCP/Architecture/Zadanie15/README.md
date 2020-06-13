@@ -51,4 +51,22 @@ resources:
     - IPProtocol: TCP
       ports: [22]
 ```
-</details>
+</details>
+
+<details>
+  <summary><b><i>firewall-deny.jinja</i></b></summary>
+
+```jinja
+resources:
+- name: {{ env["name"] }}
+  type: compute.v1.firewall
+  properties:
+    network: {{ properties["network"] }}
+    sourceRanges: {{ properties["sourceRanges"] }}
+    priority: {% if properties["priority"] is defined %} {{ properties["priority"] }} {% else %} 1000 {% endif %}
+    denied:
+    - IPProtocol: {{ properties["IPProtocol"] }}
+      ports: {{ properties["Port"] }}
+```
+</details>
+
