@@ -177,6 +177,7 @@ DEPLOYMENT_NAME="bastionvm"
 gcloud deployment-manager deployments create $DEPLOYMENT_NAME --config=config.yaml
 ```
 
+
 <details>
   <summary><b><i>Weryfikacja poprawnego wykonania deploymentu</i></b></summary>
 
@@ -213,6 +214,7 @@ vpcnetwork1-sub1        compute.v1.subnetwork  COMPLETED
 ![](./img/20200613234217.jpg)
 
 </details>
+
 <details>
   <summary><b><i>Weryfikacja połączenia ssh</i></b></summary>
 
@@ -225,4 +227,9 @@ vmbastion  us-central1-b  f1-micro                   10.128.0.4   34.68.78.33   
 ```
 
 ![](./img/20200613234936.jpg)
-</details>
+</details>
+#### Usunięcie Deploymentu
+```
+gcloud deployment-manager deployments delete $DEPLOYMENT_NAME
+```
+
