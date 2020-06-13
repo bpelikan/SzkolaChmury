@@ -33,4 +33,22 @@ resources:
     network: {{ properties["network"] }}
     region: {{ properties["region"] }}
 ```
+</details>
+
+<details>
+  <summary><b><i>firewall-allow-ssh.jinja</i></b></summary>
+
+```jinja
+resources:
+- name: {{ env["name"] }}
+  type: compute.v1.firewall
+  properties:
+    network: {{ properties["network"] }}
+    {% if properties["sourceRanges"] is defined %}sourceRanges: {{ properties["sourceRanges"] }}{% endif %}
+    {% if properties["targetTags"] is defined %}targetTags: {{ properties["targetTags"] }}{% endif %}
+    {% if properties["sourceTags"] is defined %}sourceTags: {{ properties["sourceTags"] }}{% endif %}
+    allowed:
+    - IPProtocol: TCP
+      ports: [22]
+```
 </details>
