@@ -232,4 +232,8 @@ vmbastion  us-central1-b  f1-micro                   10.128.0.4   34.68.78.33   
 ```
 gcloud deployment-manager deployments delete $DEPLOYMENT_NAME
 ```
-
+
+## Usunięcie projektu
+```bash
+gcloud projects delete $PROJECT_NAME
+```
