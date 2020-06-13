@@ -28,7 +28,7 @@
 
 * [Zadanie 14 - Google Kubernetes Engine, Deployment, Horizontal Pod Autoscaler](./Zadanie14)
 
-* [Zadanie 15 ](./Zadanie15)
+* [Zadanie 15 - Deployment Manager](./Zadanie15)
 
 ## Inne
 
