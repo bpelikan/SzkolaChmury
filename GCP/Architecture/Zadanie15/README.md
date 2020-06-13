@@ -19,4 +19,18 @@ resources:
   properties:
     autoCreateSubnetworks: false
 ```
+</details>
+
+<details>
+  <summary><b><i>subnetwork.jinja</i></b></summary>
+
+```jinja
+resources:
+- name: {{ env["name"] }}
+  type: compute.v1.subnetwork
+  properties:
+    ipCidrRange: {{ properties["ipCidrRange"] }}
+    network: {{ properties["network"] }}
+    region: {{ properties["region"] }}
+```
 </details>
