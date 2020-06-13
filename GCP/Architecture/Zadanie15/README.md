@@ -163,4 +163,9 @@ resources:
     subnetwork: $(ref.vpcnetwork1-sub1.selfLink)
 
 ```
-</details>
+</details>
+#### Pobranie plików
+```bash
+wget https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/GCP/Architecture/Zadanie15/code/download-files.sh
+sh download-files.sh
+```
