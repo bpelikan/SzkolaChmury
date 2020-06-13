@@ -175,4 +175,41 @@ sh download-files.sh
 ```bash
 DEPLOYMENT_NAME="bastionvm"
 gcloud deployment-manager deployments create $DEPLOYMENT_NAME --config=config.yaml
-```
+```
+
+<details>
+  <summary><b><i>Weryfikacja poprawnego wykonania deploymentu</i></b></summary>
+
+```bash
+bartosz@cloudshell:~/zad15/complete (zadanie15)$ gcloud deployment-manager deployments list
+NAME       LAST_OPERATION_TYPE  STATUS  DESCRIPTION  MANIFEST                ERRORS
+bastionvm  insert               DONE                 manifest-1592084395480  []
+
+bartosz@cloudshell:~/zad15/complete (zadanie15)$ gcloud deployment-manager deployments describe bastionvm
+---
+fingerprint: e8sY9_I4i8s9h5pPjXw0Pw==
+id: '3657148673122957636'
+insertTime: '2020-06-13T14:39:55.448-07:00'
+manifest: manifest-1592084395480
+name: bastionvm
+operation:
+  endTime: '2020-06-13T14:41:21.775-07:00'
+  name: operation-1592084395377-5a7fe08d6c429-b4164911-faae62ad
+  operationType: insert
+  progress: 100
+  startTime: '2020-06-13T14:39:55.616-07:00'
+  status: DONE
+  user: <...>@gmail.com
+NAME                    TYPE                   STATE      INTENT
+allow-ssh-from-bastion  compute.v1.firewall    COMPLETED
+allow-ssh-to-bastion    compute.v1.firewall    COMPLETED
+vm1                     compute.v1.instance    COMPLETED
+vm2                     compute.v1.instance    COMPLETED
+vmbastion               compute.v1.instance    COMPLETED
+vpcnetwork1             compute.v1.network     COMPLETED
+vpcnetwork1-sub1        compute.v1.subnetwork  COMPLETED
+```
+
+![](./img/20200613234217.jpg)
+
+</details>
