@@ -48,7 +48,7 @@ resources:
   type: vm-instance.jinja
   properties:
     zone: us-central1-b
-    tags: [bastion, test2]
+    tags: [bastion]
     machineType: f1-micro
     network: $(ref.vpcnetwork1.selfLink)
     subnetwork: $(ref.vpcnetwork1-sub1.selfLink)
