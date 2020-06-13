@@ -69,4 +69,36 @@ resources:
       ports: {{ properties["Port"] }}
 ```
 </details>
-
+
+<details>
+  <summary><b><i>vm-instances.jinja</i></b></summary>
+
+```jinja
+resources:
+- name: {{ env["name"] }}
+  type: compute.v1.instance
+  properties:
+    machineType: zones/{{ properties["zone"] }}/machineTypes/{{ properties["machineType"] }}
+    zone: {{ properties["zone"] }}
+    tags: 
+      items: [ {% for i in properties["tags"] %}
+                {{ i }},
+               # {% if not loop.last %},{% endif %}
+               {% endfor %}
+             ]
+      #{{ properties["tags"] }}
+    networkInterfaces:
+     - network: {{ properties["network"] }}
+       subnetwork: {{ properties["subnetwork"] }}
+       accessConfigs:
+       - name: External NAT
+         type: ONE_TO_ONE_NAT
+    disks:
+     - deviceName: {{ env["name"] }}
+       type: PERSISTENT
+       boot: true
+       autoDelete: true
+       initializeParams:
+         sourceImage: https://www.googleapis.com/compute/v1/projects/debian-cloud/global/images/family/debian-9
+```
+</details>
