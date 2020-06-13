@@ -101,4 +101,66 @@ resources:
        initializeParams:
          sourceImage: https://www.googleapis.com/compute/v1/projects/debian-cloud/global/images/family/debian-9
 ```
+</details>
+
+<details>
+  <summary><b><i>config.yaml</i></b></summary>
+
+```yaml
+imports:
+- path: network.jinja
+- path: subnetwork.jinja
+- path: vm-instance.jinja
+- path: firewall-allow-ssh.jinja
+
+resources:
+- name: vpcnetwork1
+  type: network.jinja
+
+- name: vpcnetwork1-sub1
+  type: subnetwork.jinja
+  properties:
+    ipCidrRange: 10.128.0.0/20
+    network: $(ref.vpcnetwork1.selfLink)
+    region: us-central1
+
+- name: allow-ssh-to-bastion
+  type: firewall-allow-ssh.jinja
+  properties:
+    network: $(ref.vpcnetwork1.selfLink)
+    sourceRanges: ["0.0.0.0/0"]
+    targetTags: [bastion]
+
+- name: allow-ssh-from-bastion
+  type: firewall-allow-ssh.jinja
+  properties:
+    network: $(ref.vpcnetwork1.selfLink)
+    sourceTags: [bastion]
+
+- name: vm1
+  type: vm-instance.jinja
+  properties:
+    zone: us-central1-b
+    machineType: f1-micro
+    network: $(ref.vpcnetwork1.selfLink)
+    subnetwork: $(ref.vpcnetwork1-sub1.selfLink)
+
+- name: vm2
+  type: vm-instance.jinja
+  properties:
+    zone: us-central1-b
+    machineType: f1-micro
+    network: $(ref.vpcnetwork1.selfLink)
+    subnetwork: $(ref.vpcnetwork1-sub1.selfLink)
+
+- name: vmbastion
+  type: vm-instance.jinja
+  properties:
+    zone: us-central1-b
+    tags: [bastion, test2]
+    machineType: f1-micro
+    network: $(ref.vpcnetwork1.selfLink)
+    subnetwork: $(ref.vpcnetwork1-sub1.selfLink)
+
+```
 </details>
