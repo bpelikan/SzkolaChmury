@@ -164,12 +164,14 @@ resources:
 
 ```
 </details>
+
 #### Pobranie plików
 ```bash
 wget https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/GCP/Architecture/Zadanie15/code/download-files.sh
 sh download-files.sh
 ```
-#### Deployment Create
+
+#### Create Deployment
 ```bash
 DEPLOYMENT_NAME="bastionvm"
 gcloud deployment-manager deployments create $DEPLOYMENT_NAME --config=config.yaml
