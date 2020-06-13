@@ -212,4 +212,17 @@ vpcnetwork1-sub1        compute.v1.subnetwork  COMPLETED
 
 ![](./img/20200613234217.jpg)
 
+</details>
+<details>
+  <summary><b><i>Weryfikacja połączenia ssh</i></b></summary>
+
+```bash
+bartosz@cloudshell:~/zad15/complete (zadanie15)$ gcloud compute instances list
+NAME       ZONE           MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP   STATUS
+vm1        us-central1-b  f1-micro                   10.128.0.3   34.69.12.220  RUNNING
+vm2        us-central1-b  f1-micro                   10.128.0.2   34.72.178.58  RUNNING
+vmbastion  us-central1-b  f1-micro                   10.128.0.4   34.68.78.33   RUNNING
+```
+
+![](./img/20200613234936.jpg)
 </details>
