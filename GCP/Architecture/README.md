@@ -28,6 +28,8 @@
 
 * [Zadanie 14 - Google Kubernetes Engine, Deployment, Horizontal Pod Autoscaler](./Zadanie14)
 
+* [Zadanie 15 ](./Zadanie15)
+
 ## Inne
 
 * [Creating Snapshot](./Lekcja22)
