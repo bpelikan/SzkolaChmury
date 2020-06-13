@@ -178,11 +178,11 @@ gcloud deployment-manager deployments create $DEPLOYMENT_NAME --config=config.ya
   <summary><b><i>Weryfikacja poprawnego wykonania deploymentu</i></b></summary>
 
 ```bash
-bartosz@cloudshell:~/zad15/complete (zadanie15)$ gcloud deployment-manager deployments list
+bartosz@cloudshell:~/zad15 (zadanie15)$ gcloud deployment-manager deployments list
 NAME       LAST_OPERATION_TYPE  STATUS  DESCRIPTION  MANIFEST                ERRORS
 bastionvm  insert               DONE                 manifest-1592084395480  []
 
-bartosz@cloudshell:~/zad15/complete (zadanie15)$ gcloud deployment-manager deployments describe bastionvm
+bartosz@cloudshell:~/zad15 (zadanie15)$ gcloud deployment-manager deployments describe bastionvm
 ---
 fingerprint: e8sY9_I4i8s9h5pPjXw0Pw==
 id: '3657148673122957636'
@@ -215,7 +215,7 @@ vpcnetwork1-sub1        compute.v1.subnetwork  COMPLETED
   <summary><b><i>Weryfikacja połączenia ssh</i></b></summary>
 
 ```bash
-bartosz@cloudshell:~/zad15/complete (zadanie15)$ gcloud compute instances list
+bartosz@cloudshell:~/zad15 (zadanie15)$ gcloud compute instances list
 NAME       ZONE           MACHINE_TYPE  PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP   STATUS
 vm1        us-central1-b  f1-micro                   10.128.0.3   34.69.12.220  RUNNING
 vm2        us-central1-b  f1-micro                   10.128.0.2   34.72.178.58  RUNNING
