@@ -1,14 +1,12 @@
 # [Zadanie domowe nr 15](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-15-backup-i-recovery/zadanie-domowe-nr-15/)
 
-
-#### Utworzenie projektu
+### 1. Utworzenie projektu
 ```bash
 PROJECT_NAME="zadanie15"
 gcloud projects create $PROJECT_NAME
 ```
 
-
-#### Deployment manager files
+### 2. Deployment manager files
 <details>
   <summary><b><i>network.jinja</i></b></summary>
 
@@ -165,13 +163,13 @@ resources:
 ```
 </details>
 
-#### Pobranie plików
+### 3. Pobranie plików
 ```bash
 wget https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/GCP/Architecture/Zadanie15/code/download-files.sh
 sh download-files.sh
 ```
 
-#### Utworzenie Deploymentu
+### 4. Utworzenie Deploymentu
 ```bash
 DEPLOYMENT_NAME="bastionvm"
 gcloud deployment-manager deployments create $DEPLOYMENT_NAME --config=config.yaml
@@ -228,12 +226,12 @@ vmbastion  us-central1-b  f1-micro                   10.128.0.4   34.68.78.33   
 ![](./img/20200613234936.jpg)
 </details>
 
-#### Usunięcie Deploymentu
+### 5. Usunięcie Deploymentu
 ```
 gcloud deployment-manager deployments delete $DEPLOYMENT_NAME
 ```
 
-## Usunięcie projektu
+### 6. Usunięcie projektu
 ```bash
 gcloud projects delete $PROJECT_NAME
 ```
