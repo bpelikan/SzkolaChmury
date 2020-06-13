@@ -81,7 +81,6 @@ resources:
     tags: 
       items: [ {% for i in properties["tags"] %}
                 {{ i }},
-               # {% if not loop.last %},{% endif %}
                {% endfor %}
              ]
       #{{ properties["tags"] }}
