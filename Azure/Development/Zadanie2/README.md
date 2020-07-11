@@ -13,7 +13,6 @@
 </details>
 
 ### 1.2 Azure CLI
-
 ```bash
 RG_NAME="rg-azdev-zad2-cli"
 RG_LOCATION="westeurope"
@@ -92,9 +91,7 @@ rg-azdev-zad2-cli               westeurope  Succeeded
 ```
 </details>
 
-
-### 1.2 PowerShell
-
+### 1.3 PowerShell
 ```PowerShell
 $RG_NAME="rg-azdev-zad2-powershell"
 $RG_LOCATION="westeurope"
@@ -152,4 +149,13 @@ ProvisioningState : Succeeded
 Tags              :
 ResourceId        : /subscriptions/748173f1-20c4-4e68-ac58-641f67a83501/resourceGroups/rg-azdev-zad2-powershell
 ```
+</details>
+
+### 1.4 Azure Rest API
+
+<details>
+  <summary><b><i>Postman</i></b></summary>
+
+![](./img/20200711211158.jpg)
+![](./img/20200711211331.jpg)
 </details>
