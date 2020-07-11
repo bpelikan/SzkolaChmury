@@ -5,3 +5,5 @@
 * [Kubernetes dla każdego – sztuka konteneryzacji](./Kubernetes)
 
 * [Google Cloud Platform – Droga Architekta](./GCP/Architecture)
+
+* [Microsoft Azure – Software Development](./Azure/Development)
