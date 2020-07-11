@@ -72,7 +72,7 @@ bartosz@Azure:~$ RG_NAME="rg-azdev-zad2-cli"
 bartosz@Azure:~$ RG_LOCATION="westeurope"
 bartosz@Azure:~$ az group create -n $RG_NAME -l $RG_LOCATION
 {
-  "id": "/subscriptions/748173f1-20c2-4e63-ac58-641f67a83504/resourceGroups/rg-azdev-zad2-cli",
+  "id": "/subscriptions/748173f1-20c4-4e68-ac58-641f67a83501/resourceGroups/rg-azdev-zad2-cli",
   "location": "westeurope",
   "managedBy": null,
   "name": "rg-azdev-zad2-cli",
@@ -91,3 +91,14 @@ cloud-shell-storage-westeurope  westeurope  Succeeded
 rg-azdev-zad2-cli               westeurope  Succeeded
 ```
 </details>
+
+
+### 1.2 PowerShell
+
+```PowerShell
+$RG_NAME="rg-azdev-zad2-powershell"
+$RG_LOCATION="westeurope"
+
+New-AzureRmResourceGroup -Name $RG_NAME -Location $RG_LOCATION
+```
+
