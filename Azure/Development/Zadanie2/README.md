@@ -4,9 +4,14 @@
 
 #### 1.1 Azure Portal
 
+<details>
+  <summary><b><i>Screen</i></b></summary>
+
 ![](./img/20200711200638.jpg)
 ![](./img/20200711200653.jpg)
 ![](./img/20200711200854.jpg)
+</details>
+
 #### 1.2 Azure CLI
 
 ```bash
