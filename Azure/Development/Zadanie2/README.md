@@ -1,4 +1,4 @@
-# [Zadanie domowe nr 2](https://szkolachmury.pl/google-cloud-platform-droga-architekta/tydzien-2-podstawy-pracy-z-gcp/zadanie-domowe-nr-2/)
+# [Zadanie domowe nr 2](https://szkolachmury.pl/microsoft-azure-software-development/tydzien-2-czym-jest-chmura-publiczna-z-perspektywy-developera/praca-domowa/)
 
 ## 1. Utworzenie `Resource Group`
 
@@ -7,9 +7,9 @@
 <details>
   <summary><b><i>Screenshots</i></b></summary>
 
-![](./img/20200711200638.jpg)
-![](./img/20200711200653.jpg)
-![](./img/20200711200854.jpg)
+![azure portal create resource group][img-azure-portal-create-resource-group]
+![azure portal review creating resource group][img-azure-portal-review-creating-resource-group]
+![azure portal list of resource group][img-azure-portal-list-of-resource-group]
 </details>
 
 ### 1.2 Azure CLI
@@ -156,6 +156,14 @@ ResourceId        : /subscriptions/748173f1-20c4-4e68-ac58-641f67a83501/resource
 <details>
   <summary><b><i>Postman</i></b></summary>
 
-![](./img/20200711211158.jpg)
-![](./img/20200711211331.jpg)
+![azure rest api create resource group][img-azure-rest-api-create-resource-group]
+![azure rest api list of resource group][img-azure-rest-api-list-of-resource-group]
 </details>
+
+
+
+[img-azure-portal-create-resource-group]: ./img/azure-portal-create-resource-group.jpg
+[img-azure-portal-review-creating-resource-group]: ./img/azure-portal-review-creating-resource-group.jpg
+[img-azure-portal-list-of-resource-group]: ./img/azure-portal-list-of-resource-group.jpg
+[img-azure-rest-api-create-resource-group]: ./img/azure-rest-api-create-resource-group.jpg
+[img-azure-rest-api-list-of-resource-group]: ./img/azure-rest-api-list-of-resource-group.jpg
