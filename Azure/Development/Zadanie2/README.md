@@ -2,17 +2,17 @@
 
 ## 1. Utworzenie `Resource Group`
 
-#### 1.1 Azure Portal
+### 1.1 Azure Portal
 
 <details>
-  <summary><b><i>Screen</i></b></summary>
+  <summary><b><i>Screenshots</i></b></summary>
 
 ![](./img/20200711200638.jpg)
 ![](./img/20200711200653.jpg)
 ![](./img/20200711200854.jpg)
 </details>
 
-#### 1.2 Azure CLI
+### 1.2 Azure CLI
 
 ```bash
 RG_NAME="rg-azdev-zad2-cli"
@@ -101,4 +101,55 @@ $RG_LOCATION="westeurope"
 
 New-AzureRmResourceGroup -Name $RG_NAME -Location $RG_LOCATION
 ```
-
+
+<details>
+  <summary><b><i>Output</i></b></summary>
+
+```PowerShell
+PS /home/bartosz> $RG_NAME="rg-azdev-zad2-powershell"
+PS /home/bartosz> $RG_LOCATION="westeurope"
+PS /home/bartosz> New-AzureRmResourceGroup -Name $RG_NAME -Location $RG_LOCATION
+
+ResourceGroupName : rg-azdev-zad2-powershell
+Location          : westeurope
+ProvisioningState : Succeeded
+Tags              :
+ResourceId        : /subscriptions/748173f1-20c4-4e68-ac58-641f67a83501/resourceGroups/rg-azdev-zad2-powershell
+
+PS /home/bartosz> Get-AzureRmResourceGroup
+
+ResourceGroupName : rg-automation
+Location          : westeurope
+ProvisioningState : Succeeded
+Tags              :
+                    Name    Value
+                    ======  =====
+                    Locked  yes
+
+ResourceId        : /subscriptions/748173f1-20c4-4e68-ac58-641f67a83501/resourceGroups/rg-automation
+
+ResourceGroupName : rg-azdev-zad2-portal
+Location          : westeurope
+ProvisioningState : Succeeded
+Tags              :
+ResourceId        : /subscriptions/748173f1-20c4-4e68-ac58-641f67a83501/resourceGroups/rg-azdev-zad2-portal
+
+ResourceGroupName : cloud-shell-storage-westeurope
+Location          : westeurope
+ProvisioningState : Succeeded
+Tags              :
+ResourceId        : /subscriptions/748173f1-20c4-4e68-ac58-641f67a83501/resourceGroups/cloud-shell-storage-westeurope
+
+ResourceGroupName : rg-azdev-zad2-cli
+Location          : westeurope
+ProvisioningState : Succeeded
+Tags              :
+ResourceId        : /subscriptions/748173f1-20c4-4e68-ac58-641f67a83501/resourceGroups/rg-azdev-zad2-cli
+
+ResourceGroupName : rg-azdev-zad2-powershell
+Location          : westeurope
+ProvisioningState : Succeeded
+Tags              :
+ResourceId        : /subscriptions/748173f1-20c4-4e68-ac58-641f67a83501/resourceGroups/rg-azdev-zad2-powershell
+```
+</details>
