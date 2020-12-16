@@ -1,0 +1,16 @@
+{
+  "Name": "My custom role name",
+  "IsCustom": true,
+  "Description": "Allow user to start VM, stop VM and create support ticket",
+  "Actions": [
+    "Microsoft.Compute/virtualMachines/start/action",
+    "Microsoft.Compute/virtualMachines/deallocate/action",
+    "Microsoft.Support/supportTickets/write"
+  ],
+  "NotActions": [
+
+  ],
+  "AssignableScopes": [
+    "/subscriptions/24eafb4c-3855-419f-adbb-cc08869b1754"
+  ]
+}
