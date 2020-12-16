@@ -1,0 +1,35 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.9",
+  "parameters": {
+      "adminUsername": {
+        "value": ""
+      },
+      "adminPassword": {
+          "value": ""
+      },
+      "virtualNetworkName": {
+          "value": "vnet"
+      },
+      "vmSubnet": {
+          "value": "vnet-sub"
+      },
+      "networkSecurityGroupRules": {
+          "value": [
+              {
+                  "name": "SSH",
+                  "properties": {
+                      "priority": 300,
+                      "protocol": "TCP",
+                      "access": "Allow",
+                      "direction": "Inbound",
+                      "sourceAddressPrefix": "*",
+                      "sourcePortRange": "*",
+                      "destinationAddressPrefix": "*",
+                      "destinationPortRange": "22"
+                  }
+              }
+          ]
+      }
+  }
+}
