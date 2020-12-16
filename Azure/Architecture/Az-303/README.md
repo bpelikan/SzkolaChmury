@@ -2,4 +2,4 @@
 
 ## Zadania
 
-* [Tydzień 2](./Zadanie3)
+* [Tydzień 2](./Tydzien2)
