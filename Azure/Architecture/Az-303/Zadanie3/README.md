@@ -11,7 +11,11 @@
 | Storage account | \<klient\>\<env\><project/app>sa\<uniqueID\>                     | cl1prodszkchmsa0912                  |
 
 
-## Zadanie 3.2
+## Zadanie 3.2 | Zadanie 3.4
+
+Pliki ARM template:
+* folder [3.2](./3.2)
+* lub osobne [repozytorium](https://github.com/bpelikan/szkchm-az303-zad2) ze skonfigurowanym CI/CD
 
 ![Screen](./img/20201216212102.jpg "Screen")
 
@@ -36,4 +40,19 @@ az keyvault update --name $VAULT_NAME --resource-group $RG_NAME_VAULT --enabled-
 az keyvault secret set --name "vmAdminUsername" --vault-name $VAULT_NAME --value $ADMIN_LOGIN
 az keyvault secret set --name "vmAdminPassword" --vault-name $VAULT_NAME --value $ADMIN_PASS
 ```
-
+
+### 3.2.3 Deploy
+```bash
+git clone https://github.com/bpelikan/szkchm-az303-zad2.git
+cd szkchm-az303-zad2
+az deployment group validate --resource-group $RG_NAME --template-file azuredeploy.json --parameters azuredeploy.parameters.json 
+az deployment group create --resource-group $RG_NAME --template-file azuredeploy.json --parameters azuredeploy.parameters.json 
+```
+
+### Zadanie 3.3
+```bash
+az role definition create --role-definition @customRole.json
+az role definition list --custom-role-only true -o table
+
+az role definition delete --name "My custom role name"
+```

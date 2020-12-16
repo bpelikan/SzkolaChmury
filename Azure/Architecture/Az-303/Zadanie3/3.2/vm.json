@@ -1,0 +1,148 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.9",
+  "parameters": {
+      "virtualMachineName": {
+          "type": "string",
+          "defaultValue": "vmName"
+      },
+      "networkSecurityGroupRules": {
+          "type": "array"
+      },
+      "publicIpAddressType": {
+          "type": "string",
+          "defaultValue": "Dynamic"
+      },
+      "publicIpAddressSku": {
+          "type": "string",
+          "defaultValue": "Basic"
+      },
+      "osDiskType": {
+          "type": "string",
+          "defaultValue": "Premium_LRS"
+      },
+      "virtualMachineSize": {
+          "type": "string",
+          "defaultValue": "Standard_B1ms"
+      },
+      "adminUsername": {
+          "type": "secureString"
+      },
+      "adminPassword": {
+          "type": "secureString"
+      },
+      "virtualNetworkName": {
+          "type": "string"
+      },
+      "vmSubnet": {
+          "type": "string"
+      }
+  },
+  "variables": {
+      "networkInterfaceName": "[concat(parameters('virtualMachineName'), '-nic')]",
+      "networkSecurityGroupName": "[concat(parameters('virtualMachineName'), '-nsg')]",
+      "publicIpAddressName": "[concat(parameters('virtualMachineName'), '-pip')]",
+      "vnetId":  "[concat(subscription().id, '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]",
+      "nsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]",
+      "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('vmSubnet'))]"
+  },
+  "resources": [
+      {
+          "name": "[variables('networkInterfaceName')]",
+          "type": "Microsoft.Network/networkInterfaces",
+          "apiVersion": "2018-10-01",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+              "[concat('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]",
+              "[concat('Microsoft.Network/publicIpAddresses/', variables('publicIpAddressName'))]"
+          ],
+          "properties": {
+              "ipConfigurations": [
+                  {
+                      "name": "ipconfig1",
+                      "properties": {
+                          "subnet": {
+                              "id": "[variables('subnetRef')]"
+                          },
+                          "privateIPAllocationMethod": "Dynamic",
+                          "publicIpAddress": {
+                              "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', variables('publicIpAddressName'))]"
+                          }
+                      }
+                  }
+              ],
+              "networkSecurityGroup": {
+                  "id": "[variables('nsgId')]"
+              }
+          }
+      },
+      {
+          "name": "[variables('networkSecurityGroupName')]",
+          "type": "Microsoft.Network/networkSecurityGroups",
+          "apiVersion": "2019-02-01",
+          "location": "[resourceGroup().location]",
+          "properties": {
+              "securityRules": "[parameters('networkSecurityGroupRules')]"
+          }
+      },
+      {
+          "name": "[variables('publicIpAddressName')]",
+          "type": "Microsoft.Network/publicIpAddresses",
+          "apiVersion": "2019-02-01",
+          "location": "[resourceGroup().location]",
+          "properties": {
+              "publicIpAllocationMethod": "[parameters('publicIpAddressType')]"
+          },
+          "sku": {
+              "name": "[parameters('publicIpAddressSku')]"
+          }
+      },
+      {
+          "name": "[parameters('virtualMachineName')]",
+          "type": "Microsoft.Compute/virtualMachines",
+          "apiVersion": "2019-07-01",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+              "[concat('Microsoft.Network/networkInterfaces/', variables('networkInterfaceName'))]"
+          ],
+          "properties": {
+              "hardwareProfile": {
+                  "vmSize": "[parameters('virtualMachineSize')]"
+              },
+              "storageProfile": {
+                  "osDisk": {
+                      "name": "[concat(parameters('virtualMachineName'), '-disk0')]",
+                      "createOption": "fromImage",
+                      "managedDisk": {
+                          "storageAccountType": "[parameters('osDiskType')]"
+                      }
+                  },
+                  "imageReference": {
+                      "publisher": "Canonical",
+                      "offer": "UbuntuServer",
+                      "sku": "18.04-LTS",
+                      "version": "latest"
+                  }
+              },
+              "networkProfile": {
+                  "networkInterfaces": [
+                      {
+                          "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('networkInterfaceName'))]"
+                      }
+                  ]
+              },
+              "osProfile": {
+                  "computerName": "[parameters('virtualMachineName')]",
+                  "adminUsername": "[parameters('adminUsername')]",
+                  "adminPassword": "[parameters('adminPassword')]"
+              }
+          }
+      }
+  ],
+  "outputs": {
+      "adminUsername": {
+          "type": "string",
+          "value": "[parameters('adminUsername')]"
+      }
+  }
+}
