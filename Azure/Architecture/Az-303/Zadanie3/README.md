@@ -14,4 +14,11 @@
 ## Zadanie 3.2
 
 ![Screen](./img/20201216212102.jpg "Screen")
+
+### 3.2.1 Utworzenie Resource Group
+```bash
+RG_NAME="cl1-prod-rg"
+LOCATION="westeurope"
+az group create --name $RG_NAME --location $LOCATION
+```
 
