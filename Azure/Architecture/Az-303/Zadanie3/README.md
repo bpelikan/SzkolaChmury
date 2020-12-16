@@ -50,6 +50,9 @@ az deployment group create --resource-group $RG_NAME --template-file azuredeploy
 
 ## 3. Zadanie 3.3
 ### 3.1 Utworzenie customowej roli
+
+* [customRole.json](./3.3/customRole.json)
+
 ```bash
 cd 3.3
 az role definition create --role-definition customRole.json
@@ -62,8 +65,55 @@ Name                 Type                                     Description
 -------------------  ---------------------------------------  ---------------------------------------------------------
 My custom role name  Microsoft.Authorization/roleDefinitions  Allow user to start VM, stop VM and create support ticket
 ```
+<details>
+  <summary><b><i>zalogowanie się na użytkownika z daną rolą</i></b></summary>
 
-### 3.1 Usunięcie
+* https://portal.azure.com/#create/Microsoft.Support
+
+  ![Screen](./img/20201216225229.jpg "Screen")
+
+* `az login`
+* `az vm deallocate --name testvmstst --resource-group testvm`
+* `az vm start --name testvmstst --resource-group testvm`
+* `az group show --name testvm`
+```bash
+bp@DESKTOP MINGW64 ~/Documents/GitHub/SzkolaChmury (az303/zadanie2)
+$ az login
+Port '8400' is taken with error '[WinError 10013] Została podjęta próba uzyskania dostępu do gniazda w sposób zabroniony przez
+przypisane do niego uprawnienia dostępu'. Trying with the next one
+You have logged in. Now let us find all the subscriptions to which you have access...
+[
+  {
+    "cloudName": "AzureCloud",
+    "homeTenantId": "00000000-0000-0000-0000-000000000000",
+    "id": "00000000-0000-0000-0000-000000000000",
+    "isDefault": true,
+    "managedByTenants": [],
+    "name": "sandbox",
+    "state": "Enabled",
+    "tenantId": "00000000-0000-0000-0000-000000000000",
+    "user": {
+      "name": "user1@domain.pl",
+      "type": "user"
+    }
+  }
+]
+
+bp@DESKTOP MINGW64 ~/Documents/GitHub/SzkolaChmury (az303/zadanie2)
+$ az vm deallocate --name testvmstst --resource-group testvm
+
+bp@DESKTOP MINGW64 ~/Documents/GitHub/SzkolaChmury (az303/zadanie2)
+$ az vm start --name testvmstst --resource-group testvm
+
+bp@DESKTOP MINGW64 ~/Documents/GitHub/SzkolaChmury (az303/zadanie2)
+$ az group show --name testvm
+The client 'user1@domain.pl' with object id '00000000-0000-0000-0000-000000000000' does not have authorization to perform action 'Microsoft.Resources/subscriptions/resourcegroups/read' over scope '/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/testvm' or the scope is invalid. If access was recently granted, please refresh your credentials.
+```
+
+</details>
+
+
+### 3.1 Usunięcie roli
 ```bash
 az role definition delete --name "My custom role name"
 ```
