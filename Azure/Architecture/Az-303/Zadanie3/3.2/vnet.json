@@ -1,0 +1,52 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.9",
+  "parameters": {
+      "virtualNetworkName": {
+          "type": "string",
+          "defaultValue": "vnetName"
+      },
+      "ddosProtectionPlanEnabled": {
+          "type": "bool",
+          "defaultValue": false
+      }
+  },
+  "variables": {
+      "addressSpaces": "10.0.0.0/16",
+      "addressPrefixSub0": "10.0.0.0/24",
+      "addressPrefixSub1": "10.0.1.0/24",
+      "subnetName0": "[concat(parameters('virtualNetworkName'), '-sub0')]",
+      "subnetName1": "[concat(parameters('virtualNetworkName'), '-sub1')]"
+  },
+  "resources": [
+      {
+          "type": "Microsoft.Network/VirtualNetworks",
+          "apiVersion": "2019-09-01",
+          "name": "[parameters('virtualNetworkName')]",
+          "location": "[resourceGroup().location]",
+          "tags": {},
+          "properties": {
+              "addressSpace": {
+                  "addressPrefixes": [
+                      "[variables('addressSpaces')]"
+                  ]
+              },
+              "subnets": [
+                    {
+                        "name": "[variables('subnetName0')]",
+                        "properties": {
+                            "addressPrefix": "[variables('addressPrefixSub0')]"
+                        }
+                    },
+                    {
+                        "name": "[variables('subnetName1')]",
+                        "properties": {
+                            "addressPrefix": "[variables('addressPrefixSub1')]"
+                        }
+                    }
+                ],
+              "enableDdosProtection": "[parameters('ddosProtectionPlanEnabled')]"
+          }
+      }
+  ]
+}
