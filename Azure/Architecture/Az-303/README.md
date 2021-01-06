@@ -3,3 +3,4 @@
 ## Zadania
 
 * [Tydzień 2](./Tydzien2)
+* [Tydzień 3](./Tydzien3)
