@@ -5,3 +5,10 @@
 ## 1. Zadanie 4.1 
 > #TYDZIEN4.1 „Przeanalizuj proszę Azure Security i zainstaluj Endpoint protection na wcześniej utworzonych Vmkach. Przejrzyj usługę Azure Security Center oraz poszukaj opcję rekomendacji pod względem spełniania regulacji - Regulatory Compliance PCI DSS. W miarę możliwości postaraj się wdrożyć dane rekomendacje i podziel się swoimi wnioskami!”
 
+
+<details>
+  <summary><b><i>Utworzone środowisko</i></b></summary>
+
+![Screen](./img/20210109160110.jpg "Screen")
+</details>
+
