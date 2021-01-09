@@ -11,4 +11,12 @@
 
 ![Screen](./img/20210109160110.jpg "Screen")
 </details>
+
+### 1.1 Przeanalizowanie Azure Security
+
+Jak widać na ponizszych screenach samo uruchomienie VM w chmurze nie gwarantuje ich bezpieczeństwa, 
+konieczne jest podjęcie dalszych działań z naszej strony w celu ich zabezpieczeia.
+
+![Screen](./img/20210109155421.jpg "Screen")
+![Screen](./img/20210109155332.jpg "Screen")
 
