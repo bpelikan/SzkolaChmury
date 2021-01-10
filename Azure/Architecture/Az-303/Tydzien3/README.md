@@ -80,6 +80,22 @@ Dysku dla Ubuntu nie mogłem zaszyfrować - użyta wielkość maszyny `Standard 
 
 Wnioski wynikające z użycia Azure Security to na pewno to, że usługa jest bardzo przydatna i nie należy jej lekceważyć. Daje nam wgląd w środowisko, co należy zrobić aby było bardziej bezpieczne lub było zgodne z regulacjami - tutaj ciekawą opcją jest wygenerowanie raportu z podsumowaniem dla danej regulacji.
 
+## 2. Zadanie 4.2
+>#TYDZIEN4.2 „Poprzez Azure Monitor zacznij monitorować dyski, CPU, Memory, a następnie podłącz maszyny do Log Analytics. Zacznij zbierać dane takie jak eventy z logu Apliacation oraz System. Postaraj się utworzyć własne dashboardy, w których pokazywane będą zbierane dane ze zdarzeń oraz danych performansowych (zachęcamy też do popatrzenia na inne dane i tego co da się osiągnąć dzięki Log Analytics w kwestii bezpieczeństwa. Proszę podziel się swoimi wnioskami!)
+
+<details>
+  <summary><b><i>Dashboard z metrykami</i></b></summary>
+
+![Screen](./img/20210110184148.jpg "Screen")
+</details>
+
+Ciekawą opcją z poziomu Azure Monitor jest wgląd w ruch sieciowy VM. Możemy podejrzeć, które porty są wykorzystywane, przez jakie aplikacje, a nawet do jakich serwerów były wykonywane połączenia.
+
+<details>
+  <summary><b><i>Ruch sieciowy VM</i></b></summary>
+
+![Screen](./img/20210110183204.jpg "Screen")
+</details>
 
 ## 3. Zadanie 4.3
 >#TYDZIEN4.3 „Włącz dla maszyn Just-in-time (JIT) i zweryfikuj jakie zmiany nastąpiły na NSG oraz jak możesz zarządzać dostępem do maszyn. Dla utworzonych wcześniej maszyn wdróż usługę Azure Bastion, powyłączaj na VMkach Public IP. Podłącz się za pomocą Azure Basion do VM, opowiedz o plusach i minusach usługi”
