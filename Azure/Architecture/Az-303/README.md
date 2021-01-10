@@ -2,4 +2,5 @@
 
 ## Zadania
 
-* [Tydzień 2](./Tydzien2)
+* [Tydzień 2 - Deploying Resources with Azure Resource Manager](./Tydzien2)
+* [Tydzień 3 - Implement cloud infrastructure monitoring](./Tydzien3)
