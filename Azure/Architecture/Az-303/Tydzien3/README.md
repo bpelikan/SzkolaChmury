@@ -13,7 +13,7 @@
 
 ### 1.1 Przeanalizowanie Azure Security
 
-Jak widać na ponizszych screenach samo uruchomienie VM w chmurze nie gwarantuje ich bezpieczeństwa, 
+Po analizie Azure Security można wnioskować, że samo uruchomienie VM w chmurze nie gwarantuje ich bezpieczeństwa, 
 konieczne jest podjęcie dalszych działań z naszej strony w celu ich zabezpieczeia.
 
 <details>
@@ -69,7 +69,7 @@ Ze względu na to, że punkt 5 z listy został wykonany w poprzednim ćwiczeniu 
 ![Screen](./img/20210109174258.jpg "Screen")
 </details>
 
-Szyfrowania dysku dla Ubuntu nie mogłem wykonać - użyta wielkość maszyny `Standard B1ls (1 vcpus, 0.5 GiB memory)` nie jest wspierana przy szyfrowaniu dysku [Supported VMs and operating systems](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/disk-encryption-overview#supported-vms-and-operating-systems).
+Dysku dla Ubuntu nie mogłem zaszyfrować - użyta wielkość maszyny `Standard B1ls (1 vcpus, 0.5 GiB memory)` nie jest wspierana przy szyfrowaniu dysku [Supported VMs and operating systems](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/disk-encryption-overview#supported-vms-and-operating-systems).
 
 <details>
   <summary><b><i>Po zaszyfrowaniu</i></b></summary>
@@ -77,4 +77,41 @@ Szyfrowania dysku dla Ubuntu nie mogłem wykonać - użyta wielkość maszyny `S
 ![Screen](./img/20210110153244.jpg "Screen")
 ![Screen](./img/20210110153533.jpg "Screen")
 </details>
-
+
+Wnioski wynikające z użycia Azure Security to na pewno to, że usługa jest bardzo przydatna i nie należy jej lekceważyć. Daje nam wgląd w środowisko, co należy zrobić aby było bardziej bezpieczne lub było zgodne z regulacjami - tutaj ciekawą opcją jest wygenerowanie raportu z podsumowaniem dla danej regulacji.
+
+
+## 3. Zadanie 4.3
+>#TYDZIEN4.3 „Włącz dla maszyn Just-in-time (JIT) i zweryfikuj jakie zmiany nastąpiły na NSG oraz jak możesz zarządzać dostępem do maszyn. Dla utworzonych wcześniej maszyn wdróż usługę Azure Bastion, powyłączaj na VMkach Public IP. Podłącz się za pomocą Azure Basion do VM, opowiedz o plusach i minusach usługi”
+
+Zmiany w `NSG` po włączeniu `JIT`:
+1. dla reguł `RDP`/`SSH` zmieniony został ich priorytet 
+2. dodana została reguła blokująca dostęp do wybranych portów (nadpisanie reguły z pkt. 1)
+3. dla tymczasowego dostępu dodane zostały reguły umożliwiające dostęp (nadpisanie reguły z pkt. 2)
+
+<details>
+  <summary><b><i>Zmiany dla RDP</i></b></summary>
+
+![Screen](./img/20210110153012.jpg "Screen")
+![Screen](./img/20210110170520.jpg "Screen")
+</details>
+
+<details>
+  <summary><b><i>Zmiany dla SSH</i></b></summary>
+
+![Screen](./img/20210110153032.jpg "Screen")
+![Screen](./img/20210110170523.jpg "Screen")
+</details>
+
+Zauważyć można, że chcąc korzystać z `Azure Bastion` oraz `JIT`, należy w `JIT` uwzględnić adresację podsieci `AzureBastionSubnet`.
+
+Azure Basion plusy:
+* Zwiększa bezpieczeństwo
+* Usługa PaaS
+* Połączenie przez SSL
+* Wystarczy przeglądarka do połączenia się z maszyną
+* Łatwy wgląd w otwarte połączenia/sesje z VM
+
+Azure Basion minusy:
+* Usługa dodatkowo płatna
+* Brak korzyści z bezpośredniego połączenie się z VM, np. dla RDP obsługa kilku monitorów
