@@ -60,7 +60,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri":"https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Azure/Architecture/Az-303/Zadanie3/3.2/vnet.json",
+          "uri":"https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Azure/Architecture/Az-303/Tydzien2/3.2/vnet.json",
           "contentVersion":"1.0.0.9"
         },
         "parameters": {
@@ -78,7 +78,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri":"https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Azure/Architecture/Az-303/Zadanie3/3.2/vm.json",
+          "uri":"https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Azure/Architecture/Az-303/Tydzien2/3.2/vm.json",
           "contentVersion":"1.0.0.9"
         },
         "parameters": {
@@ -121,7 +121,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri":"https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Azure/Architecture/Az-303/Zadanie3/3.2/vm.json",
+          "uri":"https://raw.githubusercontent.com/bpelikan/SzkolaChmury/master/Azure/Architecture/Az-303/Tydzien2/3.2/vm.json",
           "contentVersion":"1.0.0.9"
         },
         "parameters": {
