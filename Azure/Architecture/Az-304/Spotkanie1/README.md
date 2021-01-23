@@ -54,10 +54,11 @@
 
 #### 1.3 Polityka zabrania tworzenia zasobów, które nie mają Tag’u o nazwie Project
   * `notLike` - sprawdzany w trakcie walidacji template
-  * `exists` - sprawdzany w trakcie tworzenia zasobów
+* Warto pamiętać o `"mode": "Indexed"`, bo w przypadku `"mode": "All",` i przypisania poliyki do rg, nie będziemy mieli możliwości przypisania polityk do rg.
 
 ```json
 {
+  "mode": "Indexed",
   "parameters": {
       "tagName": {
         "type": "String",
@@ -78,4 +79,29 @@
   }
 }
 ```
-
+
+#### 1.4 Polityka zabrania tworzenia zasobów, które nie mają Tag’u o nazwie Owner i którego zawartość nie zawiera maila
+
+```json
+{
+  "mode": "Indexed",
+  "parameters": {
+      "emailDomain": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Email domain",
+            "description": "Name of email domain"
+        }
+      }
+  },
+  "policyRule": {
+    "if": {
+        "field": "[tags['Owner']]",
+        "notLike": "[concat('*@', parameters('emailDomain'))]"
+    },
+    "then": {
+        "effect": "deny"
+    }
+  }
+}
+```
