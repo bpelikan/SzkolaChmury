@@ -40,8 +40,8 @@
                 "equals": "Microsoft.Sql/servers"
             },
             {
-              "field": "Microsoft.Sql/servers/publicNetworkAccess",
-              "notEquals": "Disabled"
+                "field": "Microsoft.Sql/servers/publicNetworkAccess",
+                "notEquals": "Disabled"
             }
         ]
     },
@@ -52,4 +52,30 @@
 }
 ```
 
+#### 1.3 Polityka zabrania tworzenia zasobów, które nie mają Tag’u o nazwie Project
+  * `notLike` - sprawdzany w trakcie walidacji template
+  * `exists` - sprawdzany w trakcie tworzenia zasobów
+
+```json
+{
+  "parameters": {
+      "tagName": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Tag Name",
+            "description": "Name of the tag"
+        }
+      }
+  },
+  "policyRule": {
+    "if": {
+        "field": "[concat('tags[', parameters('tagName'), ']')]",
+        "notLike": "*"
+    },
+    "then": {
+        "effect": "deny"
+    }
+  }
+}
+```
 
