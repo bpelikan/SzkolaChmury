@@ -3,11 +3,11 @@
     "if": {
         "allOf": [{
                 "field": "type",
-                "equals": "Microsoft.Storage/storageAccounts"
+                "equals": "Microsoft.Sql/servers"
             },
             {
-                "field": "Microsoft.Storage/storageAccounts/allowBlobPublicAccess",
-                "equals": "true"
+              "field": "Microsoft.Sql/servers/publicNetworkAccess",
+              "notEquals": "Disabled"
             }
         ]
     },

@@ -15,7 +15,7 @@
             },
             {
                 "field": "Microsoft.Storage/storageAccounts/allowBlobPublicAccess",
-                "equals": "true"
+                "notEquals": "false"
             }
         ]
     },
@@ -25,3 +25,31 @@
   }
 }
 ```
+
+#### 1.2 Polityka zabrania tworzenia serwerów Azure SQL, dostępnych publicznie
+
+* Tworzenie serwera bezpośrednio z portalu nie uwzględnia parametru `publicNetworkAccess`, więc konieczna jest edycja ARM template, żeby móc utworzyć zasób.
+* Pomimo dodania wartości `"publicNetworkAccess": "Disabled"` po utworzeniu serwera w ustawieniach firewall nadal nie ma ustawionej wartości `Deny public network access` na `Yes`, przez co w policy compliance serwer oznaczony jest jako niespełniający polityki.
+
+```json
+{
+  "policyRule": {
+    "if": {
+        "allOf": [{
+                "field": "type",
+                "equals": "Microsoft.Sql/servers"
+            },
+            {
+              "field": "Microsoft.Sql/servers/publicNetworkAccess",
+              "notEquals": "Disabled"
+            }
+        ]
+    },
+    "then": {
+        "effect": "deny"
+    }
+  }
+}
+```
+
+
