@@ -3,7 +3,15 @@
 
 ## 1. Zadanie 1
 
-#### 1.1 Polityka zabrania stworzenia konta typu Azure Storage, które umożliwia dostępu z tzw. Public Endpoints
+> [Azure Policy built-in policy definitions](https://docs.microsoft.com/en-us/azure/governance/policy/samples/built-in-policies)
+
+
+### 1.1 Polityka zabrania stworzenia konta typu Azure Storage, które umożliwia dostępu z tzw. Public Endpoints
+
+* [ASC_Storage_DisallowPublicBlobAccess_Audit.json](https://github.com/Azure/azure-policy/blob/master/built-in-policies/policyDefinitions/Storage/ASC_Storage_DisallowPublicBlobAccess_Audit.json)
+
+<details>
+  <summary><b><i>Deny Public Endpoints to Azure Storage policy</i></b></summary>
 
 ```json
 {
@@ -25,11 +33,16 @@
   }
 }
 ```
+</details>
 
-#### 1.2 Polityka zabrania tworzenia serwerów Azure SQL, dostępnych publicznie
+### 1.2 Polityka zabrania tworzenia serwerów Azure SQL, dostępnych publicznie
 
+* [SqlServer_PublicNetworkAccess_Audit.json](https://github.com/Azure/azure-policy/blob/master/built-in-policies/policyDefinitions/SQL/SqlServer_PublicNetworkAccess_Audit.json)
 * Tworzenie serwera bezpośrednio z portalu nie uwzględnia parametru `publicNetworkAccess`, więc konieczna jest edycja ARM template, żeby móc utworzyć zasób.
 * Pomimo dodania wartości `"publicNetworkAccess": "Disabled"` po utworzeniu serwera w ustawieniach firewall nadal nie ma ustawionej wartości `Deny public network access` na `Yes`, przez co w policy compliance serwer oznaczony jest jako niespełniający polityki.
+
+<details>
+  <summary><b><i>Deny Public Endpoints to Azure SQL Server policy</i></b></summary>
 
 ```json
 {
@@ -51,10 +64,14 @@
   }
 }
 ```
+</details>
 
-#### 1.3 Polityka zabrania tworzenia zasobów, które nie mają Tag’u o nazwie Project
-  * `notLike` - sprawdzany w trakcie walidacji template
+### 1.3 Polityka zabrania tworzenia zasobów, które nie mają Tag’u o nazwie Project
+* [RequireTag_Deny.json](https://github.com/Azure/azure-policy/blob/master/built-in-policies/policyDefinitions/Tags/RequireTag_Deny.json)
 * Warto pamiętać o `"mode": "Indexed"`, bo w przypadku `"mode": "All",` i przypisania poliyki do rg, nie będziemy mieli możliwości przypisania polityk do rg.
+
+<details>
+  <summary><b><i>Require specific tag on resources</i></b></summary>
 
 ```json
 {
@@ -79,8 +96,12 @@
   }
 }
 ```
+</details>
 
-#### 1.4 Polityka zabrania tworzenia zasobów, które nie mają Tag’u o nazwie Owner i którego zawartość nie zawiera maila
+### 1.4 Polityka zabrania tworzenia zasobów, które nie mają Tag’u o nazwie Owner i którego zawartość nie zawiera maila
+
+<details>
+  <summary><b><i>Require specific tag on resources</i></b></summary>
 
 ```json
 {
@@ -104,4 +125,5 @@
     }
   }
 }
-```
+```
+</details>
