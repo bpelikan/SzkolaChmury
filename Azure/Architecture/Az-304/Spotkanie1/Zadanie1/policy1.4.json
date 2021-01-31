@@ -1,0 +1,21 @@
+{
+  "mode": "Indexed",
+  "parameters": {
+      "emailDomain": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Email domain",
+            "description": "Name of email domain"
+        }
+      }
+  },
+  "policyRule": {
+    "if": {
+        "field": "[tags['Owner']]",
+        "notLike": "[concat('*@', parameters('emailDomain'))]"
+    },
+    "then": {
+        "effect": "deny"
+    }
+  }
+}
