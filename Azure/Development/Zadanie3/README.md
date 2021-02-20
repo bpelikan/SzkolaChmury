@@ -17,3 +17,6 @@
 ![Screen](./img/20210220201401.jpg "Screen")
 
 
+#### 1.4 Konfiguracja frontend
+![Screen](./img/20210220201506.jpg "Screen")
+
