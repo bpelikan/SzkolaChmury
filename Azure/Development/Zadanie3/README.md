@@ -8,5 +8,7 @@
 
 ![Screen](./img/20210220201026.jpg "Screen")
 
+#### 1.2 Ustawienia Firewall na bazie SQL
+![Screen](./img/20210220201221.jpg "Screen")
 
 
