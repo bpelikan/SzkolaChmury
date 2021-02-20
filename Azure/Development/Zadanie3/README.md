@@ -20,3 +20,7 @@
 #### 1.4 Konfiguracja frontend
 ![Screen](./img/20210220201506.jpg "Screen")
 
+
+#### 1.5 Sprawdzenie działania aplikacji
+![Screen](./img/20210220202007.jpg "Screen")
+![Screen](./img/20210220202440.jpg "Screen")
