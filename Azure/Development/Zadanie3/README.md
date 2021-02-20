@@ -11,4 +11,9 @@
 #### 1.2 Ustawienia Firewall na bazie SQL
 ![Screen](./img/20210220201221.jpg "Screen")
 
+#### 1.3 Konfiguracja backend
+![Screen](./img/20210220201445.jpg "Screen")
+![Screen](./img/20210220201326.jpg "Screen")
+![Screen](./img/20210220201401.jpg "Screen")
+
 
