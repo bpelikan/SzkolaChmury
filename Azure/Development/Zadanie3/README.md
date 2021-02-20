@@ -4,5 +4,9 @@
 
 ![Screen](./img/20210220180646.jpg "Screen")
 
+#### 1.1 Utworzenie zasobów
+
+![Screen](./img/20210220201026.jpg "Screen")
+
 
 
