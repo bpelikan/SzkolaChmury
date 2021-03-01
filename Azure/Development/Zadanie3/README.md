@@ -50,4 +50,7 @@
 #### 1.6.2 Wygenerowanie certyfikatu PFX
 ```bash
 openssl pkcs12 -inkey ./wideworldimports.com.key -in ./wideworldimports.com.pem -export -out ./wideworldimports.com.pfx
-```
+```
+#### 1.6.3 Podpięcie domeny oraz zainstalowanie certyfikatu
+![Screen](./img/20210301212115.jpg "Screen")
+![Screen](./img/20210301212139.jpg "Screen")
