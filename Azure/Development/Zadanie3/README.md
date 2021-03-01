@@ -46,4 +46,8 @@
 
 #### 1.6.1 Pobranie certyfikatu
 ![Screen](./img/20210301211907.jpg "Screen")
-
+
+#### 1.6.2 Wygenerowanie certyfikatu PFX
+```bash
+openssl pkcs12 -inkey ./wideworldimports.com.key -in ./wideworldimports.com.pem -export -out ./wideworldimports.com.pfx
+```
