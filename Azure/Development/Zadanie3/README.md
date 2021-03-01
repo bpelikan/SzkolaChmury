@@ -42,6 +42,7 @@
 ### 1.5 Sprawdzenie działania aplikacji
 ![Screen](./img/20210220202007.jpg "Screen")
 ![Screen](./img/20210220202440.jpg "Screen")
+
 ### 1.6 Skonfigurowanie custom domain oraz SSL
 
 #### 1.6.1 Pobranie certyfikatu
@@ -51,8 +52,13 @@
 ```bash
 openssl pkcs12 -inkey ./wideworldimports.com.key -in ./wideworldimports.com.pem -export -out ./wideworldimports.com.pfx
 ```
+
 #### 1.6.3 Podpięcie domeny oraz zainstalowanie certyfikatu
 ![Screen](./img/20210301212115.jpg "Screen")
 ![Screen](./img/20210301212139.jpg "Screen")
+
 #### 1.6.4 Zaktualizowanie ustawień CORS
-![Screen](./img/20210301212522.jpg "Screen")
+![Screen](./img/20210301212522.jpg "Screen")
+
+#### 1.6.5 Weryfikacja
+![Screen](./img/20210301212615.jpg "Screen")
