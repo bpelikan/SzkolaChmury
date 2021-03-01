@@ -53,4 +53,6 @@ openssl pkcs12 -inkey ./wideworldimports.com.key -in ./wideworldimports.com.pem 
 ```
 #### 1.6.3 Podpięcie domeny oraz zainstalowanie certyfikatu
 ![Screen](./img/20210301212115.jpg "Screen")
-![Screen](./img/20210301212139.jpg "Screen")
+![Screen](./img/20210301212139.jpg "Screen")
+#### 1.6.4 Zaktualizowanie ustawień CORS
+![Screen](./img/20210301212522.jpg "Screen")
