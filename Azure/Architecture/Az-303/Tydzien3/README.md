@@ -123,6 +123,7 @@ Zauważyć można, że chcąc korzystać z `Azure Bastion` oraz `JIT`, należy w
 
 Azure Basion plusy:
 * Zwiększa bezpieczeństwo
+* Nie musimy się martwić aktualizacjami/patchami Bastiona, jakby to miało miejsce w przypadku jump hosta
 * Usługa PaaS
 * Połączenie przez SSL
 * Wystarczy przeglądarka do połączenia się z maszyną
