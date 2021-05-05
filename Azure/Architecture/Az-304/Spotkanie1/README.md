@@ -531,4 +531,81 @@ az policy state trigger-scan --no-wait
 }
 
 ```
-</details>
+</details>
+
+
+## 2. Zadanie 2
+
+> Spróbuj stworzyć 3 nowe role i sprawdź ich działanie tworząc 3 urzytkowników dla potrzeb testów:
+Uwaga: rola domyślnie nie może nic ponad to, co opisano niżej. A więc rola SecurityEng może tylko tworzyć zapytania i nic ponad to.
+
+> a) Rola: ProjectOwner:
+> * może zarządzać usługami Virtual Machines, Azure Kubernetes Services, Storage Account
+> * nie może modfikować usług sieciowych (Microsoft.Network)
+> * nie może modyfikować usługi Azure Log Analytics
+
+> b) Rola: SecurityManager
+> * może modyfikować: Azure Security Center, Azure Log Analytics
+> * nie może tworzyć: Azure Security Center, Azure Log Analytics
+> * może tworzyć alerty
+
+> c) Rola: SecurityEng
+> * może: tworzyć zapytania w ramach Azure Log Analytics
+
+> 
+
+### 2.1 Rola: ProjectOwner
+
+* https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#virtual-machine-contributor
+
+<details>
+  <summary><b><i>RoleDefinition2a.json</i></b></summary>
+
+```json
+{
+  "Name": "ProjectOwner",
+  "IsCustom": true,
+  "description": "
+        1. może zarządzać usługami Virtual Machines, Azure Kubernetes Services, Storage Account
+        2. nie może modfikować usług sieciowych (Microsoft.Network)
+        3. nie może modyfikować usługi Azure Log Analytics",
+  "Actions": [
+    "Microsoft.Compute/availabilitySets/*",
+    "Microsoft.Compute/locations/*",
+    "Microsoft.Compute/virtualMachines/*",
+    "Microsoft.Compute/virtualMachineScaleSets/*",
+    "Microsoft.Compute/disks/write",
+    "Microsoft.Compute/disks/read",
+    "Microsoft.Compute/disks/delete",
+    "Microsoft.ContainerService/*",
+    "Microsoft.ClassicStorage/*",
+  ],
+  "NotActions": [
+
+  ],
+  "AssignableScopes": [
+    "/subscriptions/24eafb4c-3855-419f-adbb-cc08869b1754"
+  ]
+}
+```
+</details>
+
+### 2.2 Rola: SecurityManager
+
+<details>
+  <summary><b><i>RoleDefinition2b.json</i></b></summary>
+
+```json
+
+```
+</details>
+
+### 2.3 Rola: SecurityEng
+
+<details>
+  <summary><b><i>RoleDefinition2c.json</i></b></summary>
+
+```json
+
+```
+</details>
