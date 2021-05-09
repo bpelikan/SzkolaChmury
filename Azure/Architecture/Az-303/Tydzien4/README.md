@@ -42,6 +42,14 @@ Rozważ różne aspekty i różne możliwości usług i pokaż jako algorytm lic
             * Duży transfer danych (przetwarzanie,obróbka plików)
         * Minusy:
             * Chęć współdzielenia danych
-* Azure Files & FileSync
-* StorSimple
-* Azure Site Recovery, Azure Backup, Azure Data Box
+
+## 2. Zadanie 4.2
+
+> Wymień jeden dobry i jeden zły przykład wykorzystania StorSimple w swojej organizacji. Napisz, kiedy i w jakich scenariuszach się sprawdzi, a kiedy nie.
+
+Dobry przykład:
+* Uzyskiwanie dostępu do dużej ilości danych w różnych lokalizacjach/biurach
+* Przechowywanie backupów
+
+Zły przykład:
+* 
