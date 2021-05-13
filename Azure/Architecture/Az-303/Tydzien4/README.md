@@ -52,4 +52,27 @@ Dobry przykład:
 * Przechowywanie backupów
 
 Zły przykład:
-* 
+* abc
+
+## 3. Zadanie 4.3
+
+> Liczymy Koszty :). Umówmy się. Twój system backupu (nie ma znaczenia jaki) składuje 1TB nowych danych każdego dnia. Wykorzystujesz oczywiście Azure do tej operacji i chcesz dane składować jak najtaniej. Przez dwa lata nie kasujesz zebranych danych. Po dwóch latach na próbę odtwarzasz dane z ostatniego dnia każdego roku. Po 3 roku kasujesz dane, zebrane w roku pierwszym.
+> * Ile łącznie wygenerujesz kosztów w ramach tej usługi, jeśli rozważymy pełny, 6 letni okres jej działania.
+> * Rozważ różne aspekty i różne możliwości usług i pokaż jako algorytm liczenia przyjąłeś.
+
+Dane:
+* +1TB/dzień
+* Dane są składowane przez 2 lata, po 3 roku kasowane są dane z roku pierwszego
+* Po 2 latach odtworzenie danych z ostatniego dnia roku
+* Składowanie danych trwa 6 lat
+
+Koszt składowania danych przedstawia poniższy wykres:
+![Screen](./img/Notes_210514_001832.jpg "Screen")
+Przedstawia on również roptymalny sposób rezerwacji miejsca.
+
+Do obliczeń przyjęte zostały ceny składowania danych do 500 TB.
+W przypadku GRS dochodzi jeszcze koszt transferu danych do drugiego regionu w wysokości 0,02/GB, co daje koszt 7475,2/rok.
+
+
+
+
