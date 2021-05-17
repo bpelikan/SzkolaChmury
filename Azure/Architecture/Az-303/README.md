@@ -4,3 +4,4 @@
 
 * [Tydzień 2 - Deploying Resources with Azure Resource Manager](./Tydzien2)
 * [Tydzień 3 - Implement cloud infrastructure monitoring](./Tydzien3)
+* [Tydzień 4 - Implement storage accounts](./Tydzien4)
